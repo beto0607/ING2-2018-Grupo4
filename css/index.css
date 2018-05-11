@@ -1,63 +1,76 @@
-body{
-  background-color: rgb(121,121,121);
-  font-family: 'Lato', sans-serif;
+body {
+  background-color: #797979;
+  font-family: "Lato", sans-serif;
   padding: 0;
   margin: 0;
 }
 
+/*FOOTER*/
+footer {
+  position: fixed;
+  bottom: 0;
+  width: calc(100% - 2em);
+  padding: 0 1em;
+  color: #BBBBBB;
+  background-color: #464646;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+}
+
 /*NAV BAR*/
-nav{
-  width: calc(100% - 1em);
+nav {
+  width: calc(100% - 2em);
+  padding: 0 1em;
   height: 3em;
   display: inline-block;
   text-align: center;
-  padding: 0.5em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
   background-color: white;
   border-bottom: 2px solid #101010;
   margin: 0;
 }
-  nav img{
-    height: 100%;
-    float: left;
-  }
-  nav h2{
-    display: inline-block;
-    width: 6em;
-    padding-left: 1em;
-    float: left;
-    color: #f17376;
-  }
-  nav .homeLogin{
-    display: inline-block;
-    float: right;
-    padding: 1.25em;
-    vertical-align: middle;
-  }
-    nav .homeLogin a, nav .homeLogin a:active{
-      padding: 0;
-      margin: 0;
-      text-decoration: none;
-      /* color: #069182; */
-      color: #f17376;
-      font-weight: bold;
-    }
-    nav .homeLogin a:hover{
-      text-underline-position: under;
-      text-decoration: underline;
-    }
+nav img {
+  height: 100%;
+  float: left;
+}
+nav h2 {
+  display: inline-block;
+  width: 6em;
+  padding-left: 1em;
+  float: left;
+  color: #f17376;
+}
+nav .homeLogin {
+  display: inline-block;
+  float: right;
+  padding: 1.25em;
+  vertical-align: middle;
+}
+nav .homeLogin a, nav .homeLogin a:active {
+  padding: 0;
+  margin: 0;
+  text-decoration: none;
+  /* color: #069182; */
+  color: #f17376;
+  font-weight: bold;
+}
+nav .homeLogin a:hover {
+  text-underline-position: under;
+  text-decoration: underline;
+}
 
 /*SECTION*/
-section{
+section {
   width: 100%;
   height: 100%;
   position: fixed;
   top: 65px;
   text-align: center;
-
-  color: #b84a4c;
+  color: #bb7171;
   font-weight: 900;
 }
-section img.background{
+section img.background {
   background-image: url("../resources/back2.jpg");
   background-position: center;
   background-repeat: no-repeat;
@@ -70,33 +83,33 @@ section img.background{
   position: fixed;
   width: 100%;
   height: 100%;
-
   display: block;
   z-index: -1;
 }
-section div{
+section div {
   z-index: 9999;
   display: inline-block;
   padding: 2em 0 1em 0;
   width: 33%;
-  margin: 5em auto auto auto;
+  margin: 3em auto auto auto;
 }
-  section h1{
-    margin: 0em auto 3em auto;
-    font-size: 2.25em;
-    color: #f17376;
-    text-shadow: none;
-  }
-  section p:nth-child(2){
-    font-size: 1.5em;
-    margin-bottom: 3em;
-  }
-  section p:nth-child(3){
-    font-size: 1.25em;
-  }
+section div h1 {
+  margin: 0em auto 1em auto;
+  font-size: 2.25em;
+  color: #f17376;
+  text-shadow: none;
+}
+section div p:nth-child(2) {
+  font-size: 1.5em;
+  margin-bottom: 3em;
+}
+section div p:nth-child(3) {
+  font-size: 1.25em;
+}
+section br {
+  display: block;
+  margin: 0.5em;
+  content: " ";
+}
 
-  section br{
-    display: block;
-    margin: 0.5em;
-    content: " ";
-  }
+/*# sourceMappingURL=../index.css.map */
