@@ -2,21 +2,29 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Un Aventón</title>
     <link rel="shortcut icon" href="./resources/Logo.jpg">
-    <link rel="stylesheet" href="./css/index.css">
     <!--link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet"-->
     <link href="./resources/Lato/Lato-Regular.ttf" rel="stylesheet">
-
+    <link rel="stylesheet" type="text/css" href="./lib/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="./lib/bootstrap-theme.min.css">
+    <script type="text/javascript" src="./lib/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="./lib/bootstrap.min.js"></script>
+    <!-- <link rel="stylesheet" href="./css/index.css"> -->
   </head>
   <body>
-    <nav>
-      <a href="index.html">
-        <img src="./resources/Logo.jpg" alt="Logo">
-      </a>
-      <h2>Un Aventón</h2>
-      <div class="homeLogin">
-        <a href="#">¡Empeza a compartir viajes!</a>
+    <nav class="row">
+      <div class="col-sm-3">
+        <a href="index.html">
+          <img src="./resources/Logo.jpg" alt="Logo" class="img-responsive">
+        </a>
+      </div>
+      <div class="col-sm-7">
+        <h2>Un Aventón</h2>
+      </div>
+      <div class="col-sm-2 homeLogin">
+        <a href="#" id="registerLink">Registrarse</a>
       </div>
     </nav>
     <section>
@@ -39,8 +47,12 @@
         </p>
       </div>
     </section>
+    <section id="registerSection">
+        
+    </section>
     <footer>
       <span>Hecho por Grupo 4 - ING 2 - 2018</span>
     </footer>
+    <script type="text/javascript" src="./js/index.js"></script>
   </body>
 </html>
