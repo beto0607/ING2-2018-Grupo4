@@ -2,7 +2,7 @@
 
 
 
-.fa-user{
+.fa-user#profileDropdown{
 	color: $mainColor;
 	font-size: 2em;
 	padding-right: 0.5em;
@@ -53,6 +53,7 @@
 		font-weight: 900;
 		cursor: pointer;
 		border: 2px solid transparent;
+		border-radius:10px;
 		&#reputationOption{
 			background-color: $reputationOptionBackgroundColor;
 			border-color:$reputationOptionBackgroundColor;
@@ -67,6 +68,16 @@
 		}
 		&:hover{
 			transform: scale(1.1);
+		}
+	}
+}
+
+.table{
+	a.fa-plus-circle{
+		color: black;
+		cursor:pointer;
+		&:hover{
+			color: $mainColor;
 		}
 	}
 }

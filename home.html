@@ -29,13 +29,17 @@
 		</a>
 
 		<h2 class="navbar-center">Un Aventón</h2>
-		<a class="navbar-right far fa-user" id="registerLink" href="#openProfile" data-toggle="dropdown"></a>
+		<a class="navbar-right far fa-user" id="profileDropdown" href="#openProfile" data-toggle="dropdown"></a>
 		<div class="dropdown-menu p-4"> 
 			<div class="px-3 py-3 container reputationContainer">
 				<span>Reputación como piloto: <strong>2.1</strong> <i class="fas fa-star"></i></span>
 				<br>
 				<span>Reputación como copiloto: <strong>2.1</strong> <i class="fas fa-star"></i></span>
 			</div>
+			<div class="px-3 py-2 container">
+				<a class="btn" href="#" ><i class="far fa-user"></i> Mi perfil</a>
+			</div>
+
 			<div class="px-3 py-2 container">
 				<a class="btn" href="index.html"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
 			</div>
@@ -47,19 +51,56 @@
 			<a id="searchButton" class="col-md-1 btn submitBtn" href="#search"><i class="fas fa-search"></i></a>
 		</div>
 	</div>
-<div class="container" id="optionsContainer">
-	<div class="row">
-		<a class="col-md-3 mx-auto option" id="vehiclesOption">
-			Mis vehículos
-		</a>
-		<a class="col-md-3 mx-auto option" id="travelsOption">
-			Mis viajes
-		</a>
-		<a class="col-md-3 mx-auto option" id="reputationOption">
-			Mi reputación
-		</a>
+	<div class="container" id="optionsContainer">
+		<div class="row">
+			<a class="col-md-3 mx-auto option" id="vehiclesOption" data-toggle="collapse" data-target="#vehiclesContainer">
+				Mis vehículos
+			</a>
+			<a class="col-md-3 mx-auto option" id="travelsOption" data-toggle="collapse" data-target="#travelsContainer">
+				Mis viajes
+			</a>
+			<a class="col-md-3 mx-auto option" id="reputationOption" data-toggle="collapse" data-target="#reputationContainer">
+				Mi reputación
+			</a>
+		</div>
 	</div>
-</div>
+	<div class="container collapse" id="vehiclesContainer" >
+		<h3>Mis vehiculos</h3>
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">Dominio</th>
+					<th scope="col">Marca</th>
+					<th scope="col">Modelo</th>
+					<th scope="col">Plazas</th>
+					<th scope="col">Más info</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>AAA-000</td>
+					<td>Volkswagen</td>
+					<td>Gol Trend</td>
+					<td>4</td>
+					<td><a class="fas fa-plus-circle"></a></td>
+				</tr>
+				<tr>
+					<td>AAA-001</td>
+					<td>Volkswagen</td>
+					<td>Gol Power</td>
+					<td>2</td>
+					<td><a class="fas fa-plus-circle"></a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="container collapse" id="travelsContainer" >
+		<h3>Mis viajes</h3>
+	</div>
+	<div class="container collapse" id="reputationContainer" >
+		<h3>Mi reputacion</h3>
+		
+	</div>
     <footer class="footer fixed-bottom">
       <div class="container">
         <span class="text-muted">Hecho por Grupo 4 - ING 2 - 2018</span>

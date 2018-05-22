@@ -55,17 +55,17 @@ form .btn, .tab-pane .btn {
   margin: auto 0.5em;
 }
 
-.fa-user {
+.fa-user#profileDropdown {
   color: #f17376;
   font-size: 2em;
   padding-right: 0.5em;
 }
-.fa-user:before {
+.fa-user#profileDropdown:before {
   border-radius: 5em;
   border: 2px solid transparent;
   padding: 0.25em;
 }
-.fa-user:hover:before, .fa-user.open:before {
+.fa-user#profileDropdown:hover:before, .fa-user#profileDropdown.open:before {
   border: 2px solid red;
   color: red;
 }
@@ -109,6 +109,7 @@ form .btn, .tab-pane .btn {
   font-weight: 900;
   cursor: pointer;
   border: 2px solid transparent;
+  border-radius: 10px;
 }
 .container .option#reputationOption {
   background-color: #3340a2;
@@ -124,4 +125,12 @@ form .btn, .tab-pane .btn {
 }
 .container .option:hover {
   transform: scale(1.1);
+}
+
+.table a.fa-plus-circle {
+  color: black;
+  cursor: pointer;
+}
+.table a.fa-plus-circle:hover {
+  color: #f17376;
 }
