@@ -1,125 +1,18 @@
-@import 'vars';
+@import 'basics';
 
-body{
-  background-color: $bodyBackgroundColor;
-  font-family: $mainFont;
-  padding: 0;
-  margin: 0;
+
+.registerLink:hover{
+	cursor: pointer;
 }
 
-/*FOOTER*/
-footer{
-  position:fixed;
-  bottom: 0;
-  width: $fullWidth;
-  padding: $fullWidthPadding;
-  color: $footerColor;
-  background-color: $footerBackgroundColor;
-  padding-top: 0.5em;
-  padding-bottom: 0.5em;
-}
+.section{
+	padding-top: 200px;
+	height: 100vh;
+	text-align: center;
 
-/*NAV BAR*/
-nav{
-  width: $fullWidth;
-  padding: $fullWidthPadding;
-  height: 3em;
-  display: inline-block;
-  text-align: center;
-  padding-top: 0.5em;
-  padding-bottom: 0.5em;
-  background-color: white;
-  border-bottom: $navBarBorder;
-  margin: 0;
-
-
-  img{
-    height: 100%;
-    float: left;
-  }
-
-  h2{
-    display: inline-block;
-    width: 6em;
-    padding-left: 1em;
-    float: left;
-    color: $mainColor;
-  }
-
-  .homeLogin{
-    display: inline-block;
-    float: right;
-    padding: 1.25em;
-    vertical-align: middle;
-
-    a, a:active{
-      padding: 0;
-      margin: 0;
-      text-decoration: none;
-      /* color: #069182; */
-      color: $mainColor;
-      font-weight: bold;
-    }
-    a:hover{
-      text-underline-position: under;
-      text-decoration: underline;
-    }
-  }
-}
-
-/*SECTION*/
-section{
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  top: 65px;
-  text-align: center;
-
-  color: $secondaryColor;
-  font-weight: 900;
-
-
-  img.background{
-    background-image: url("../resources/back2.jpg");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    -webkit-filter: blur(5px);
-    -moz-filter: blur(5px);
-    -o-filter: blur(5px);
-    -ms-filter: blur(5px);
-    filter: blur(5px);
-    position: fixed;
-    width: 100%;
-    height: 100%;
-
-    display: block;
-    z-index: -1;
-  }
-  div{
-    z-index: 9999;
-    display: inline-block;
-    padding: 2em 0 1em 0;
-    width: 33%;
-    margin: 3em auto auto auto;
-    h1{
-      margin: 0em auto 1em auto;
-      font-size: 2.25em;
-      color: #f17376;
-      text-shadow: none;
-    }
-    p:nth-child(2){
-      font-size: 1.5em;
-      margin-bottom: 3em;
-    }
-    p:nth-child(3){
-      font-size: 1.25em;
-    }
-  }
-
-  br{
-    display: block;
-    margin: 0.5em;
-    content: " ";
-  }
+	color: $mainColor;
+	font-weight: 900;
+	h1{
+		margin: 2em auto;
+	}
 }

@@ -55,17 +55,8 @@ form .btn, .tab-pane .btn {
   margin: auto 0.5em;
 }
 
-.registerLink:hover {
-  cursor: pointer;
+.textContainer {
+  padding-top: 10em;
 }
 
-.section {
-  padding-top: 200px;
-  height: 100vh;
-  text-align: center;
-  color: #f17376;
-  font-weight: 900;
-}
-.section h1 {
-  margin: 2em auto;
-}
+/*# sourceMappingURL=../terminos.css.map */

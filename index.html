@@ -8,28 +8,20 @@
     <!--link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet"-->
     <link href="./resources/Lato/Lato-Regular.ttf" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="./lib/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="./lib/bootstrap-theme.min.css">
-    <script type="text/javascript" src="./lib/jquery-3.3.1.min.js"></script>
-    <script type="text/javascript" src="./lib/bootstrap.min.js"></script>
-    <!-- <link rel="stylesheet" href="./css/index.css"> -->
+
+    
+
+    <link rel="stylesheet" href="./css/index.css">
   </head>
-  <body>
-    <nav class="row">
-      <div class="col-sm-3">
-        <a href="index.html">
-          <img src="./resources/Logo.jpg" alt="Logo" class="img-responsive">
-        </a>
-      </div>
-      <div class="col-sm-7">
-        <h2>Un Aventón</h2>
-      </div>
-      <div class="col-sm-2 homeLogin">
-        <a href="#" id="registerLink">Registrarse</a>
-      </div>
+  <body class="bg-light">
+    <nav class="navbar navbar-toggleable-md bg-white fixed-top">
+      <a class="navbar-brand" href="index.html">
+        <img src="./resources/Logo.jpg" alt="Logo" class="img-responsive headerLogo">
+      </a>  
+      <h2 class="navbar-center">Un Aventón</h2>
+      <a class="navbar-right btn" id="registerLink" href="#registerSection">Registrarse</a>
     </nav>
-    <section>
-      <img src="./resources/back2.jpg" class="background">
-      <div>
+    <div class="container section">
         <h1>Un Aventón</h1>
         <p>
           ¿Estás cansado de viajar solo?
@@ -45,14 +37,100 @@
           <br>
           ¿Qué mejor que realizar ese viaje acompañado de la buena onda?
         </p>
+    </div>
+    <div class="container section" id="registerSection">
+        <ul class="nav nav-tabs" id="signTabs" role="tablist">
+          <li class="nav-item">
+            <a data-toggle="tab" href="#signin" role="tab" aria-controls="signin" aria-selected="false">Iniciar sesión</a>
+          </li>
+          <li class="nav-item">
+            <a data-toggle="tab" href="#signup" role="tab" aria-controls="signup" aria-selected="false">Crear cuenta</a>
+          </li>
+        </ul>
+        <div class="tab-content" id="signTabContent">
+          <div id="signin" class="tab-pane fade" role="tabpanel" aria-labelledby="signin-tab">
+            <form>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="login-username">Nombre de usuario</label>
+                  <input type="text" name="login-username" class="form-control" placeholder="Nombre de usuario" />
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="login-password">Contraseña</label>
+                  <input type="password" name="login-password" class="form-control" placeholder="Contraseña" />
+                </div>
+              </div>
+              <button type="submit" class="btn">Iniciar sesión</button>
+              <a href="#forgot" class="btn">Recuperar cuenta</a>
+            </form>
+          </div>
+          <div id="signup" class="tab-pane fade" role="tabpanel" aria-labelledby="signup-tab">
+            <form>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="signup-email">E-mail</label>
+                  <input type="e-mail" name="signup-email" class="form-control" placeholder="E-mail" />
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="signup-username">Nombre de usuario</label>
+                  <input type="text" name="signup-username" class="form-control" placeholder="Nombre de usuario" />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="signup-password">Contraseña</label>
+                  <input type="password" name="signup-password" class="form-control" placeholder="Contraseña" />
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="signup-repassword">Repetir contraseña</label>
+                  <input type="password" name="signup-repassword" class="form-control" placeholder="Contraseña" />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="signup-firstname">Nombre</label>
+                  <input type="text" name="signup-firstname" class="form-control" placeholder="Nombre" />
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="signup-lastname">Apellido</label>
+                  <input type="text" name="signup-firstname" class="form-control" placeholder="Apellido" />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="signup-phone">Teléfono</label>
+                  <input type="text" name="signup-phone" class="form-control" placeholder="Teléfono" />
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="signup-date">Fecha de nacimiento</label>
+                  <input type="date" name="signup-date" class="form-control" placeholder="Fecha de nacimiento" />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="termsCheck">
+                  <label class="form-check-label" for="termsCheck">
+                    He leído y acepto los <a href="./terminos.html">términos y condiciones de uso</a>
+                  </label>
+                </div>
+              </div>
+              <hr>  
+              <button type="submit" class="btn">Crear cuenta</button>
+            </form>
+          </div>
+        </div>
+    </div>
+
+    <footer class="footer fixed-bottom">
+      <div class="container">
+        <span class="text-muted">Hecho por Grupo 4 - ING 2 - 2018</span>
+        <br>
+        <a href="terminos.html">Términos y condiciones de uso</a>
       </div>
-    </section>
-    <section id="registerSection">
-        
-    </section>
-    <footer>
-      <span>Hecho por Grupo 4 - ING 2 - 2018</span>
     </footer>
+
+    <script type="text/javascript" src="./lib/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="./lib/bootstrap.min.js"></script>    
     <script type="text/javascript" src="./js/index.js"></script>
   </body>
 </html>

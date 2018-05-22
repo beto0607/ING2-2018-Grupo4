@@ -1,9 +1,9 @@
 $mainColor: #f17376;
-$secondaryColor: #bb7171;
+$secondaryColor: #707070;
 $footerColor: #BBBBBB;
 
 $footerBackgroundColor: rgb(70,70,70);
-$bodyBackgroundColor: rgb(121,121,121);
+$bodyBackgroundColor: rgb(255,255,255);
 
 $mainFont: 'Lato', sans-serif;
 
@@ -11,3 +11,9 @@ $navBarBorder: 2px solid #101010;
 
 $fullWidth: calc(100% - 2em);
 $fullWidthPadding: 0 1em;
+
+
+$optionTextColor: white;
+$reputationOptionBackgroundColor: #3340a2;
+$travelsOptionBackgroundColor: #20a727;
+$vehiclesOptionBackgroundColor: #d58936;

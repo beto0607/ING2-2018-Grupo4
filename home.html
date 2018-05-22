@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Un Aventón - Home</title>
+    <link rel="shortcut icon" href="./resources/Logo.jpg">
+    <!--link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet"-->
+    <link href="./resources/Lato/Lato-Regular.ttf" rel="stylesheet">
+
+
+    <link href="./lib/font-awesome/font-awesome-regular.css" rel="stylesheet">
+    <link href="./lib/font-awesome/font-awesome-solid.css" rel="stylesheet">
+    <link href="./lib/font-awesome/fontawesome.css" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="./lib/bootstrap.min.css">
+
+    <script type="text/javascript" src="./lib/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="./lib/bootstrap.min.js"></script>
+
+
+    <link rel="stylesheet" type="text/css" href="./css/home.css">
+</head>
+<body class="bg-light">
+
+	<nav class="navbar navbar-toggleable-md bg-white fixed-top">
+		<a class="navbar-brand" href="index.html">
+			<img src="./resources/Logo.jpg" alt="Logo" class="img-responsive headerLogo">
+		</a>
+
+		<h2 class="navbar-center">Un Aventón</h2>
+		<a class="navbar-right far fa-user" id="registerLink" href="#openProfile" data-toggle="dropdown"></a>
+		<div class="dropdown-menu p-4"> 
+			<div class="px-3 py-3 container reputationContainer">
+				<span>Reputación como piloto: <strong>2.1</strong> <i class="fas fa-star"></i></span>
+				<br>
+				<span>Reputación como copiloto: <strong>2.1</strong> <i class="fas fa-star"></i></span>
+			</div>
+			<div class="px-3 py-2 container">
+				<a class="btn" href="index.html"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
+			</div>
+		</div>
+    </nav>
+	<div class="container" id="searchContainer">
+		<div class="row">
+			<input type="text" name="search" placeholder="Buscar viaje..." class="col-md-11" id="seachInput">
+			<a id="searchButton" class="col-md-1 btn submitBtn" href="#search"><i class="fas fa-search"></i></a>
+		</div>
+	</div>
+<div class="container" id="optionsContainer">
+	<div class="row">
+		<a class="col-md-3 mx-auto option" id="vehiclesOption">
+			Mis vehículos
+		</a>
+		<a class="col-md-3 mx-auto option" id="travelsOption">
+			Mis viajes
+		</a>
+		<a class="col-md-3 mx-auto option" id="reputationOption">
+			Mi reputación
+		</a>
+	</div>
+</div>
+    <footer class="footer fixed-bottom">
+      <div class="container">
+        <span class="text-muted">Hecho por Grupo 4 - ING 2 - 2018</span>
+        <br>
+        <a href="terminos.html">Términos y condiciones de uso</a>
+      </div>
+    </footer>
+
+    <script type="text/javascript" src="./js/home.js"></script>
+</body>
+</html>

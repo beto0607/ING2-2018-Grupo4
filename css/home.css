@@ -1,0 +1,127 @@
+body {
+  font-family: "Lato", sans-serif;
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  padding-top: 7em;
+}
+
+h2.navbar-center {
+  color: #f17376;
+}
+
+.footer {
+  background-color: #464646;
+  height: 5em;
+  color: #BBBBBB;
+  padding: 1em;
+}
+
+.headerLogo {
+  height: 4em;
+}
+
+.nav-tabs {
+  padding: 0.25em 2em 1.5em 2em;
+}
+.nav-tabs li a {
+  padding: 1em;
+  border-radius: 1em;
+  color: #f17376;
+  border: 2px solid transparent;
+}
+.nav-tabs li a[aria-selected=true] {
+  text-decoration: underline;
+  border: 2px solid #f17376;
+}
+
+.btn {
+  color: #f17376;
+  background-color: white;
+  border-color: #f17376;
+}
+
+.btn:hover {
+  color: white;
+  background-color: #f17376;
+  border-color: white;
+}
+
+form, .tab-pane {
+  text-align: left;
+  padding: 2em;
+}
+form .btn, .tab-pane .btn {
+  margin: auto 0.5em;
+}
+
+.fa-user {
+  color: #f17376;
+  font-size: 2em;
+  padding-right: 0.5em;
+}
+.fa-user:before {
+  border-radius: 5em;
+  border: 2px solid transparent;
+  padding: 0.25em;
+}
+.fa-user:hover:before, .fa-user.open:before {
+  border: 2px solid red;
+  color: red;
+}
+
+.dropdown-menu {
+  left: auto;
+  right: 0.25em;
+  transition: opacity 2s;
+}
+
+.reputationContainer {
+  color: #f17376;
+}
+
+#seachInput {
+  color: #f17376;
+  border: 2px solid #f17376;
+  border-radius: 10px 0 0 10px;
+}
+#seachInput:focus {
+  border: 2px solid red;
+  outline: none;
+}
+#seachInput:focus + #searchButton {
+  border: 1px solid red;
+}
+
+#seachInput + #searchButton {
+  border-radius: 0 10px 10px 0;
+}
+
+.container {
+  padding: 3em 0;
+}
+.container .option {
+  padding: 1em;
+  text-align: center;
+  color: white !important;
+  font-size: 1.25em;
+  line-height: 1.5em;
+  font-weight: 900;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+.container .option#reputationOption {
+  background-color: #3340a2;
+  border-color: #3340a2;
+}
+.container .option#travelsOption {
+  background-color: #20a727;
+  border-color: #20a727;
+}
+.container .option#vehiclesOption {
+  background-color: #d58936;
+  border-color: #d58936;
+}
+.container .option:hover {
+  transform: scale(1.1);
+}

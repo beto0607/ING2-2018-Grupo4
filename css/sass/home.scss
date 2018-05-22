@@ -1,0 +1,72 @@
+@import 'basics';
+
+
+
+.fa-user{
+	color: $mainColor;
+	font-size: 2em;
+	padding-right: 0.5em;
+	&:before{
+		border-radius: 5em;
+		border: 2px solid transparent;
+		padding: 0.25em;
+	}
+	&:hover:before, &.open:before{
+		border: 2px solid red;
+		color: red;
+	}
+}
+.dropdown-menu{
+	left: auto;
+	right: 0.25em;
+	transition: opacity 2s;
+}
+
+.reputationContainer{
+	color: $mainColor;
+}
+
+#seachInput{
+	color: $mainColor;
+	border: 2px solid $mainColor;
+	border-radius:10px 0 0 10px;
+	&:focus{
+		border: 2px solid red;
+		outline:none;
+	}
+	&:focus+#searchButton{
+		border: 1px solid red;
+	}
+}
+#seachInput+#searchButton{
+	border-radius:0 10px 10px 0;
+}
+
+.container{
+	padding: 3em 0;
+	.option{
+		padding: 1em ;
+		text-align: center;
+		color: $optionTextColor !important;
+		font-size: 1.25em;
+		line-height:1.5em;
+		font-weight: 900;
+		cursor: pointer;
+		border: 2px solid transparent;
+		&#reputationOption{
+			background-color: $reputationOptionBackgroundColor;
+			border-color:$reputationOptionBackgroundColor;
+		}
+		&#travelsOption{
+			background-color: $travelsOptionBackgroundColor;
+			border-color:$travelsOptionBackgroundColor;
+		}
+		&#vehiclesOption{
+			background-color: $vehiclesOptionBackgroundColor;
+			border-color:$vehiclesOptionBackgroundColor;
+		}
+		&:hover{
+			transform: scale(1.1);
+		}
+	}
+}
