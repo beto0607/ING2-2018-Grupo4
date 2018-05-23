@@ -16,3 +16,18 @@
 		margin: 2em auto;
 	}
 }
+#textSection{
+  background-image: url(../resources/back2.jpg);
+    background-repeat: no-repeat;
+    background-size: 100% 50%;
+    background-position-y: 59%;
+    padding-top: 17em;
+    margin-top: 0;
+    p{
+      color: white;
+      text-shadow: 2px 2px $mainColor, 
+        -2px 2px $mainColor, 
+        2px -2px $mainColor, 
+        -2px -2px $mainColor;
+    }
+}

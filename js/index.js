@@ -14,4 +14,10 @@ $(document).ready(function(){
 	if(window.location.href.indexOf("#registerSection") != -1){
 		registerLinkTap();
 	}
+
+	$("#loginSubmit").on("click",function(e){
+		e.preventDefault();
+		window.location.replace("home.html");
+
+	});
 });
