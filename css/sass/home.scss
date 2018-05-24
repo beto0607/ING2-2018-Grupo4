@@ -1,7 +1,6 @@
 @import 'basics';
 
 
-
 .fa-user#profileDropdown{
 	color: $mainColor;
 	font-size: 2em;
@@ -25,7 +24,9 @@
 .reputationContainer{
 	color: $mainColor;
 }
-
+#searchContainer{
+	margin-top: 5em;
+}
 #seachInput{
 	color: $mainColor;
 	border: 2px solid $mainColor;
@@ -71,9 +72,15 @@
 		}
 	}
 }
-
+i.fas, i.far{
+	color: black;
+	cursor:pointer;
+	&:hover{
+		color: $mainColor;
+	}
+}
 .table{
-	a.fa-plus-circle{
+	a.infoButton{
 		color: black;
 		cursor:pointer;
 		&:hover{

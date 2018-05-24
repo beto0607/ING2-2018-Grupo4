@@ -3,8 +3,8 @@ body {
   padding: 0;
   margin: 0;
   height: 100%;
-  padding-botton: 5em;
-  /*padding-top: 7em;*/
+  /*	padding-botton: 5em;
+  	/*padding-top: 7em;*/
 }
 
 h2.navbar-center {
@@ -81,6 +81,10 @@ form .btn, .tab-pane .btn {
   color: #f17376;
 }
 
+#searchContainer {
+  margin-top: 5em;
+}
+
 #seachInput {
   color: #f17376;
   border: 2px solid #f17376;
@@ -128,10 +132,18 @@ form .btn, .tab-pane .btn {
   transform: scale(1.1);
 }
 
-.table a.fa-plus-circle {
+i.fas, i.far {
   color: black;
   cursor: pointer;
 }
-.table a.fa-plus-circle:hover {
+i.fas:hover, i.far:hover {
+  color: #f17376;
+}
+
+.table a.infoButton {
+  color: black;
+  cursor: pointer;
+}
+.table a.infoButton:hover {
   color: #f17376;
 }
