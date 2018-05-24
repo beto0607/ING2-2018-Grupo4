@@ -57,42 +57,85 @@
 		</div>
 		<div class="row">
 			<ul>
-				<li>
+				<li class="travelListItem">
 					<span><i class="fas fa-map-marker"></i> Ciudad A</span>
 					<span class="floatRight"><i class="fas fa-map-marker"></i> Ciudad B</span>
 					<br>
 					<span><i class="fas fa-calendar-alt"></i> 15/06/2018</span>
-					<span class="more"><i class="fas fa-info-circle"></i></span>
 				</li>
-				<li>
+				<li class="travelListItem">
 					<span><i class="fas fa-map-marker"></i> Ciudad A</span>
 					<span class="floatRight"><i class="fas fa-map-marker"></i> Ciudad B</span>
 					<br>
 					<span><i class="fas fa-calendar-alt"></i> 15/06/2018</span>
-					<span class="more"><i class="fas fa-info-circle"></i></span>
 				</li>
-				<li>
+				<li class="travelListItem">
 					<span><i class="fas fa-map-marker"></i> Ciudad A</span>
 					<span class="floatRight"><i class="fas fa-map-marker"></i> Ciudad B</span>
 					<br>
 					<span><i class="fas fa-calendar-alt"></i> 15/06/2018</span>
-					<span class="more"><i class="fas fa-info-circle"></i></span>
 				</li>
-				<li>
+				<li class="travelListItem">
 					<span><i class="fas fa-map-marker"></i> Ciudad A</span>
 					<span class="floatRight"><i class="fas fa-map-marker"></i> Ciudad B</span>
 					<br>
 					<span><i class="fas fa-calendar-alt"></i> 15/06/2018</span>
-					<span class="more"><i class="fas fa-info-circle"></i></span>
 				</li>
-				<li>
+				<li class="travelListItem">
 					<span><i class="fas fa-map-marker"></i> Ciudad A</span>
 					<span class="floatRight"><i class="fas fa-map-marker"></i> Ciudad B</span>
 					<br>
 					<span><i class="fas fa-calendar-alt"></i> 15/06/2018</span>
-					<span class="more"><i class="fas fa-info-circle"></i></span>
 				</li>
 			</ul>
+		</div>
+		<div id="travelInfoModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="travelInfoModal" aria-hidden="true" data-backdrop="static">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Datos del viaje</h5>
+					</div>
+					<div class="modal-body">
+						<i class="fa fa-spin fa-spinner"></i>
+						<div class="row">
+							<a class="col-md-6" href="https://www.google.com/maps/place/La+Plata,+Buenos+Aires/" target="_blank">
+								<i class="fas fa-map-marker"></i> Ciudad A
+							</a>
+							<a class="col-md-6" href="https://www.google.com/maps/place/La+Plata,+Buenos+Aires/" target="_blank">
+								<i class="fas fa-map-marker"></i> Ciudad B
+							</a>
+						</div>
+						<div class="row">
+							<span class="col-md-6 date">
+								<i class="fas fa-calendar-alt"></i> Fecha: 15/06/2018
+							</span>
+							<span  class="col-md-6 time">
+								<i class="far fa-clock"></i> Hora:15:30
+							</span>
+						</div>
+						<div class="row">
+							<span  class="col-md-6 time">
+								<i class="far fa-clock"></i> Duración: 01:30
+							</span>
+							<span class="col-md-6 date">
+								<i class="fas fa-dollar-sign"></i> Monto: $125
+							</span>
+						</div>
+						<div class="row">
+							<span class="col-md-6 date">
+								<i class="fas fa-user"></i> Piloto: pepe01
+							</span>
+							<span  class="col-md-6 time">
+								<i class="fas fa-star"></i> Reputación: 2.5
+							</span>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button disabled="true" type="button" class="btn btn-primary">Postularse</button>
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 	<div class="container" id="optionsContainer">

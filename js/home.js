@@ -7,7 +7,7 @@ $(document).ready(function(){
 		return e;
 	});
 	/*------------Eventos del manejo de viajes------------*/
-	$("#seachInput").on("focus", travelsOnSearchFocus);
+	$(".travelListItem").on("click", travelListItemClick);
 	/*------------Eventos del manejo de vehiculos------------*/
 	$("#vehiclesContainer .infoButton").on("click",vehicleInfoButtonClicked);
 	$("#modifyVehicleDialog .editButton").on("click",vehicleModalEdit);
@@ -15,8 +15,8 @@ $(document).ready(function(){
 	
 });
 /*------------Funciones del manejo de viajes---------------*/
-function travelsOnSearchFocus(){
-	$("#travelsContainer").slideDown(200);
+function travelListItemClick(){
+	$("#travelInfoModal").modal("show");
 }
 /*------------Funciones del manejo de vehiculos------------*/
 function Configure(){

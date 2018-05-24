@@ -114,6 +114,7 @@ i.fas, i.far{
 			width: 30%;
 			height: 7em;
 			transition: all .5s;
+			cursor: pointer;
 			span{
 				line-height: 2.5em;
 			}
@@ -127,10 +128,18 @@ i.fas, i.far{
 				color: white;
 				background-color: $mainColor;
 				transform: scale(1.1);
-				.more{
-					display: block;
-				}
 			}
+		}
+	}
+	#travelInfoModal .modal-body .col-md-6{
+		margin: 0.25em auto;
+
+		i{
+			width: 1em;
+			height: 1em;
+			display: inline-block;
+			text-align: center;
+			margin-right: 0.25em; 
 		}
 	}
 }

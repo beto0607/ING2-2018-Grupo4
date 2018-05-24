@@ -48,6 +48,13 @@ h2.navbar-center {
   border-color: white;
 }
 
+.btn-primary:disabled {
+  color: #c46567;
+  background-color: #eeeeee;
+  border-color: #c46567;
+  cursor: not-allowed;
+}
+
 form, .tab-pane {
   text-align: left;
   padding: 2em;
@@ -180,6 +187,7 @@ i.fas:hover, i.far:hover {
   width: 30%;
   height: 7em;
   transition: all 0.5s;
+  cursor: pointer;
 }
 #lastTravelsContainer ul li span {
   line-height: 2.5em;
@@ -196,5 +204,15 @@ i.fas:hover, i.far:hover {
   transform: scale(1.1);
 }
 #lastTravelsContainer ul li:hover .more {
-  display: block;
+  /*display: block;*/
+}
+#lastTravelsContainer #travelInfoModal .modal-body .col-md-6 {
+  margin: 0.25em auto;
+}
+#lastTravelsContainer #travelInfoModal .modal-body .col-md-6 i {
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  text-align: center;
+  margin-right: 0.25em;
 }

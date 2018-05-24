@@ -47,6 +47,12 @@ h2.navbar-center{
 	background-color: $mainColor;
 	border-color: white;	
 }
+.btn-primary:disabled {
+	color: $btnDiabledColor;
+	background-color: $btnDiabledBackgroundColor;
+	border-color: $btnDiabledColor;
+	cursor: not-allowed;
+}
 
 form, .tab-pane{
 	text-align: left;
