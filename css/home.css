@@ -3,8 +3,8 @@ body {
   padding: 0;
   margin: 0;
   height: 100%;
-  /*	padding-botton: 5em;
-  	/*padding-top: 7em;*/
+  padding-bottom: 5em;
+  /*padding-top: 7em;*/
 }
 
 h2.navbar-center {
@@ -56,6 +56,22 @@ form .btn, .tab-pane .btn {
   margin: auto 0.5em;
 }
 
+.floatRight {
+  float: right;
+}
+
+.floatLeft {
+  float: left;
+}
+
+i.fas, i.far {
+  color: black;
+  cursor: pointer;
+}
+i.fas:hover, i.far:hover {
+  color: #f17376;
+}
+
 .fa-user#profileDropdown {
   color: #f17376;
   font-size: 2em;
@@ -101,6 +117,9 @@ form .btn, .tab-pane .btn {
 #seachInput + #searchButton {
   border-radius: 0 10px 10px 0;
 }
+#seachInput + #searchButton i {
+  color: #f17376;
+}
 
 .container {
   padding: 3em 0;
@@ -132,18 +151,50 @@ form .btn, .tab-pane .btn {
   transform: scale(1.1);
 }
 
-i.fas, i.far {
-  color: black;
-  cursor: pointer;
-}
-i.fas:hover, i.far:hover {
-  color: #f17376;
-}
-
 .table a.infoButton {
   color: black;
   cursor: pointer;
 }
 .table a.infoButton:hover {
   color: #f17376;
+}
+
+#lastTravelsContainer {
+  /*display: none;*/
+}
+#lastTravelsContainer ul {
+  display: block;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+#lastTravelsContainer ul li {
+  border-radius: 10px;
+  border: 2px solid #f17376;
+  color: #f17376;
+  background-color: white;
+  padding: 1em 2em;
+  margin: 0.5em;
+  display: inline-block;
+  width: 30%;
+  height: 7em;
+  transition: all 0.5s;
+}
+#lastTravelsContainer ul li span {
+  line-height: 2.5em;
+}
+#lastTravelsContainer ul li .more {
+  display: none;
+  position: absolute;
+  right: 3.5em;
+  bottom: 0.5em;
+}
+#lastTravelsContainer ul li:hover {
+  color: white;
+  background-color: #f17376;
+  transform: scale(1.1);
+}
+#lastTravelsContainer ul li:hover .more {
+  display: block;
 }

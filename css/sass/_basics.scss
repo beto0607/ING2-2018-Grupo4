@@ -6,7 +6,7 @@ body{
 	padding: 0;
 	margin: 0;
 	height: 100%;
-/*	padding-botton: 5em;
+	padding-bottom: 5em;
 	/*padding-top: 7em;*/
 }
 h2.navbar-center{
@@ -55,4 +55,11 @@ form, .tab-pane{
 	.btn{
 		margin: auto 0.5em;
 	}
+}
+
+.floatRight{
+	float: right;
+}
+.floatLeft {
+	float: left;
 }
