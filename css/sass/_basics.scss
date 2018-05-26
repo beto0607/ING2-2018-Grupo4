@@ -45,7 +45,7 @@ h2.navbar-center{
 .btn:hover{
 	color:white;
 	background-color: $mainColor;
-	border-color: white;	
+	border-color: white;
 }
 .btn-primary:disabled {
 	color: $btnDiabledColor;
@@ -60,6 +60,9 @@ form, .tab-pane{
 
 	.btn{
 		margin: auto 0.5em;
+	}
+	input.is-invalid{
+		background-color: red !important;
 	}
 }
 

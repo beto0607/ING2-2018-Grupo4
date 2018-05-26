@@ -203,9 +203,6 @@ i.fas:hover, i.far:hover {
   background-color: #f17376;
   transform: scale(1.1);
 }
-#lastTravelsContainer ul li:hover .more {
-  /*display: block;*/
-}
 #lastTravelsContainer #travelInfoModal .modal-body .col-md-6 {
   margin: 0.25em auto;
 }

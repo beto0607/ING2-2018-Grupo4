@@ -22,17 +22,17 @@
   background-size: 120% auto;
   background-position-y: 50%;
   background-position-x: 50%;
-  margin-top: 0;    
+  margin-top: 0;
 
   p{
     color: white;
-    text-shadow: 2px 2px $mainColor, 
-    -2px 2px $mainColor, 
-    2px -2px $mainColor, 
+    text-shadow: 2px 2px $mainColor,
+    -2px 2px $mainColor,
+    2px -2px $mainColor,
     -2px -2px $mainColor;
 
     &:first-child{
       margin-top: 200px;
     }
   }
-}              
+}
