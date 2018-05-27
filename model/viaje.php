@@ -100,32 +100,56 @@ class Viaje
 					{
 						$valido = 'La cantidad de plazas no corresponde con la cantidad de plazas del vehículo seleccionado(' . $val['plazas'] . ').';
 					}
-					/*else
+					else
 					{
 						// No debería existir otro viaje en la misma fecha para el piloto
-						$sql = "SELECT COUNT(1) AS 'Repetido' FROM Usuarios WHERE usuario = ?";
+						$sql = "CALL make_intervals('20180520', '20180525', 1, 'DAY');
+
+								SELECT COUNT(1) AS 'Superpuestos'
+									FROM time_intervals ti
+								    INNER JOIN viajes v
+										ON	DATE_FORMAT(ti.interval_start, '%Y%m%d') = DATE_FORMAT(v.fecha, '%Y%m%d')
+									INNER JOIN vehiculos ve
+										ON	v.idVehiculo = ve.id
+									WHERE	v.fechaCancelacion IS NULL
+											AND v.idVehiculo = ?";
 						$stm = $this->pdo
 									->prepare($sql);			          
-						$stm->execute(array($data->id));
+						$stm->execute(array($data->idVehiculo));
 						$val = $stm->fetch();
 						if ($val['Repetido'] > 0)
 						{
-							$valido = 'Ya tiene un viaje para la fecha seleccionada.';
+							$valido = 'Ya tiene un viajes para las fechas seleccionadas.';
 						}
 						else
 						{
 							// No debería existir una calificación pendiente con más de 30 días de pendiente
-							$sql = "SELECT COUNT(1) AS 'Repetido' FROM Usuarios WHERE usuario = ?";
+							$sql = "SELECT	COUNT(1) AS 'Pendientes'
+										FROM viajes v
+									    INNER JOIN vehiculos ve
+											ON	v.idVehiculo = ve.id
+										INNER JOIN usuarios u
+											ON	ve.idUsuario = u.id
+										INNER JOIN copilotos cop
+											ON	v.id = cop.idViaje
+												AND cop.fechaAprobacion IS NOT NULL
+									    LEFT JOIN calificaciones c
+											ON	v.id = c.idViaje
+												AND u.id = c.idUsuarioCalifica
+									            AND cop.idUsuario = c.IdUsuarioCalificado
+										WHERE 	v.fechaCierre IS NOT NULL
+												AND DATEDIFF(NOW(), v.fecha) > 30
+												AND ve.idVehiculo = ?";
 							$stm = $this->pdo
 										->prepare($sql);			          
-							$stm->execute(array($data->id));
+							$stm->execute(array($data->idVehiculo));
 							$val = $stm->fetch();
-							if ($val['Repetido'] > 0)
+							if ($val['Pendientes'] > 0)
 							{
 								$valido = 'Debe realizar las calificaciones con más de 30 días de pendientes antes de cargar un nuevo viaje.';
 							}
 						}
-					}*/
+					}
 				}
 			}
 		}
