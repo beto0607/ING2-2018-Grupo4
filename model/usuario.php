@@ -34,12 +34,15 @@ class Usuario
 		try 
 		{
 			$stm = $this->pdo->prepare(
-                "SELECT * FROM usuarios WHERE usuario = ? AND clave = ?"
+                "SELECT * FROM usuarios WHERE ( usuario = ? AND clave = ? ) OR ( ? like '%@%' AND ? = email AND clave = ? )"
             );
 
 			//$stm->execute();
 
 			$stm->execute([
+                $usuario,
+                sha1($clave),
+                $usuario,
                 $usuario,
                 sha1($clave)
             ]);

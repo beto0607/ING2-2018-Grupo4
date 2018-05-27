@@ -50,7 +50,7 @@ class UsuarioController{
             $id = 0;
             $valido = '';
             
-            $usu->id = $_REQUEST['id'];
+            $usu->id = isset($_REQUEST['id']) ? $_REQUEST['id'] : 0 ;
             $usu->Usuario = $_REQUEST['Usuario'];
             $usu->clave = $_REQUEST['clave'];
             $usu->nombre = $_REQUEST['nombre'];
@@ -105,6 +105,11 @@ class UsuarioController{
 
     public function Listar(){
         echo json_encode($this->model->Listar());
+    }
+
+    public function Obtener(){
+        $id = $_REQUEST['id'];
+        echo json_encode($this->model->Obtener($id));
     }
 
     public function Test(){

@@ -2,6 +2,7 @@
 class Viaje
 {
 	private $pdo;
+	private $comision = 5;
     
     public $id;
 	public $idVehiculo;
@@ -26,6 +27,10 @@ class Viaje
 		{
 			die($e->getMessage());
 		}
+	}
+
+	function obtenerComision(){
+    	return $comision;
 	}
 
 	public function Listar()
@@ -63,7 +68,7 @@ class Viaje
 	public function Validar(Viaje $data, $tipoAlta = '', $fechaHasta = '')
 	{
 		$valido = '';
-		/*
+		
 		// La fecha debe ser mayor a la fecha actual
 		if (date_create_from_format('Ymd', $data->fecha) < date_create())
 		{
@@ -72,41 +77,66 @@ class Viaje
 		else
 		{
 			// Monto debería ser mayor a cero
-			// Origen y Destino no deberían ser iguales
-			// Plazas debería ser mayor a 1 y <= a la cantidad de plazas del auto
-			// No debería existir otro viaje en la misma fecha para el piloto
-			// No debería existir una calificación pendiente con más de 30 días de pendiente
-			$sql = "SELECT COUNT(1) AS 'Repetido' FROM Usuarios WHERE usuario = ?";
-			$stm = $this->pdo
-						->prepare($sql);			          
-			$stm->execute(array($data->id));
-			$val = $stm->fetch();
-			if ($val['Repetido'] > 0)
+			if ($data->montoTotal > 0)
 			{
-				$valido = 'El usuario ingresado ya se encuentra en uso.';
+				$valido = 'El monto del viaje debe ser mayor a cero.';
 			}
 			else
 			{
-				// Correo repetido
-				$sql = "SELECT COUNT(1) AS 'Repetido' FROM Usuarios WHERE email = ?";
-				$stm = $this->pdo
-							->prepare($sql);			          
-				$stm->execute(array($data->email));
-				$val = $stm->fetch();
-				if ($val['Repetido'] > 0)
+				// Origen y Destino no deberían ser iguales
+				if (strtoupper(trim($data->origen)) == strtoupper(trim($data->destino)))
 				{
-					$valido = 'El correo ingresado ya se encuentra en uso.';
+					$valido = 'Origen y Destino no deben ser iguales.';
+				}
+				else
+				{
+					// Plazas debería ser mayor a 1 y <= a la cantidad de plazas del auto
+					$sql = "SELECT plazas FROM unaventon.vehiculos WHERE id = ?";
+					$stm = $this->pdo
+								->prepare($sql);			          
+					$stm->execute(array($data->id));
+					$val = $stm->fetch();
+					if ($data->plazas <= 0 || $data->plazas > $val['plazas'])
+					{
+						$valido = 'La cantidad de plazas no corresponde con la cantidad de plazas del vehículo seleccionado(' . $val['plazas'] . ').';
+					}
+					/*else
+					{
+						// No debería existir otro viaje en la misma fecha para el piloto
+						$sql = "SELECT COUNT(1) AS 'Repetido' FROM Usuarios WHERE usuario = ?";
+						$stm = $this->pdo
+									->prepare($sql);			          
+						$stm->execute(array($data->id));
+						$val = $stm->fetch();
+						if ($val['Repetido'] > 0)
+						{
+							$valido = 'Ya tiene un viaje para la fecha seleccionada.';
+						}
+						else
+						{
+							// No debería existir una calificación pendiente con más de 30 días de pendiente
+							$sql = "SELECT COUNT(1) AS 'Repetido' FROM Usuarios WHERE usuario = ?";
+							$stm = $this->pdo
+										->prepare($sql);			          
+							$stm->execute(array($data->id));
+							$val = $stm->fetch();
+							if ($val['Repetido'] > 0)
+							{
+								$valido = 'Debe realizar las calificaciones con más de 30 días de pendientes antes de cargar un nuevo viaje.';
+							}
+						}
+					}*/
 				}
 			}
 		}
-		*/
+		
 		return $valido;
 	}
 
 	public function Crear($data, $tipoAlta, $fechaHasta)
 	{
-		/*try 
-		{*/
+		try 
+		{
 			$diaSemana = -1;
 			$tipo = 'DAY';
 			switch ($tipoAlta) {
@@ -122,7 +152,6 @@ class Viaje
 				default:
 			}
 
-			//$fechas = "SELECT '20180506' AS fecha UNION SELECT '20180507' AS fecha UNION SELECT '20180508' AS fecha ";
 			$sql = 	"START TRANSACTION;" . chr(13) .
 					"CALL make_intervals(?, ?, 1, ?); " . chr(13) . chr(13) .
 
@@ -142,10 +171,6 @@ class Viaje
 					"       OR (? = 'D' AND f.interval_start <= ?); " . chr(13) . chr(13) .
 					
 					"COMMIT;";
-					/*var_dump($data);
-					var_dump($fechaHasta);
-					var_dump($tipo);
-					var_dump($sql);*/
 
 			$sth = $this->pdo->prepare($sql);
 			$sth->bindValue(1, $data->fecha, PDO::PARAM_STR);
@@ -157,7 +182,7 @@ class Viaje
 			$sth->bindValue(7, $data->plazas, PDO::PARAM_INT);
 			$sth->bindValue(8, $data->descripcion, PDO::PARAM_STR);
 			$sth->bindValue(9, $data->montoTotal, PDO::PARAM_STR);
-			$sth->bindValue(10, $data->porcentajeComision, PDO::PARAM_STR);
+			$sth->bindValue(10, obtenerComision(), PDO::PARAM_STR);
 			$sth->bindValue(11, $data->cbu, PDO::PARAM_STR);
 			$sth->bindValue(12, $tipoAlta, PDO::PARAM_STR);
 			$sth->bindValue(13, $tipoAlta, PDO::PARAM_STR);
@@ -165,42 +190,14 @@ class Viaje
 			$sth->bindValue(15, $fechaHasta, PDO::PARAM_STR);
 			$sth->bindValue(16, $tipoAlta, PDO::PARAM_STR);
 			$sth->bindValue(17, $fechaHasta, PDO::PARAM_STR);
-			$sth->execute(
-					/*array(
-						$data->fecha,
-						$fechaHasta,
-						$tipo,
-						$data->idVehiculo,
-						$data->origen, 
-						$data->destino, 
-						$data->plazas,
-						$data->descripcion,
-						$data->montoTotal, 
-						$data->porcentajeComision,
-						$data->cbu,
-						$tipoAlta,
-						$tipoAlta,
-						$diaSemana,
-						$fechaHasta,
-						$tipoAlta,
-						$fechaHasta
-	                )*/
-				);
-
-			$sth->debugDumpParams();
-			var_dump($data);
-			var_dump($fechaHasta);
-			var_dump($tipo);
-			var_dump($tipoAlta);
-			var_dump($diaSemana);
+			$sth->execute();
 
 			return $this->pdo->lastInsertId();
 
-		/*} catch (Exception $e) 
+		} catch (Exception $e) 
 		{
-			//echo $e->getMessage();
 			die($e->getMessage());
-		}*/
+		}
 	}
 
 	public function Cancelar($id)
