@@ -37,6 +37,8 @@ class Usuario
                 "SELECT * FROM usuarios WHERE usuario = ? AND clave = ?"
             );
 
+			//$stm->execute();
+
 			$stm->execute([
                 $usuario,
                 sha1($clave)
