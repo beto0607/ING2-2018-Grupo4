@@ -2,7 +2,7 @@
 class Usuario
 {
 	private $pdo;
-    
+
     public $id;
     public $Usuario;
     public $clave;
@@ -21,7 +21,7 @@ class Usuario
 	{
 		try
 		{
-			$this->pdo = Database::StartUp();     
+			$this->pdo = Database::StartUp();
 		}
 		catch(Exception $e)
 		{
@@ -31,7 +31,7 @@ class Usuario
 
 	public function Acceder($usuario, $clave)
 	{
-		try 
+		try
 		{
 			$stm = $this->pdo->prepare(
                 "SELECT * FROM usuarios WHERE ( usuario = ? AND clave = ? ) OR ( ? like '%@%' AND ? = email AND clave = ? )"
@@ -46,15 +46,15 @@ class Usuario
                 $usuario,
                 sha1($clave)
             ]);
-            
+
 			$result = $stm->fetch(PDO::FETCH_OBJ);
-            
+
             if(!is_object($result)) {
                 return new Usuario;
             } else {
                 return $result;
             }
-		} catch (Exception $e) 
+		} catch (Exception $e)
 		{
 			die($e->getMessage());
 		}
@@ -79,14 +79,14 @@ class Usuario
 
 	public function Obtener($id)
 	{
-		try 
+		try
 		{
 			$stm = $this->pdo
 			            ->prepare("SELECT * FROM usuarios WHERE id = ?");
 
 			$stm->execute(array($id));
 			return $stm->fetch(PDO::FETCH_OBJ);
-		} catch (Exception $e) 
+		} catch (Exception $e)
 		{
 			die($e->getMessage());
 		}
@@ -94,13 +94,13 @@ class Usuario
 
 	public function Eliminar($id)
 	{
-		try 
+		try
 		{
 			$stm = $this->pdo
-			            ->prepare("UPDATE usuarios SET fechaBaja = NOW() WHERE id = ?");			          
+			            ->prepare("UPDATE usuarios SET fechaBaja = NOW() WHERE id = ?");
 
 			$stm->execute(array($id));
-		} catch (Exception $e) 
+		} catch (Exception $e)
 		{
 			die($e->getMessage());
 		}
@@ -108,17 +108,17 @@ class Usuario
 
 	public function Actualizar($data)
 	{
-		try 
+		try
 		{
-			$sql = "UPDATE usuarios SET 
+			$sql = "UPDATE usuarios SET
 						usuario 			= ?,
 						clave 				= ?,
-						nombre          	= ?, 
+						nombre          	= ?,
 						apellido        	= ?,
 						fechaNacimiento 	= ?,
 						telefono			= ?,
 						email        		= ?,
-						calificacionPiloto  = ?, 
+						calificacionPiloto  = ?,
 						calificacionCopiloto = ?,
 						fechaBaja			= ?
 				    WHERE id = ?";
@@ -126,12 +126,12 @@ class Usuario
 			$this->pdo->prepare($sql)
 			     ->execute(
 				    array(
-				    	$data->usuario, 
-				    	$data->clave, 
-                        $data->nombre, 
+				    	$data->usuario,
+				    	$data->clave,
+                        $data->nombre,
                         $data->apellido,
 						$data->fechaNacimiento,
-                        $data->telefono, 
+                        $data->telefono,
                         $data->email,
                         $data->calificacionPiloto,
                         $data->calificacionCopiloto,
@@ -139,7 +139,7 @@ class Usuario
                         $data->id
 					)
 				);
-		} catch (Exception $e) 
+		} catch (Exception $e)
 		{
 			die($e->getMessage());
 		}
@@ -147,21 +147,21 @@ class Usuario
 
 	public function Registrar(Usuario $data)
 	{
-		try 
+		try
 		{
-			$sql = "INSERT INTO usuarios (id, usuario, clave, nombre, apellido, fechaNacimiento, telefono, email, calificacionPiloto, calificacionCopiloto, fechaBaja) 
+			$sql = "INSERT INTO usuarios (id, usuario, clave, nombre, apellido, fechaNacimiento, telefono, email, calificacionPiloto, calificacionCopiloto, fechaBaja)
 			        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 			$this->pdo->prepare($sql)
 			     ->execute(
 					array(
 						$data->id,
-	                    $data->Usuario, 
-						$data->clave, 
-						$data->nombre, 
+	                    $data->Usuario,
+						$data->clave,
+						$data->nombre,
 						$data->apellido,
 						$data->fechaNacimiento,
-						$data->telefono, 
+						$data->telefono,
 						$data->email,
 						$data->calificacionPiloto,
 						$data->calificacionCopiloto,
@@ -171,7 +171,7 @@ class Usuario
 
 			return $this->pdo->lastInsertId();
 
-		} catch (Exception $e) 
+		} catch (Exception $e)
 		{
 			die($e->getMessage());
 		}
@@ -192,7 +192,7 @@ class Usuario
 			// Usuario repetido
 			$sql = "SELECT COUNT(1) AS 'Repetido' FROM Usuarios WHERE usuario = ?";
 			$stm = $this->pdo
-						->prepare($sql);			          
+						->prepare($sql);
 			$stm->execute(array($data->id));
 			$val = $stm->fetch();
 			if ($val['Repetido'] > 0)
@@ -204,7 +204,7 @@ class Usuario
 				// Correo repetido
 				$sql = "SELECT COUNT(1) AS 'Repetido' FROM Usuarios WHERE email = ?";
 				$stm = $this->pdo
-							->prepare($sql);			          
+							->prepare($sql);
 				$stm->execute(array($data->email));
 				$val = $stm->fetch();
 				if ($val['Repetido'] > 0)

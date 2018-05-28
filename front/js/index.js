@@ -1,6 +1,6 @@
 var URLs = {
-	login:"../index.php?c=usuario&a=Acceder",
-	signup:"../index.php?c=usuario&a=Guardar"
+	login:"../index.php?c=auth&a=Autenticar",
+	signup:"../index.php?c=usuario&a=Guardar&debug=1"
 };
 
 var dialog;
@@ -35,20 +35,21 @@ function getInputValue(form, input){
 	return $(form).find("input[name=\""+input+"\"]").val();
 }
 function signinFormValid(form){
+	showSpinner();
 var data = {
-	username: getInputValue(form, "login-email"),
+	usuario: getInputValue(form, "login-email"),
 	password:getInputValue(form, "login-password")
 };
-
-	$.post(URLs.login, data).done(function(){
+	$.post(URLs.login, data).done(function(d,s){
+		console.log(d);
 		dialog.find('.bootbox-body').html('Login');
-		setTimeout()
 	}).fail(function(e){
 		dialog.find('.bootbox-body').html('Error - '+e.statusExit);
 	});
 }
 
 function signupFormValid(form){
+	showSpinner();
 	var data = {
 		"Usuario": 					getInputValue(form, "signup-username"),
 		"clave": 						getInputValue(form, "signup-password"),
@@ -145,7 +146,6 @@ $('#signTabs a[href="#signin"]').tab('show');
 
 	$("#loginSubmit").on("click",function(e){
 		e.preventDefault();
-		//		window.location.replace("home.html");
 		$("#signinForm input[required]");
 		$("#signinForm").submit();
 	});
