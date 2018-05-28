@@ -1,6 +1,6 @@
 var URLs = {
-	login:"http://0.0.0.0:8080/index.php?c=usuario&a=Acceder",
-	signup:"http://0.0.0.0:8080/index.php?c=usuario&a=Guardar"
+	login:"../index.php?c=usuario&a=Acceder",
+	signup:"../index.php?c=usuario&a=Guardar"
 };
 
 var dialog;
