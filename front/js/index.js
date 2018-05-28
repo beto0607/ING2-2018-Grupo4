@@ -1,6 +1,6 @@
 var URLs = {
 	login:"../index.php?c=auth&a=Autenticar",
-	signup:"../index.php?c=usuario&a=Guardar&debug=1"
+	signup:"../index.php?c=usuario&a=Guardar"
 };
 
 var dialog;
@@ -41,8 +41,15 @@ var data = {
 	password:getInputValue(form, "login-password")
 };
 	$.post(URLs.login, data).done(function(d,s){
+		d = JSON.parse(d);
 		console.log(d);
-		dialog.find('.bootbox-body').html('Login');
+		if(d.status == "error"){
+			dialog.find('.bootbox-body').html('Ocurrió un error: '+d.error);
+		}else if(d.status == "ok"){
+			document.cookie = "token="+d.token+
+					";username="+getInputValue(form, "login-email")+
+					";id="+d.id+";";
+		}
 	}).fail(function(e){
 		dialog.find('.bootbox-body').html('Error - '+e.statusExit);
 	});
@@ -59,6 +66,13 @@ function signupFormValid(form){
 		"telefono": 				getInputValue(form, "signup-phone"),
 		"email": 						getInputValue(form, "signup-email")
 	};
+	$.post(URLs.signup, data).
+		done(function(d,s){
+			console.log(d);
+			console.log(s);
+		}).fail(function(e){
+			dialog.find('.bootbox-body').html('Error - '+e.statusExit);
+		});
 }
 function signupFormValidator(){
 	$("#signupForm").validate({
