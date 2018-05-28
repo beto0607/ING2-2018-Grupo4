@@ -1,0 +1,4 @@
+{
+  "cmd": "sass --no-source-map {FILE_ACTIVE} {FILE_ACTIVE_PATH}/../{FILE_ACTIVE_NAME_BASE}.css",
+  "name": "Sass by Betoio"
+}
