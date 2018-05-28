@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 class Usuario
 {
 	private $pdo;
@@ -183,7 +183,7 @@ class Usuario
 
 		// Mayor de edad DATEDIFF(FechaNacimiento, GETDATE()) >= 18
 		$edad = date_diff(date_create_from_format('Ymd', $data->fechaNacimiento), date_create()); // diff(new DateTime(), date_create_from_format('Ymd', $data->fechaNacimiento));
-		if ($edad->format('Y') < 18)
+		if ($edad->format('%Y') < 18)
 		{
 			$valido = 'El usuario debe ser mayor de 18 años.';
 		}
