@@ -1,0 +1,106 @@
+body {
+  font-family: "Lato", sans-serif;
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  padding-bottom: 5em;
+  /*padding-top: 7em;*/
+}
+
+h2.navbar-center {
+  color: #f17376;
+}
+
+.footer {
+  background-color: #464646;
+  height: 5em;
+  color: #BBBBBB;
+  padding: 1em;
+}
+
+.headerLogo {
+  height: 4em;
+}
+
+.nav-tabs {
+  padding: 0.25em 2em 1.5em 2em;
+}
+.nav-tabs li a {
+  padding: 1em;
+  border-radius: 1em;
+  color: #f17376;
+  border: 2px solid transparent;
+}
+.nav-tabs li a[aria-selected=true] {
+  text-decoration: underline;
+  border: 2px solid #f17376;
+}
+
+.btn {
+  color: #f17376;
+  background-color: white;
+  border-color: #f17376;
+}
+
+.btn:hover {
+  color: white;
+  background-color: #f17376;
+  border-color: white;
+}
+
+.btn-primary:disabled {
+  color: #c46567;
+  background-color: #eeeeee;
+  border-color: #c46567;
+  cursor: not-allowed;
+}
+
+form, .tab-pane {
+  text-align: left;
+  padding: 2em;
+}
+form .btn, .tab-pane .btn {
+  margin: auto 0.5em;
+}
+form input.is-invalid, .tab-pane input.is-invalid {
+  background-color: red !important;
+}
+
+.floatRight {
+  float: right;
+}
+
+.floatLeft {
+  float: left;
+}
+
+.registerLink:hover {
+  cursor: pointer;
+}
+
+.section {
+  padding-top: 200px;
+  height: 100vh;
+  text-align: center;
+  color: #f17376;
+  font-weight: 900;
+}
+.section h1 {
+  margin: 2em auto;
+}
+
+#textSection {
+  background-image: url(../resources/back2.jpg);
+  background-repeat: no-repeat;
+  background-size: 120% auto;
+  background-position-y: 50%;
+  background-position-x: 50%;
+  margin-top: 0;
+}
+#textSection p {
+  color: white;
+  text-shadow: 2px 2px #f17376, -2px 2px #f17376, 2px -2px #f17376, -2px -2px #f17376;
+}
+#textSection p:first-child {
+  margin-top: 200px;
+}

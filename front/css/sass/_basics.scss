@@ -1,0 +1,74 @@
+@import 'vars';
+
+
+body{
+	font-family: $mainFont;
+	padding: 0;
+	margin: 0;
+	height: 100%;
+	padding-bottom: 5em;
+	/*padding-top: 7em;*/
+}
+h2.navbar-center{
+	color: $mainColor;
+}
+.footer{
+	background-color: $footerBackgroundColor;
+	height:5em;
+	color:$footerColor;
+	padding:1em ;
+}
+.headerLogo{
+	height: 4em;
+}
+.nav-tabs{
+	padding: 0.25em 2em 1.5em 2em;
+
+	li{
+		a{
+			padding: 1em;
+			border-radius: 1em;
+			color: $mainColor;
+			border: 2px solid transparent;
+		}
+		a[aria-selected="true"]{
+			text-decoration: underline;
+			border: 2px solid $mainColor;
+		}
+	}
+}
+.btn{
+	color: $mainColor;
+	background-color: white;
+	border-color: $mainColor;
+}
+.btn:hover{
+	color:white;
+	background-color: $mainColor;
+	border-color: white;
+}
+.btn-primary:disabled {
+	color: $btnDiabledColor;
+	background-color: $btnDiabledBackgroundColor;
+	border-color: $btnDiabledColor;
+	cursor: not-allowed;
+}
+
+form, .tab-pane{
+	text-align: left;
+	padding: 2em;
+
+	.btn{
+		margin: auto 0.5em;
+	}
+	input.is-invalid{
+		background-color: red !important;
+	}
+}
+
+.floatRight{
+	float: right;
+}
+.floatLeft {
+	float: left;
+}

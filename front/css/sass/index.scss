@@ -1,0 +1,38 @@
+@import 'basics';
+
+
+.registerLink:hover{
+	cursor: pointer;
+}
+
+.section{
+	padding-top: 200px;
+	height: 100vh;
+	text-align: center;
+
+	color: $mainColor;
+	font-weight: 900;
+	h1{
+		margin: 2em auto;
+	}
+}
+#textSection{
+  background-image: url(../resources/back2.jpg);
+  background-repeat: no-repeat;
+  background-size: 120% auto;
+  background-position-y: 50%;
+  background-position-x: 50%;
+  margin-top: 0;
+
+  p{
+    color: white;
+    text-shadow: 2px 2px $mainColor,
+    -2px 2px $mainColor,
+    2px -2px $mainColor,
+    -2px -2px $mainColor;
+
+    &:first-child{
+      margin-top: 200px;
+    }
+  }
+}

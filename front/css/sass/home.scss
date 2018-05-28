@@ -1,0 +1,145 @@
+@import 'basics';
+
+
+i.fas, i.far{
+	color: black;
+	cursor:pointer;
+	&:hover{
+		color: $mainColor;
+	}
+}
+.fa-user#profileDropdown{
+	color: $mainColor;
+	font-size: 2em;
+	padding-right: 0.5em;
+	&:before{
+		border-radius: 5em;
+		border: 2px solid transparent;
+		padding: 0.25em;
+	}
+	&:hover:before, &.open:before{
+		border: 2px solid red;
+		color: red;
+	}
+}
+.dropdown-menu{
+	left: auto;
+	right: 0.25em;
+	transition: opacity 2s;
+}
+
+.reputationContainer{
+	color: $mainColor;
+}
+#searchContainer{
+	margin-top: 5em;
+}
+#seachInput{
+	color: $mainColor;
+	border: 2px solid $mainColor;
+	border-radius:10px 0 0 10px;
+	&:focus{
+		border: 2px solid red;
+		outline:none;
+	}
+	&:focus+#searchButton{
+		border: 1px solid red;
+	}
+}
+#seachInput+#searchButton{
+	border-radius:0 10px 10px 0;
+	i{
+		color: $mainColor;
+	}
+}
+
+.container{
+	padding: 3em 0;
+	.option{
+		padding: 1em ;
+		text-align: center;
+		color: $optionTextColor !important;
+		font-size: 1.25em;
+		line-height:1.5em;
+		font-weight: 900;
+		cursor: pointer;
+		border: 2px solid transparent;
+		border-radius:10px;
+		&#reputationOption{
+			background-color: $reputationOptionBackgroundColor;
+			border-color:$reputationOptionBackgroundColor;
+		}
+		&#travelsOption{
+			background-color: $travelsOptionBackgroundColor;
+			border-color:$travelsOptionBackgroundColor;
+		}
+		&#vehiclesOption{
+			background-color: $vehiclesOptionBackgroundColor;
+			border-color:$vehiclesOptionBackgroundColor;
+		}
+		&:hover{
+			transform: scale(1.1);
+		}
+	}
+}
+.table{
+	a.infoButton{
+		color: black;
+		cursor:pointer;
+		&:hover{
+			color: $mainColor;
+		}
+	}
+}
+#lastTravelsContainer{
+	/*display: none;*/
+
+	ul{
+		display: block;
+		width: 100%;
+		padding: 0;
+		margin:0;
+		list-style: none;
+
+		li{
+			border-radius: 10px;
+
+			border: 2px solid $mainColor;
+			color: $mainColor;
+			background-color: white;
+
+			padding: 1em 2em;
+			margin: 0.5em;
+			display: inline-block;
+			width: 30%;
+			height: 7em;
+			transition: all .5s;
+			cursor: pointer;
+			span{
+				line-height: 2.5em;
+			}
+			.more{
+				display: none;
+				position: absolute;
+				right: 3.5em;
+				bottom: 0.5em;
+			}
+			&:hover{
+				color: white;
+				background-color: $mainColor;
+				transform: scale(1.1);
+			}
+		}
+	}
+	#travelInfoModal .modal-body .col-md-6{
+		margin: 0.25em auto;
+
+		i{
+			width: 1em;
+			height: 1em;
+			display: inline-block;
+			text-align: center;
+			margin-right: 0.25em;
+		}
+	}
+}

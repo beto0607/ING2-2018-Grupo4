@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Un Aventón - Home</title>
+	<link rel="shortcut icon" href="./resources/Logo.jpg">
+	<!--link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet"-->
+	<link href="./resources/Lato/Lato-Regular.ttf" rel="stylesheet">
+
+
+	<link href="./lib/font-awesome/font-awesome-regular.css" rel="stylesheet">
+	<link href="./lib/font-awesome/font-awesome-solid.css" rel="stylesheet">
+	<link href="./lib/font-awesome/fontawesome.css" rel="stylesheet">
+
+	<link rel="stylesheet" type="text/css" href="./lib/bootstrap.min.css">
+
+	<script type="text/javascript" src="./lib/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="./lib/bootstrap.min.js"></script>
+
+
+	<link rel="stylesheet" type="text/css" href="./css/home.css">
+</head>
+<body class="bg-light">
+
+	<nav class="navbar navbar-toggleable-md bg-white fixed-top">
+		<a class="navbar-brand" href="index.html">
+			<img src="./resources/Logo.jpg" alt="Logo" class="img-responsive headerLogo">
+		</a>
+
+		<h2 class="navbar-center">Un Aventón</h2>
+		<a class="navbar-right far fa-user" id="profileDropdown" href="#openProfile" data-toggle="dropdown"></a>
+		<div class="dropdown-menu p-4"> 
+			<div class="px-3 py-3 container reputationContainer">
+				<span>Reputación como piloto: <strong>2.1</strong> <i class="fas fa-star"></i></span>
+				<br>
+				<span>Reputación como copiloto: <strong>2.1</strong> <i class="fas fa-star"></i></span>
+			</div>
+			<div class="px-3 py-2 container">
+				<a class="btn" href="#" ><i class="far fa-user"></i> Mi perfil</a>
+			</div>
+
+			<div class="px-3 py-2 container">
+				<a class="btn" href="index.html"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
+			</div>
+		</div>
+	</nav>
+	<div class="container" id="searchContainer">
+		<div class="row">
+			<input type="text" name="search" placeholder="Buscar viajes..." class="col-md-11" id="seachInput">
+			<a id="searchButton" class="col-md-1 btn submitBtn" href="#search"><i class="fas fa-search"></i></a>
+		</div>
+	</div>
+	<div class="container" id="lastTravelsContainer">
+		<div class="row">
+			<h2>Últimos viajes agregados</h2>
+		</div>
+		<div class="row">
+			<ul>
+				<li class="travelListItem">
+					<span><i class="fas fa-map-marker"></i> Ciudad A</span>
+					<span class="floatRight"><i class="fas fa-map-marker"></i> Ciudad B</span>
+					<br>
+					<span><i class="fas fa-calendar-alt"></i> 15/06/2018</span>
+				</li>
+				<li class="travelListItem">
+					<span><i class="fas fa-map-marker"></i> Ciudad A</span>
+					<span class="floatRight"><i class="fas fa-map-marker"></i> Ciudad B</span>
+					<br>
+					<span><i class="fas fa-calendar-alt"></i> 15/06/2018</span>
+				</li>
+				<li class="travelListItem">
+					<span><i class="fas fa-map-marker"></i> Ciudad A</span>
+					<span class="floatRight"><i class="fas fa-map-marker"></i> Ciudad B</span>
+					<br>
+					<span><i class="fas fa-calendar-alt"></i> 15/06/2018</span>
+				</li>
+				<li class="travelListItem">
+					<span><i class="fas fa-map-marker"></i> Ciudad A</span>
+					<span class="floatRight"><i class="fas fa-map-marker"></i> Ciudad B</span>
+					<br>
+					<span><i class="fas fa-calendar-alt"></i> 15/06/2018</span>
+				</li>
+				<li class="travelListItem">
+					<span><i class="fas fa-map-marker"></i> Ciudad A</span>
+					<span class="floatRight"><i class="fas fa-map-marker"></i> Ciudad B</span>
+					<br>
+					<span><i class="fas fa-calendar-alt"></i> 15/06/2018</span>
+				</li>
+			</ul>
+		</div>
+		<div id="travelInfoModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="travelInfoModal" aria-hidden="true" data-backdrop="static">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Datos del viaje</h5>
+					</div>
+					<div class="modal-body">
+						<i class="fa fa-spin fa-spinner"></i>
+						<div class="row">
+							<a class="col-md-6" href="https://www.google.com/maps/place/La+Plata,+Buenos+Aires/" target="_blank">
+								<i class="fas fa-map-marker"></i> Ciudad A
+							</a>
+							<a class="col-md-6" href="https://www.google.com/maps/place/La+Plata,+Buenos+Aires/" target="_blank">
+								<i class="fas fa-map-marker"></i> Ciudad B
+							</a>
+						</div>
+						<div class="row">
+							<span class="col-md-6 date">
+								<i class="fas fa-calendar-alt"></i> Fecha: 15/06/2018
+							</span>
+							<span  class="col-md-6 time">
+								<i class="far fa-clock"></i> Hora:15:30
+							</span>
+						</div>
+						<div class="row">
+							<span  class="col-md-6 time">
+								<i class="far fa-clock"></i> Duración: 01:30
+							</span>
+							<span class="col-md-6 date">
+								<i class="fas fa-dollar-sign"></i> Monto: $125
+							</span>
+						</div>
+						<div class="row">
+							<span class="col-md-6 date">
+								<i class="fas fa-user"></i> Piloto: pepe01
+							</span>
+							<span  class="col-md-6 time">
+								<i class="fas fa-star"></i> Reputación: 2.5
+							</span>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button disabled="true" type="button" class="btn btn-primary">Postularse</button>
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container" id="optionsContainer">
+		<div class="row">
+			<a class="col-md-3 mx-auto option" id="vehiclesOption" data-toggle="collapse" data-target="#vehiclesContainer">
+				Mis vehículos
+			</a>
+			<a class="col-md-3 mx-auto option" id="travelsOption" data-toggle="collapse" data-target="#travelsContainer">
+				Mis viajes
+			</a>
+			<a class="col-md-3 mx-auto option" id="reputationOption" data-toggle="collapse" data-target="#reputationContainer">
+				Mi reputación
+			</a>
+		</div>
+	</div>
+	<div class="container collapse" id="vehiclesContainer" >
+		<div class="row">
+			<h3 class="col-md-11">Mis vehiculos</h3>
+			<a class="btn col-md-1" id="addVehicle" href="#" data-toggle="modal" data-target="#addVehicleDialog">Nuevo</a>
+		</div>
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">Dominio</th>
+					<th scope="col">Marca</th>
+					<th scope="col">Modelo</th>
+					<th scope="col">Plazas</th>
+					<th scope="col">Más info</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr vehicle-id="1">
+					<td>AAA-000</td>
+					<td>Volkswagen</td>
+					<td>Gol Trend</td>
+					<td>4</td>
+					<td><a class="fas fa-info-circle infoButton" data-toggle="modal" data-target="#modifyVehicleDialog"></a></td>
+				</tr>
+				<tr vehicle-id="2">
+					<td>AAA-001</td>
+					<td>Volkswagen</td>
+					<td>Gol Power</td>
+					<td>2</td>
+					<td><a class="fas fa-info-circle infoButton" data-toggle="modal" data-target="#modifyVehicleDialog"></a></td>
+				</tr>
+			</tbody>
+		</table>
+
+		<div id="modifyVehicleDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modifyVehicleDialog" aria-hidden="true" data-backdrop="static">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Ver vehículo</h5>
+						<button type="button" class="close editButton" aria-label="Editar">
+							<i class="far fa-edit"></i>
+						</button>
+					</div>
+					<div class="modal-body">
+						<i class="fa fa-spin fa-spinner"></i>
+						<form>
+							<div class="form-row">
+								<div class="form-group col-md-6">
+									<label for="add-vehicle-brand">Marca</label>
+									<input type="text" name="add-vehicle-brand" class="form-control" placeholder="Marca" disabled="true" />
+								</div>
+								<div class="form-group col-md-6">
+									<label for="add-vehicle-model">Model</label>
+									<input type="text" name="add-vehicle-model" class="form-control" placeholder="Modelo"  disabled="true"/>
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="form-group col-md-6">
+									<label for="add-vehicle-domain">Patente</label>
+									<input type="text" name="add-vehicle-domain" class="form-control" placeholder="Ejemplo: AAA 000"  disabled="true"/>
+								</div>
+								<div class="form-group col-md-6">
+									<label for="add-vehicle-size">Plazas(máxima)</label>
+									<input type="number" name="add-vehicle-size" class="form-control" placeholder="Plazas"  disabled="true"/>
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="form-group col-md-12">
+									<label for="add-vehicle-desc">Descripción</label>
+									<textarea name="add-vehicle-desc" class="form-control" placeholder="Breve descripción"  disabled="true"></textarea>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary">Guardar vehículo</button>
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="addVehicleDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="addVehicleDialog" aria-hidden="true" data-backdrop="static">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Nuevo vehículo</h5>
+					</div>
+					<div class="modal-body">
+						<form>
+							<div class="form-row">
+								<div class="form-group col-md-6">
+									<label for="add-vehicle-brand">Marca</label>
+									<input type="text" name="add-vehicle-brand" class="form-control" placeholder="Marca" />
+								</div>
+								<div class="form-group col-md-6">
+									<label for="add-vehicle-model">Model</label>
+									<input type="text" name="add-vehicle-model" class="form-control" placeholder="Modelo" />
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="form-group col-md-6">
+									<label for="add-vehicle-domain">Patente</label>
+									<input type="text" name="add-vehicle-domain" class="form-control" placeholder="Ejemplo: AAA 000" />
+								</div>
+								<div class="form-group col-md-6">
+									<label for="add-vehicle-size">Plazas(máxima)</label>
+									<input type="number" name="add-vehicle-size" class="form-control" placeholder="Plazas" />
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="form-group col-md-12">
+									<label for="add-vehicle-desc">Descripción</label>
+									<textarea name="add-vehicle-desc" class="form-control" placeholder="Breve descripción" ></textarea>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary">Guardar vehículo</button>
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container collapse" id="travelsContainer" >
+		<div class="row">
+			<h3 class="col-md-11">Mis viajes</h3>
+			<a class="btn col-md-1" id="addTravel" href="#">Nuevo</a>
+		</div>
+	</div>
+	<div class="container collapse" id="reputationContainer" >
+		<div class="row">
+			<h3 class="col-md-11">Mi reputacion</h3>
+		</div>
+	</div>
+	<footer class="footer fixed-bottom">
+		<div class="container">
+			<span class="text-muted">Hecho por Grupo 4 - ING 2 - 2018</span>
+			<br>
+			<a href="terminos.html">Términos y condiciones de uso</a>
+		</div>
+	</footer>
+
+	<script type="text/javascript" src="./js/home.js"></script>
+</body>
+</html>
