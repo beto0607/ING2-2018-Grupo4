@@ -1,6 +1,11 @@
+var URLs = {
+	login:"http://0.0.0.0:8080/index.php?c=usuario&a=Acceder",
+	signup:"http://0.0.0.0:8080/index.php?c=usuario&a=Guardar"
+};
+
+var dialog;
 function registerLinkTap(){
 	window.scroll(0, $("#registerSection").position().top - 100);
-	$('#signTabs a[href="#signin"]').tab('show');
 }
 function signinFormValidator(){
 	$('#signinForm').validate({
@@ -20,18 +25,44 @@ function signinFormValidator(){
 		submitHandler: signinFormValid
 	});
 }
-function signinFormValid(form){
-	var d = bootbox.dialog({
+function showSpinner(){
+	dialog = bootbox.dialog({
 		closeButton: false,
 		message: '<p><i class="fa fa-spin fa-spinner"></i>Verificando...</p>'
 	});
-	setTimeout(function(){
-		d.find('.bootbox-body').html('Termine de cargar');
-	},3000);
+}
+function getInputValue(form, input){
+	return $(form).find("input[name=\""+input+"\"]").val();
+}
+function signinFormValid(form){
+var data = {
+	username: getInputValue(form, "login-email"),
+	password:getInputValue(form, "login-password")
+};
+
+	$.post(URLs.login, data).done(function(){
+		dialog.find('.bootbox-body').html('Login');
+		setTimeout()
+	}).fail(function(e){
+		dialog.find('.bootbox-body').html('Error - '+e.statusExit);
+	});
+}
+
+function signupFormValid(form){
+	var data = {
+		"Usuario": 					getInputValue(form, "signup-username"),
+		"clave": 						getInputValue(form, "signup-password"),
+		"nombre": 					getInputValue(form, "signup-firstname"),
+		"apellido": 				getInputValue(form, "signup-lastname"),
+		"fechaNacimiento": 	getInputValue(form, "signup-date"),
+		"telefono": 				getInputValue(form, "signup-phone"),
+		"email": 						getInputValue(form, "signup-email")
+	};
 }
 function signupFormValidator(){
 	$("#signupForm").validate({
 		onfocusout: false,
+		submitHandler: signupFormValid,
 		rules: {
 			"signup-email": {
 				required: true,
@@ -102,7 +133,7 @@ function signupFormValidator(){
 
 
 $(document).ready(function(){
-
+$('#signTabs a[href="#signin"]').tab('show');
 	$("#registerLink").on("click", registerLinkTap);
 
 	if(window.location.href.indexOf("#registerSection") != -1){
