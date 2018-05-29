@@ -51,18 +51,27 @@ class UsuarioController{
             $valido = '';
             
             $usu->id = isset($_REQUEST['id']) ? $_REQUEST['id'] : 0 ;
-            $usu->Usuario = $_REQUEST['Usuario'];
-            $usu->clave = $_REQUEST['clave'];
+            if (isset($_REQUEST['Usuario']))
+            {
+                $usu->Usuario = $_REQUEST['Usuario'];
+            }
+            if (isset($_REQUEST['clave']))
+            {
+                $usu->clave = $_REQUEST['clave'];
+            }
             $usu->nombre = $_REQUEST['nombre'];
             $usu->apellido = $_REQUEST['apellido'];
             $usu->fechaNacimiento = $_REQUEST['fechaNacimiento'];
             $usu->telefono = $_REQUEST['telefono'];
-            $usu->email = $_REQUEST['email'];
+            if (isset($_REQUEST['email']))
+            {
+                $usu->email = $_REQUEST['email'];
+            }
             $usu->calificacionPiloto = isset($_REQUEST['calificacionPiloto']) ? $_REQUEST['calificacionPiloto'] : 0;
             $usu->calificacionCopiloto = isset($_REQUEST['calificacionCopiloto']) ? $_REQUEST['calificacionCopiloto'] : 0;
             $usu->fechaBaja = isset($_REQUEST['fechaBaja']) ? $_REQUEST['fechaBaja'] : null;
 
-            $valido = $this->model->Validar($usu);
+            $valido = $this->model->Validar($usu, ($usu->id > 0 ? "M" : "A"));
 
             if ($valido != '')
             {

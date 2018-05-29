@@ -54,7 +54,7 @@ class Viajes
 		{
 			$result = array();
 
-			$stm = $this->pdo->prepare($sql);
+			$stm = $this->pdo->prepare($this->sql);
 			$stm->execute();
 
 			return $stm->fetchAll(PDO::FETCH_OBJ);

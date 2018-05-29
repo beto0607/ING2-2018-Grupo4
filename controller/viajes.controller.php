@@ -1,5 +1,5 @@
 <?php
-require_once 'model/viaje.php';
+require_once 'model/viajes.php';
 
 class ViajesController{
     

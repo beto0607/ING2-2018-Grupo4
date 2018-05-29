@@ -111,31 +111,19 @@ class Usuario
 		try
 		{
 			$sql = "UPDATE usuarios SET
-						usuario 			= ?,
-						clave 				= ?,
 						nombre          	= ?,
 						apellido        	= ?,
 						fechaNacimiento 	= ?,
-						telefono			= ?,
-						email        		= ?,
-						calificacionPiloto  = ?,
-						calificacionCopiloto = ?,
-						fechaBaja			= ?
+						telefono			= ?
 				    WHERE id = ?";
 
 			$this->pdo->prepare($sql)
 			     ->execute(
 				    array(
-				    	$data->usuario,
-				    	$data->clave,
-                        $data->nombre,
+				    	$data->nombre,
                         $data->apellido,
 						$data->fechaNacimiento,
                         $data->telefono,
-                        $data->email,
-                        $data->calificacionPiloto,
-                        $data->calificacionCopiloto,
-                        $data->fechaBaja,
                         $data->id
 					)
 				);
@@ -177,7 +165,7 @@ class Usuario
 		}
 	}
 
-	public function Validar(Usuario $data)
+	public function Validar(Usuario $data, $action = "A")
 	{
 		$valido = '';
 
@@ -195,7 +183,7 @@ class Usuario
 						->prepare($sql);
 			$stm->execute(array($data->id));
 			$val = $stm->fetch();
-			if ($val['Repetido'] > 0)
+			if ($action == "A" && $val['Repetido'] > 0)
 			{
 				$valido = 'El usuario ingresado ya se encuentra en uso.';
 			}
@@ -207,7 +195,7 @@ class Usuario
 							->prepare($sql);
 				$stm->execute(array($data->email));
 				$val = $stm->fetch();
-				if ($val['Repetido'] > 0)
+				if ($action == "A" && $val['Repetido'] > 0)
 				{
 					$valido = 'El correo ingresado ya se encuentra en uso.';
 				}
