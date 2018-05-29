@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 require_once 'model/usuario.php';
 
 class AuthController{
@@ -26,16 +26,8 @@ class AuthController{
                 )
             );
 
-            if(__AUTH__ === 'token') {
-                //header("Location: ?c=Alumno&token=$r");
-                echo json_encode(array('status' => "ok", "token"=>$r));
-            } else {
-                //header('Location: ?c=Alumno');
-                //header('Location: ?c=Usuario');
-                echo json_encode(array('status' => "error", "token"=>$r, 'error' => "usuario inválido"));
-            }
+            echo json_encode(array('status' => "ok", "token"=>$r));
         } catch(Exception $e) {
-            //header('Location: index.php');
             echo json_encode(array('status' => "error", "token"=>null, 'error' => "usuario inválido"));
         }
     }

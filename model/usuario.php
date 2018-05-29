@@ -34,7 +34,7 @@ class Usuario
 		try
 		{
 			$stm = $this->pdo->prepare(
-                "SELECT * FROM usuarios WHERE ( usuario = ? AND clave = ? ) OR ( ? like '%@%' AND ? = email AND clave = ? )"
+                "SELECT * FROM usuarios WHERE (( usuario = ? AND clave = ? ) OR ( ? like '%@%' AND ? = email AND clave = ? )) AND fechaBaja IS NULL"
             );
 
 			//$stm->execute();
@@ -156,8 +156,8 @@ class Usuario
 			     ->execute(
 					array(
 						$data->id,
-	                    $data->Usuario,
-						$data->clave,
+	                    			$data->Usuario,
+						sha1($data->clave),//$data->clave,
 						$data->nombre,
 						$data->apellido,
 						$data->fechaNacimiento,
