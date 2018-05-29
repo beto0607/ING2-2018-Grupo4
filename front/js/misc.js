@@ -43,6 +43,9 @@ function reloadPage(t =500){
 		window.location.reload();
 	},t);
 }
+function goToIndex(){
+	changeLocation("index.html");
+}
 function changeLocation(s,t= 500){
 	setTimeout(function(){
 		window.location.replace(s);
@@ -56,4 +59,13 @@ function parseJSON(d){
 		console.log(d);
 	}
 	return d;
+}
+function configureValidatorMessages(){
+jQuery.extend(jQuery.validator.messages, {
+	required: "Campo obligatorio.",
+	email: "E-mail inválido.",
+	number: "Debe ingresar un número.",
+	equalTo: "Los campos son diferentes.",
+	min: jQuery.validator.format("Ingresa un valor mayor a {0}.")
+});
 }

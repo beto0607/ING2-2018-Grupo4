@@ -9,14 +9,16 @@ var URLs = {
 	userInfoSave: "../index.php?c=usuario&a=Guardar&debug=1"
 };
 var loadItems = {
+	//"userTravels": false,
 	"travelsList": false,
 	"vehiclesList": false,
-	"userInfo": false,
-	//"userTravels": false
+	"userInfo": false
 };
 var userID = getCookie("userID");
 var vehicles = null;
 $(document).ready(function(){
+	userID = getCookie("userID");
+	if(!userID || userID == ""){goToIndex();}
 	Configure();
 	/*------------Eventos generales------------*/
 	$("#optionsContainer .option").on("click", function(e){
@@ -24,6 +26,7 @@ $(document).ready(function(){
 		setTimeout(function(){window.scrollTo(0, $(s).position().top - 100);},500);
 		return e;
 	});
+	$("#signoutButton").on("click", signoutClick);
 	/*------------Eventos del manejo de user data------------*/
 	$("#buttonSaveUserInfo").on("click", userInfoSave);
 	$("#userInfoModal .editButton").on("click", userInfoInputClick);
@@ -33,6 +36,7 @@ $(document).ready(function(){
 	$("#vehiclesContainer .infoButton").on("click",vehicleInfoButtonClicked);
 	$("#modifyVehicleDialog .editButton").on("click",vehicleModalEdit);
 	$("#addVehicleDialog").on("show.bs.modal",vehicleAddModalOpens);
+	$("#addVehicleDialog button.saveVehicle").on("click", addVehicle);
 });
 /*------------Funciones del manejo de viajes---------------*/
 function loadLastTravels(){
@@ -57,13 +61,18 @@ function travelListItemClick(){
 	$("#travelInfoModal").modal("show");
 }
 /*------------Funciones del manejo de userInfo------------*/
+function signoutClick(e){
+	setCookie("userID", "", 1);
+	$.post(URLs.signout)
+		.done(function(){
+			bAlertCallback("Cerraste sesión", goToIndex);
+		})
+}
 function loadUserInfo(){
 	$.post(URLs.userInfo, {'id': userID})
 		.done(function(d,s){
 			try{
-				console.log(d);
 				d = parseJSON(d);
-				console.log(d);
 				$("div.reputationContainer span strong")[0].innerHTML = (d.calificacionPiloto);
 				$("div.reputationContainer span strong")[1].innerHTML = (d.calificacionCopiloto);
 				$("#userInfoModal input[name=\"user-info-firstname\"]").val(d.nombre);
@@ -97,7 +106,6 @@ function userInfoSave(){
 		.done(function(d,s){
 			hideSpinner();
 			try {
-				console.log(d);
 				d = parseJSON(d);
 				if(d.status == "ok" || d.status == "1"){
 					reloadPage();
@@ -156,25 +164,57 @@ function modifyVehicle(){
 	var vID = $("#modifyVehicleDialog").attr("vehicle-id");
 	if(!vID){return;}
 	showSpinner();
-	$.post(URLs.vehiclesRemove, {id: vID})
+	$.post(URLs.vehiclesModify, {id: vID})
 		.done(function(d,s){
 			location.reload();
 		})
 		.fail(onFailPost);
 }
 function addVehicle(){
-	var form = $("#modifyVehicleDialog form");
+	var form = $("#addVehicleDialog form");
+
+	$("#addVehicleForm").validate({
+		onfocusout: false,
+		rules: {
+			"add-vehicle-domain": {
+				required: true
+			},
+			"add-vehicle-brand": {
+				required: true
+			},
+			"add-vehicle-desc": {
+				required: true
+			},
+			"add-vehicle-model": {
+				required: true
+			},
+			"add-vehicle-size": {
+				required: true,
+				min:1
+			}
+		},
+		messages:{
+			"add-vehicle-domain": {
+				required:"asdf"
+			}
+		},
+		submitHandler:function(){
+			alert("adsfasdf");
+			console.log("data");
+		}
+	});
 	var data = {
 		dominio: getInputValue(form, "add-vehicle-domain"),
 		marca: getInputValue(form, "add-vehicle-brand"),
-		descripcion: getInputValue(form, "add-vehicle-desc"),
+		descripcion: $("textarea[name=\"add-vehicle-desc\"]").val(),
 		plazas: getInputValue(form, "add-vehicle-size"),
 		modelo: getInputValue(form, "add-vehicle-model"),
-		id: $(form).attr("vehicle-id"),
-		idUsuario: userId
+		idUsuario: userID
 	};
+	console.log(data);
+	return;
 	showSpinner();
-	$.post(URLs.vehiclesRemove, data)
+	$.post(URLs.vehiclesModify, data)
 		.done(function(d,s){
 			bAlert("Vehículo eliminado", reloadPage);
 		})
@@ -197,6 +237,7 @@ function infoLoaded(item){
 	}
 }
 function Configure(){
+	configureValidatorMessages();
 	$(".fa-spinner").hide();
 	$("#modifyVehicleDialog .fa-spinner").show();
 	$("#modifyVehicleDialog .editButton").hide();

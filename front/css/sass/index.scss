@@ -15,6 +15,9 @@
 	h1{
 		margin: 2em auto;
 	}
+	&:last-child{
+		margin-bottom: 200px;
+	}
 }
 #textSection{
   background-image: url(../resources/back2.jpg);
@@ -32,7 +35,7 @@
     -2px -2px $mainColor;
 
     &:first-child{
-      margin-top: 200px;
+    //  margin-top: 200px;
     }
   }
 }
