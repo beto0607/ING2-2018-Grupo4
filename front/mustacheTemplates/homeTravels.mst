@@ -1,8 +1,7 @@
-<script id="lastTravelTemplate" type="x-tmpl-mustache">
+
 <li class="travelListItem" travel-id="{{id}}">
-  <span><i class="fas fa-map-marker"></i>{{origen}}</span>
+  <span><i class="fas fa-map-marker"></i> {{origen}}</span>
   <span class="floatRight"><i class="fas fa-map-marker"></i> {{destino}}</span>
   <br>
   <span><i class="fas fa-calendar-alt"></i> {{fecha}}</span>
 </li>
-</script>

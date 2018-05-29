@@ -56,13 +56,15 @@ var data = {
 }
 
 function signupFormValid(form){
+	var date = getInputValue(form, "signup-date").split('-').join('');
+	console.log(date);
 	showSpinner();
 	var data = {
 		"Usuario": 					getInputValue(form, "signup-username"),
 		"clave": 						getInputValue(form, "signup-password"),
 		"nombre": 					getInputValue(form, "signup-firstname"),
 		"apellido": 				getInputValue(form, "signup-lastname"),
-		"fechaNacimiento": 	getInputValue(form, "signup-date"),
+		"fechaNacimiento": 	date,//getInputValue(form, "signup-date"),
 		"telefono": 				getInputValue(form, "signup-phone"),
 		"email": 						getInputValue(form, "signup-email")
 	};
