@@ -2,7 +2,7 @@
 class Viajes
 {
 	private $pdo;
-	private $sql = "SELECT 	v.id AS idViaje, v.fecha, v.origen, v.destino, v.plazas AS plazasViaje, v.descripcion AS descripcionViaje, v.montoTotal + (v.montoTotal * (v.PorcentajeComision/100)) as montoTotal,
+	private $sql = "SELECT 	v.id AS idViaje, v.fecha, v.origen, v.destino, v.plazas AS plazasViaje, v.descripcion AS descripcionViaje, v.montoTotal + (v.montoTotal * (v.PorcentajeComision/100)) as montoTotal, (v.montoTotal + (v.montoTotal * (v.PorcentajeComision/100))) / 4 as montoCopiloto, 
 	v.fechaCancelacion, v.fechaCierre, v.idVehiculo, ve.dominio, ve.descripcion AS descripcionVehiculo, ve.modelo AS modeloVehiculo,
 	ve.marca AS marcaVehiculo, ve.plazas AS plazasVehiculo, ve.idUsuario AS idUsuario, u.nombre, u.apellido, u.fechaNacimiento,
 	u.telefono, u.email, u.calificacionPiloto, u.calificacionCopiloto
