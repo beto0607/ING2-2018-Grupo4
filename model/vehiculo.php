@@ -25,14 +25,15 @@ class Vehiculo
 		}
 	}
 
-	public function Listar()
+	public function Listar($idUsuario)
 	{
 		try
 		{
 			$result = array();
 
-			$stm = $this->pdo->prepare("SELECT * FROM vehiculos");
-			$stm->execute();
+			$stm = $this->pdo->prepare("SELECT * FROM vehiculos WHERE idUsuario = ? AND fechaBaja IS NULL");
+			echo json_encode($this->model->Listar($_REQUEST['idUsuario']));
+			$stm->execute(array($idUsuario));
 
 			return $stm->fetchAll(PDO::FETCH_OBJ);
 		}
@@ -77,25 +78,21 @@ class Vehiculo
 		try 
 		{
 			$sql = "UPDATE vehiculos SET 
-						idUsuario           = ?,
 						dominio 			= ?,
 						descripcion			= ?,
 						modelo          	= ?, 
 						marca        		= ?,
 						plazas 				= ?,
-						fechaBaja			= ?,
 				    WHERE id = ?";
 
 			$this->pdo->prepare($sql)
 			     ->execute(
 				    array(
-				    	$data->idUsuario,
 				    	$data->dominio, 
 				    	$data->descripcion, 
                         $data->modelo, 
                         $data->marca,
 						$data->plazas,
-                        $data->fechaBaja,
                         $data->id
 					)
 				);
@@ -109,49 +106,18 @@ class Vehiculo
 	{
 		try 
 		{
-			$sql = "INSERT INTO vehiculos (id, idUsuario, dominio, descripcion, modelo, marca, plazas, fechaBaja) 
-			        VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+			$sql = "INSERT INTO vehiculos (idUsuario, dominio, descripcion, modelo, marca, plazas) 
+			        VALUES (?, ?, ?, ?, ?, ?)";
 
 			$this->pdo->prepare($sql)
 			     ->execute(
 					array(
-						$data->id,
 	                    $data->idUsuario, 
 						$data->dominio, 
 						$data->descripcion, 
 						$data->modelo,
 						$data->marca,
 						$data->plazas, 
-						$data->fechaBaja
-	                )
-				);
-
-			return $this->pdo->lastInsertId();
-
-		} catch (Exception $e) 
-		{
-			die($e->getMessage());
-		}
-	}
-
-	public function Registrar(Vehiculo $data)
-	{
-		try 
-		{
-			$sql = "INSERT INTO vehiculos (id, idUsuario, dominio, descripcion, modelo, marca, plazas,  fechaBaja) 
-			        VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-
-			$this->pdo->prepare($sql)
-			     ->execute(
-					array(
-						$data->id,
-	                    $data->idUsuario, 
-						$data->dominio, 
-						$data->descripcion, 
-						$data->modelo,
-						$data->marca,
-						$data->plazas, 
-						$data->fechaBaja
 	                )
 				);
 
@@ -167,15 +133,7 @@ class Vehiculo
 	public function Validar(Vehiculo $data)
 	{
 		$valido = '';
-/*
-		// Mayor de edad DATEDIFF(FechaNacimiento, GETDATE()) >= 18
-		$edad = date_diff(date_create_from_format('Ymd', $data->fechaNacimiento), date_create()); // diff(new DateTime(), date_create_from_format('Ymd', $data->fechaNacimiento));
-		if ($edad->format('Y') < 18)
-		{
-			/*$valido = 'El usuario debe ser mayor de 18 años.';
-		}
-		else
-		{*/
+
 			// Vehiculo repetido
 			$sql = "SELECT COUNT(1) AS 'Repetido' FROM vehiculos WHERE dominio = ?";
 			$stm = $this->pdo
@@ -186,20 +144,21 @@ class Vehiculo
 			{
 				$valido = 'El vehiculo ingresado ya se encuentra en cargado.';
 			}
-			/*else
+			else
 			{
-				// Correo repetido
-				$sql = "SELECT COUNT(1) AS 'Repetido' FROM Usuarios WHERE email = ?";
+				//vehiculo cargado en un viaje o a un usuario
+				$sql2 = "SELECT * FROM vehiculos v INNER JOIN viajes vi ON 'v.id' = 'vi.idVehiculo' WHERE 'vi.FechaCancelacion' IS NULL AND 'v.idUsuario' = ?"
 				$stm = $this->pdo
-							->prepare($sql);			          
-				$stm->execute(array($data->email));
+							->prepare($sql2);			          
+				$stm->execute(array($data->idUsuario));
 				$val = $stm->fetch();
 				if ($val['Repetido'] > 0)
 				{
-					$valido = 'El correo ingresado ya se encuentra en uso.';
+					$valido = 'El vehiculo ingresado ya se encuentra en un viaje o pertenece a otro usuario.';
 				}
+
+
 			}
-		}*/
 
 		return $valido;
 	}
