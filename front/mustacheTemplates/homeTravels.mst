@@ -1,5 +1,5 @@
 
-<li class="travelListItem" travel-id="{{id}}">
+<li class="travelListItem" travel-id="{{id}}" travel-userID="{{idUsuario}}">
   <span><i class="fas fa-map-marker"></i> {{origen}}</span>
   <span class="floatRight"><i class="fas fa-map-marker"></i> {{destino}}</span>
   <br>
