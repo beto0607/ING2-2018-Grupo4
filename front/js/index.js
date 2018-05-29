@@ -44,7 +44,7 @@ var data = {
 			if(d.status == "error"){
 				bootbox.alert('Ocurrió un error: '+d.error)
 			}else if(d.status == "ok"){
-				setCookie("userID", d.id, 1);
+				setCookie("userID", d.userID, 1);
 				setCookie("username", getInputValue(form, "login-email"), 1);
 				setDialogText("Datos correctos")
 				changeLocation("home.html", 1500);

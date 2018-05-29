@@ -2,7 +2,7 @@
 class Vehiculo
 {
 	private $pdo;
-    
+
     public $id;
     public $IdUsuario;
     public $dominio;
@@ -17,7 +17,7 @@ class Vehiculo
 	{
 		try
 		{
-			$this->pdo = Database::StartUp();     
+			$this->pdo = Database::StartUp();
 		}
 		catch(Exception $e)
 		{
@@ -32,7 +32,7 @@ class Vehiculo
 			$result = array();
 
 			$stm = $this->pdo->prepare("SELECT * FROM vehiculos WHERE idUsuario = ? AND fechaBaja IS NULL");
-			echo json_encode($this->model->Listar($_REQUEST['idUsuario']));
+			//echo json_encode($this->model->Listar($_POST['idUsuario']));
 			$stm->execute(array($idUsuario));
 
 			return $stm->fetchAll(PDO::FETCH_OBJ);
@@ -45,14 +45,14 @@ class Vehiculo
 
 	public function Obtener($id)
 	{
-		try 
+		try
 		{
 			$stm = $this->pdo
 			            ->prepare("SELECT * FROM vehiculos WHERE id = ?");
 
 			$stm->execute(array($id));
 			return $stm->fetch(PDO::FETCH_OBJ);
-		} catch (Exception $e) 
+		} catch (Exception $e)
 		{
 			die($e->getMessage());
 		}
@@ -60,13 +60,13 @@ class Vehiculo
 
 	public function Eliminar($id)
 	{
-		try 
+		try
 		{
 			$stm = $this->pdo
-			            ->prepare("UPDATE vehiculos SET fechaBaja = NOW() WHERE id = ?");			          
+			            ->prepare("UPDATE vehiculos SET fechaBaja = NOW() WHERE id = ?");
 
 			$stm->execute(array($id));
-		} catch (Exception $e) 
+		} catch (Exception $e)
 		{
 			die($e->getMessage());
 		}
@@ -75,12 +75,12 @@ class Vehiculo
 
 	public function Actualizar($data)
 	{
-		try 
+		try
 		{
-			$sql = "UPDATE vehiculos SET 
+			$sql = "UPDATE vehiculos SET
 						dominio 			= ?,
 						descripcion			= ?,
-						modelo          	= ?, 
+						modelo          	= ?,
 						marca        		= ?,
 						plazas 				= ?,
 				    WHERE id = ?";
@@ -88,15 +88,15 @@ class Vehiculo
 			$this->pdo->prepare($sql)
 			     ->execute(
 				    array(
-				    	$data->dominio, 
-				    	$data->descripcion, 
-                        $data->modelo, 
+				    	$data->dominio,
+				    	$data->descripcion,
+                        $data->modelo,
                         $data->marca,
 						$data->plazas,
                         $data->id
 					)
 				);
-		} catch (Exception $e) 
+		} catch (Exception $e)
 		{
 			die($e->getMessage());
 		}
@@ -104,26 +104,26 @@ class Vehiculo
 
 	public function Agregar(Vehiculo $data)
 	{
-		try 
+		try
 		{
-			$sql = "INSERT INTO vehiculos (idUsuario, dominio, descripcion, modelo, marca, plazas) 
+			$sql = "INSERT INTO vehiculos (idUsuario, dominio, descripcion, modelo, marca, plazas)
 			        VALUES (?, ?, ?, ?, ?, ?)";
 
 			$this->pdo->prepare($sql)
 			     ->execute(
 					array(
-	                    $data->idUsuario, 
-						$data->dominio, 
-						$data->descripcion, 
+	                    $data->idUsuario,
+						$data->dominio,
+						$data->descripcion,
 						$data->modelo,
 						$data->marca,
-						$data->plazas, 
+						$data->plazas,
 	                )
 				);
 
 			return $this->pdo->lastInsertId();
 
-		} catch (Exception $e) 
+		} catch (Exception $e)
 		{
 			die($e->getMessage());
 		}
@@ -137,7 +137,7 @@ class Vehiculo
 			// Vehiculo repetido
 			$sql = "SELECT COUNT(1) AS 'Repetido' FROM vehiculos WHERE dominio = ?";
 			$stm = $this->pdo
-						->prepare($sql);			          
+						->prepare($sql);
 			$stm->execute(array($data->id));
 			$val = $stm->fetch();
 			if ($val['Repetido'] > 0)
@@ -147,9 +147,9 @@ class Vehiculo
 			else
 			{
 				//vehiculo cargado en un viaje o a un usuario
-				$sql2 = "SELECT * FROM vehiculos v INNER JOIN viajes vi ON 'v.id' = 'vi.idVehiculo' WHERE 'vi.FechaCancelacion' IS NULL AND 'v.idUsuario' = ?"
+				$sql2 = "SELECT * FROM vehiculos v INNER JOIN viajes vi ON 'v.id' = 'vi.idVehiculo' WHERE 'vi.FechaCancelacion' IS NULL AND 'v.idUsuario' = ?";
 				$stm = $this->pdo
-							->prepare($sql2);			          
+							->prepare($sql2);
 				$stm->execute(array($data->idUsuario));
 				$val = $stm->fetch();
 				if ($val['Repetido'] > 0)

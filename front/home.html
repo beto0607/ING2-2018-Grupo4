@@ -34,7 +34,7 @@
 				<span>Reputación como copiloto: <strong>2.1</strong> <i class="fas fa-star"></i></span>
 			</div>
 			<div class="px-3 py-2 container">
-				<a class="btn" href="#" ><i class="far fa-user"></i> Mi perfil</a>
+				<a class="btn" href="#" data-toggle="modal" data-target="#userInfoModal"><i class="far fa-user"></i> Mi perfil</a>
 			</div>
 
 			<div class="px-3 py-2 container">
@@ -42,6 +42,47 @@
 			</div>
 		</div>
 	</nav>
+	<div id="userInfoModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="travelInfoModal" aria-hidden="true" data-backdrop="static">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Datos del usuario</h5>
+						<button type="button" class="close editButton" aria-label="Editar">
+							<i class="far fa-edit"></i>
+						</button>
+					</div>
+					<div class="modal-body">
+						<i class="fa fa-spin fa-spinner"></i>
+						<form>
+							<div class="form-row">
+								<div class="form-group col-md-6">
+									<label for="user-info-firstname">Nombre</label>
+									<input type="text" name="user-info-firstname" class="form-control" placeholder="Nombre" disabled="true" />
+								</div>
+								<div class="form-group col-md-6">
+									<label for="user-info-lastname">Apellido</label>
+									<input type="text" name="user-info-lastname" class="form-control" placeholder="Apellido" disabled="true" />
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="form-group col-md-6">
+									<label for="user-info-date">Fecha de nacimiento</label>
+									<input type="date" name="user-info-date" class="form-control" placeholder="Fecha de nacimiento" disabled="true" />
+								</div>
+								<div class="form-group col-md-6">
+									<label for="user-info-phone">Teléfono</label>
+									<input type="phone" name="user-info-phone" class="form-control" placeholder="Teléfono" disabled="true" />
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary disabled" id="buttonSaveUserInfo">Guardar cambios</button>
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+					</div>
+				</div>
+			</div>
+		</div>
 	<div class="container" id="searchContainer">
 		<div class="row">
 			<input type="text" name="search" placeholder="Buscar viajes..." class="col-md-11" id="seachInput">
@@ -53,9 +94,7 @@
 			<h2>Últimos viajes agregados</h2>
 		</div>
 		<div class="row">
-			<ul>
-
-			</ul>
+			<ul></ul>
 		</div>
 		<div id="travelInfoModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="travelInfoModal" aria-hidden="true" data-backdrop="static">
 			<div class="modal-dialog" role="document">
@@ -134,22 +173,7 @@
 					<th scope="col">Más info</th>
 				</tr>
 			</thead>
-			<tbody>
-				<!--tr vehicle-id="1">
-					<td>AAA-000</td>
-					<td>Volkswagen</td>
-					<td>Gol Trend</td>
-					<td>4</td>
-					<td><a class="fas fa-info-circle infoButton" data-toggle="modal" data-target="#modifyVehicleDialog"></a></td>
-				</tr>
-				<tr vehicle-id="2">
-					<td>AAA-001</td>
-					<td>Volkswagen</td>
-					<td>Gol Power</td>
-					<td>2</td>
-					<td><a class="fas fa-info-circle infoButton" data-toggle="modal" data-target="#modifyVehicleDialog"></a></td>
-				</tr-->
-			</tbody>
+			<tbody></tbody>
 		</table>
 
 		<div id="modifyVehicleDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modifyVehicleDialog" aria-hidden="true" data-backdrop="static">

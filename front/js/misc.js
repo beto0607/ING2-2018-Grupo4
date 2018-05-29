@@ -1,4 +1,10 @@
 var dialog;
+function bAlert(s){
+	bootbox.alert(s);
+}
+function bAlertCallback(s, c){
+	bootbox.alert(s,c);
+}
 function showSpinner(){
 	dialog = bootbox.dialog({
 		closeButton: false,
@@ -32,8 +38,22 @@ function getCookie(name) {
     }
     return null;
 }
+function reloadPage(t =500){
+	setTimeout(function(){
+		window.location.reload();
+	},t);
+}
 function changeLocation(s,t= 500){
 	setTimeout(function(){
 		window.location.replace(s);
 	},t);
+}
+function parseJSON(d){
+	try{d = JSON.parse(d);}
+	catch(e){
+		d = d.substr(1, d.length-1);
+		d = JSON.parse(d);
+		console.log(d);
+	}
+	return d;
 }
