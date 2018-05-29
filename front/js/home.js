@@ -1,5 +1,5 @@
 var URLs = {
-	travelsList:"../index.php?c=viaje&a=Listar&debug=1",
+	travelsList:"../index.php?c=viajes&a=Listar&debug=1",
 
 	vehiclesList:"../index.php?c=vehiculo&a=Listar&debug=1",
 	vehiclesRemove:"../index.php?c=vehiculo&a=Eliminar&debug=1",
@@ -28,7 +28,7 @@ $(document).ready(function(){
 	});
 	$("#signoutButton").on("click", signoutClick);
 	/*------------Eventos del manejo de user data------------*/
-	$("#buttonSaveUserInfo").on("click", userInfoSave);
+	$("#buttonSaveUserInfo").on("click", userInfoSubmit);
 	$("#userInfoModal .editButton").on("click", userInfoInputClick);
 	/*------------Eventos del manejo de viajes------------*/
 	$(".travelListItem").on("click", travelListItemClick);
@@ -36,7 +36,7 @@ $(document).ready(function(){
 	$("#vehiclesContainer .infoButton").on("click",vehicleInfoButtonClicked);
 	$("#modifyVehicleDialog .editButton").on("click",vehicleModalEdit);
 	$("#addVehicleDialog").on("show.bs.modal",vehicleAddModalOpens);
-	$("#addVehicleDialog button.saveVehicle").on("click", addVehicle);
+	$("#addVehicleDialog button.saveVehicle").on("click", vehicleAddSubmit);
 });
 /*------------Funciones del manejo de viajes---------------*/
 function loadLastTravels(){
@@ -93,8 +93,32 @@ function userInfoInputClick(e){
 	$("#userInfoModal input").removeAttr("disabled");
 	$("#userInfoModal .modal-title").text("Modificar datos");
 }
+function userInfoValidateForm(){
+	$("#userInfoModal form").validate({
+		onfocusout: false,
+		rules: {
+			"user-info-firstname": {
+				required: true
+			},
+			"user-info-lastname": {
+				required: true
+			},
+			"user-info-date": {
+				required: true
+			},
+			"user-info-phone": {
+				required: true
+			}
+		},
+		submitHandler:userInfoSave
+	});
+}
+function userInfoSubmit(){
+	$("#userInfoModal form").submit();
+}
 function userInfoSave(){
 	var form = $("#userInfoModal form");
+
 	var data = {};
 	data["nombre"] = getInputValue(form, "user-info-firstname");
 	data["apellido"] = getInputValue(form, "user-info-lastname");
@@ -170,9 +194,10 @@ function modifyVehicle(){
 		})
 		.fail(onFailPost);
 }
-function addVehicle(){
-	var form = $("#addVehicleDialog form");
-
+function vehicleAddSubmit(){
+	$("#addVehicleForm").submit();
+}
+function vehicleAddValidateForm(){
 	$("#addVehicleForm").validate({
 		onfocusout: false,
 		rules: {
@@ -193,16 +218,11 @@ function addVehicle(){
 				min:1
 			}
 		},
-		messages:{
-			"add-vehicle-domain": {
-				required:"asdf"
-			}
-		},
-		submitHandler:function(){
-			alert("adsfasdf");
-			console.log("data");
-		}
+		submitHandler:addVehicle
 	});
+}
+function addVehicle(){
+	var form = $("#addVehicleDialog form");
 	var data = {
 		dominio: getInputValue(form, "add-vehicle-domain"),
 		marca: getInputValue(form, "add-vehicle-brand"),
@@ -211,8 +231,6 @@ function addVehicle(){
 		modelo: getInputValue(form, "add-vehicle-model"),
 		idUsuario: userID
 	};
-	console.log(data);
-	return;
 	showSpinner();
 	$.post(URLs.vehiclesModify, data)
 		.done(function(d,s){
@@ -248,6 +266,9 @@ function Configure(){
 	loadLastTravels();
 	loadVehicles();
 	loadUserInfo();
+
+	vehicleAddValidateForm();
+	userInfoValidateForm();
 }
 function getInputValue(form, input){
 	return $(form).find("input[name=\""+input+"\"]").val();
