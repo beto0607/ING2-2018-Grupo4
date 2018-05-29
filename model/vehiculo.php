@@ -151,7 +151,7 @@ class Vehiculo
 						FROM vehiculos v 
 						INNER JOIN viajes vi 
 							ON v.id = vi.idVehiculo 
-						WHERE vi.FechaCancelacion IS NULL AND v.idUsuario = ? AND v.id = ?";
+						WHERE vi.FechaCancelacion IS NULL AND vi.FechaCierre IS NULL AND v.idUsuario = ? AND v.id = ?";
 			$stm = $this->pdo
 						->prepare($sql2);
 			$stm->execute(array($data->idUsuario, $data->id));

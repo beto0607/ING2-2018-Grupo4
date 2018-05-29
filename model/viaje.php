@@ -103,7 +103,7 @@ class Viaje
 					else
 					{
 						// No debería existir otro viaje en la misma fecha para el piloto
-						$sql = "CALL make_intervals('20180520', '20180525', 1, 'DAY');
+						$sql = "CALL make_intervals(?, ?, 1, 'DAY');
 
 								SELECT COUNT(1) AS 'Superpuestos'
 									FROM time_intervals ti
@@ -115,7 +115,7 @@ class Viaje
 											AND v.idVehiculo = ?";
 						$stm = $this->pdo
 									->prepare($sql);			          
-						$stm->execute(array($data->idVehiculo));
+						$stm->execute(array($data->fecha, $fechaHasta, $data->idVehiculo));
 						$val = $stm->fetch();
 						if ($val['Repetido'] > 0)
 						{
