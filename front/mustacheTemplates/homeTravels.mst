@@ -4,4 +4,9 @@
   <span class="floatRight"><i class="fas fa-map-marker"></i> {{destino}}</span>
   <br>
   <span><i class="fas fa-calendar-alt"></i> {{fecha}}</span>
+  <br>
+  <span><i class="fas fa-money-bill-wave"></i> ${{montoCopiloto}}</span>
+
+
+
 </li>

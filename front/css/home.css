@@ -74,6 +74,11 @@ form input.is-invalid, .tab-pane input.is-invalid {
   float: left;
 }
 
+.sectionWhiteSpace {
+  display: block;
+  height: 100px;
+}
+
 i.fas, i.far {
   color: black;
   cursor: pointer;
@@ -189,7 +194,7 @@ i.fas:hover, i.far:hover {
   display: inline-block;
   width: 30%;
   min-width: 16em;
-  height: 7em;
+  height: 10em;
   transition: all 0.5s;
   cursor: pointer;
 }

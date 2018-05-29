@@ -4,5 +4,5 @@
 <td>{{marca}}</td>
 <td>{{modelo}}</td>
 <td>{{plazas}}</td>
-<td><a class="fas fa-info-circle infoButton" data-toggle="modal" data-target="#modifyVehicleDialog"></a></td>
+<td><a class="fas fa-info-circle infoButton" ></a></td>
 </tr>

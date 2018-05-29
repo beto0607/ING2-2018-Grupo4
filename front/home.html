@@ -158,7 +158,7 @@
 			</a>
 		</div>
 	</div>
-	<div class="container collapse" id="vehiclesContainer" >
+	<div class="container collapse infoContainer" id="vehiclesContainer" >
 		<div class="row">
 			<h3 class="col-md-11">Mis vehiculos</h3>
 			<a class="btn col-md-1" id="addVehicle" href="#" data-toggle="modal" data-target="#addVehicleDialog">Nuevo</a>
@@ -186,8 +186,7 @@
 						</button>
 					</div>
 					<div class="modal-body">
-						<i class="fa fa-spin fa-spinner"></i>
-						<form>
+						<form id="modifyVehicleForm">
 							<div class="form-row">
 								<div class="form-group col-md-6">
 									<label for="modify-vehicle-brand">Marca</label>
@@ -269,13 +268,91 @@
 			</div>
 		</div>
 	</div>
-	<div class="container collapse" id="travelsContainer" >
+	<div class="container collapse infoContainer" id="travelsContainer" >
 		<div class="row">
 			<h3 class="col-md-11">Mis viajes</h3>
-			<a class="btn col-md-1" id="addTravel" href="#">Nuevo</a>
+			<a class="btn col-md-1" id="addTravel" href="#"data-toggle="modal" data-target="#addTravelDialog">Nuevo</a>
+		</div>
+		<div id="addTravelDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="addTravelDialog" aria-hidden="true" data-backdrop="static">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Agregar viaje</h5>
+					</div>
+					<div class="modal-body">
+						<form id="addTravelForm">
+							<div class="form-row">
+								<div class="form-group col-md-6">
+									<label for="add-travel-vehicles">Vehículo</label>
+									<select id="addTravelVehiclesSelect" name="add-travel-vehicles" class="form-control">
+									</select>
+								</div>
+								<div class="form-group col-md-6">
+									<label for="add-travel-size">Plazas</label>
+									<input type="number" name="add-travel-size" class="form-control" placeholder="Plazas" min="1" />
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="form-group col-md-6">
+									<label for="add-travel-origen">Origen</label>
+									<input type="text" name="add-travel-origen" class="form-control" placeholder="Origen"  />
+								</div>
+								<div class="form-group col-md-6">
+									<label for="add-travel-destino">Destino</label>
+									<input type="text" name="add-travel-destino" class="form-control" placeholder="Destino" />
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="form-group col-md-6">
+									<label for="add-travel-date">Fecha</label>
+									<input type="date" name="add-travel-date" class="form-control" placeholder="Date"  />
+								</div>
+								<div class="form-group col-md-6">
+									<label for="add-travel-hour">Hora</label>
+									<input type="time" name="add-travel-hour" class="form-control" placeholder="Hora"  />
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="form-group col-md-6">
+									<label for="add-travel-type">Tipo</label>
+									<select id="addTravelVehiclesSelect" name="add-travel-type" class="form-control">
+										<option value="O">Ocasional</option>
+										<option value="D">Diario</option>
+										<option value="S">Semanal</option>
+									</select>
+								</div>
+								<div class="form-group col-md-6">
+									<label for="add-travel-till-date">Hasta</label>
+									<input type="time" name="add-travel-till-date" class="form-control" placeholder="Hasta" disabled="true"  />
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="form-group col-md-6">
+									<label for="add-travel-cbu">CBU</label>
+									<input type="text" name="add-travel-cbu" class="form-control" placeholder="CBU" pattern="[0-9]{22}"  maxlength="22"/>
+								</div>
+								<div class="form-group col-md-6">
+									<label for="add-travel-monto">Monto</label>
+									<input type="number" name="add-travel-monto" class="form-control" placeholder="Monto" min="1"  step="50"/>
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="form-group col-md-12">
+									<label for="add-travel-desc">Descripción</label>
+									<textarea name="add-travel-desc" class="form-control" placeholder="Breve descripción" ></textarea>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" id="buttonSaveTravel">Publicar viaje</button>
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
-	<div class="container collapse" id="reputationContainer" >
+	<div class="container collapse infoContainer" id="reputationContainer" >
 		<div class="row">
 			<h3 class="col-md-11">Mi reputacion</h3>
 		</div>
