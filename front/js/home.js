@@ -318,7 +318,6 @@ function addVehicle(){
 function addTravelSubmit(){
 	$("#addTravelForm").submit();
 }
-}
 function travelAddValidateForm(){
 
 	$("#addTravelForm").validate({
@@ -427,7 +426,8 @@ function ConfigureTravels(){
 		$("#addTravelForm input[name=\"add-travel-size\"]").attr("max", v.plazas);
 	});
 	$("#addTravelTypeSelect").on("change",function(){
-		if($(this).val() == "O"){
+		console.log("asdfa" + $(this).val());
+		if($(this).val() != "O"){
 			$("#addTravelTillDate").removeAttr("disabled");
 		}else{
 			$("#addTravelTillDate").attr("disabled","true");

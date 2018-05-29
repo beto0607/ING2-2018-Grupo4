@@ -66,6 +66,7 @@ jQuery.extend(jQuery.validator.messages, {
 	email: "E-mail inválido.",
 	number: "Debe ingresar un número.",
 	equalTo: "Los campos son diferentes.",
-	min: jQuery.validator.format("Ingresa un valor mayor a {0}.")
+	min: jQuery.validator.format("Ingresa un valor mayor a {0}."),
+	max: jQuery.validator.format("Ingresa un valor menor o igual a {0}.")
 });
 }
