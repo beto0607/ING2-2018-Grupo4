@@ -70,14 +70,14 @@ class Viaje
 		$valido = '';
 		
 		// La fecha debe ser mayor a la fecha actual
-		if (date_create_from_format('Ymd', $data->fecha) < date_create())
+		if (date_create_from_format('Ymd H:i', $data->fecha) <= date_create())
 		{
 			$valido = 'La fecha del viaje debe ser superior a la fecha actual.';
 		}
 		else
 		{
 			// Monto debería ser mayor a cero
-			if ($data->montoTotal > 0)
+			if ($data->montoTotal <= 0)
 			{
 				$valido = 'El monto del viaje debe ser mayor a cero.';
 			}
@@ -206,7 +206,7 @@ class Viaje
 			$sth->bindValue(7, $data->plazas, PDO::PARAM_INT);
 			$sth->bindValue(8, $data->descripcion, PDO::PARAM_STR);
 			$sth->bindValue(9, $data->montoTotal, PDO::PARAM_STR);
-			$sth->bindValue(10, obtenerComision(), PDO::PARAM_STR);
+			$sth->bindValue(10, $this->obtenerComision(), PDO::PARAM_STR);
 			$sth->bindValue(11, $data->cbu, PDO::PARAM_STR);
 			$sth->bindValue(12, $tipoAlta, PDO::PARAM_STR);
 			$sth->bindValue(13, $tipoAlta, PDO::PARAM_STR);
