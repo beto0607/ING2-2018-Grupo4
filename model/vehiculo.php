@@ -156,7 +156,7 @@ class Vehiculo
 						->prepare($sql2);
 			$stm->execute(array($data->idUsuario, $data->id));
 			$val = $stm->fetch();
-			if ($action == "B" && $val['Repetido'] > 0)
+			if ($action != "A" && $val['Repetido'] > 0)
 			{
 				$valido = 'El vehículo ingresado se encuentra asignado a un viaje vigente.';
 			}
