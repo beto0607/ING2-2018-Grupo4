@@ -70,7 +70,7 @@ class Viajes
 		try 
 		{
 			$stm = $this->pdo
-			            ->prepare($sql + " WHERE v.id = ?");
+			            ->prepare($sql + " WHERE v.id = ?  ORDER BY v.fecha DESC");
 
 			$stm->execute(array($id));
 			return $stm->fetch(PDO::FETCH_OBJ);

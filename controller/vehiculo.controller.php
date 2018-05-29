@@ -51,13 +51,11 @@ class VehiculoController{
             $valido = '';
             
             $vehic->id = $_REQUEST['id'];
-            $vehic->idUsuario = $_REQUEST['idUsuario'];
             $vehic->dominio = $_REQUEST['dominio'];
             $vehic->descripcion = $_REQUEST['descripcion'];
             $vehic->modelo = $_REQUEST['modelo'];
             $vehic->marca = $_REQUEST['marca'];
             $vehic->plazas = $_REQUEST['plazas'];
-            $vehic->fechaBaja = isset($_REQUEST['fechaBaja']) ? $_REQUEST['fechaBaja'] : null;
 
             $valido = $this->model->Validar($vehic);
 
@@ -101,7 +99,8 @@ class VehiculoController{
     }
 
     public function Listar(){
-        echo json_encode($this->model->Listar());
+
+        echo json_encode($this->model->Listar($_REQUEST['idUsuario']));
     }
 
     public function Test(){
