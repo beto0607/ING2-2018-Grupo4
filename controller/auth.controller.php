@@ -19,21 +19,20 @@ class AuthController{
 
     public function Autenticar() {
         try {
-            $r = $this->auth->autenticar(
-                $this->model->Acceder(
-                    $_POST['usuario'],
-                    $_POST['password']
-                )
-            );
+          $u = $this->model->Acceder(
+            $_POST['usuario'],
+            $_POST['password']
+          );
+            $r = $this->auth->autenticar($u);
 
-            echo json_encode(array('status' => "ok", "token"=>$r));
+            echo json_encode(array('status' => "ok", "userID"=>($u->id)));
         } catch(Exception $e) {
-            echo json_encode(array('status' => "error", "token"=>null, 'error' => "usuario inválido"));
+            echo json_encode(array('status' => "error", 'error' => "usuario inválido"));
         }
     }
 
     public function Desconectarse() {
         $this->auth->destruir();
-        header('Location: index.php');
+        //header('Location: index.php');
     }
 }

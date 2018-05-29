@@ -4,7 +4,6 @@ var URLs = {
 	vehiclesRemove:"../index.php?c=vehiculo&a=Eliminar&debug=1",
 	vehiclesModify:"../index.php?c=vehiculo&a=Guardar&debug=1"
 };
-var dialog;
 var loadItems = {
 	"travelsList": false,
 	"vehiclesList": false,
@@ -119,18 +118,6 @@ function addVehicle(){
 		.fail(onFailPost);
 }
 /*---------------------Funciones-------------------------------*/
-function showSpinner(){
-	dialog = bootbox.dialog({
-		closeButton: false,
-		message: '<p><i class="fa fa-spin fa-spinner"></i>Verificando...</p>'
-	});
-}
-function hideSpinner(){
-	setTimeout(bootbox.hideAll, 500);
-}
-function setDialogText(s){
-	dialog.find('.bootbox-body').html(s);
-}
 function onFailPost(e){
 	showSpinner();
 	setDialogText("Se perdió la conexión con el servidor");

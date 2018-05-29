@@ -1,9 +1,7 @@
 var URLs = {
-	login:"../index.php?c=auth&a=Autenticar",
-	signup:"../index.php?c=usuario&a=Guardar"
+	login:"../index.php?c=auth&a=Autenticar&debug=1",
+	signup:"../index.php?c=usuario&a=Guardar&debug=1"
 };
-
-var dialog;
 function registerLinkTap(){
 	window.scroll(0, $("#registerSection").position().top - 100);
 }
@@ -25,12 +23,6 @@ function signinFormValidator(){
 		submitHandler: signinFormValid
 	});
 }
-function showSpinner(){
-	dialog = bootbox.dialog({
-		closeButton: false,
-		message: '<p><i class="fa fa-spin fa-spinner"></i>Verificando...</p>'
-	});
-}
 function getInputValue(form, input){
 	return $(form).find("input[name=\""+input+"\"]").val();
 }
@@ -41,14 +33,24 @@ var data = {
 	password:getInputValue(form, "login-password")
 };
 	$.post(URLs.login, data).done(function(d,s){
-		d = JSON.parse(d);
-		console.log(d);
-		if(d.status == "error"){
-			dialog.find('.bootbox-body').html('Ocurrió un error: '+d.error);
-		}else if(d.status == "ok"){
-			document.cookie = "token="+d.token+
-					";username="+getInputValue(form, "login-email")+
-					";id="+d.id+";";
+		hideSpinner();
+		try{
+			try{d = JSON.parse(" "+d);}
+			catch(e){
+				d = d.substr(1, d.length-1);
+				d = JSON.parse(d);
+				console.log(d);
+			}
+			if(d.status == "error"){
+				bootbox.alert('Ocurrió un error: '+d.error)
+			}else if(d.status == "ok"){
+				setCookie("userID", d.id, 1);
+				setCookie("username", getInputValue(form, "login-email"), 1);
+				setDialogText("Datos correctos")
+				changeLocation("home.html", 1500);
+		}}catch(e){
+			console.log(e);
+			console.log(d);
 		}
 	}).fail(function(e){
 		dialog.find('.bootbox-body').html('Error - '+e.statusExit);
@@ -57,7 +59,6 @@ var data = {
 
 function signupFormValid(form){
 	var date = getInputValue(form, "signup-date").split('-').join('');
-	console.log(date);
 	showSpinner();
 	var data = {
 		"Usuario": 					getInputValue(form, "signup-username"),
@@ -70,10 +71,31 @@ function signupFormValid(form){
 	};
 	$.post(URLs.signup, data).
 		done(function(d,s){
-			console.log(d);
-			console.log(s);
+			hideSpinner();
+			try{
+				console.log(d);
+				try{d = JSON.parse(" "+d);}
+				catch(e){
+					d[0] = ' ';
+					d = JSON.parse(d);
+				}
+
+				//setDialogText(d.mensaje);
+				bootbox.alert(d.mensaje);
+				if(d.success == "1"){
+					setCookie("userID", d.id, 1);
+					setCookie("username", getInputValue(form, "signup-email"), 1);
+					setTimeout(function(){
+						window.location.replace("./home.html");
+					}, 1000);
+				}
+			}catch(e){
+				console.log(d);
+				console.log(e);
+			}
 		}).fail(function(e){
-			dialog.find('.bootbox-body').html('Error - '+e.statusExit);
+			hideSpinner();
+			bootbox.alert('Error - '+e.statusExit);
 		});
 }
 function signupFormValidator(){
@@ -166,3 +188,6 @@ $('#signTabs a[href="#signin"]').tab('show');
 		$("#signinForm").submit();
 	});
 });
+function setDialogText(s){
+	dialog.find('.bootbox-body').html(s);
+}

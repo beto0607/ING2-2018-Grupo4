@@ -2,17 +2,17 @@
 class Auth implements IAuth {
     private $cookie = '__USUARIO__';
     private $tiempo = 1; // Expresado en horas
-    
+
     public function autenticar($usuario) {
         if(!is_object($usuario)) {
             throw new Exception("Fallo autenticación");
         } else if(empty($usuario->id)){
             throw new Exception("Fallo autenticación");
         }
-        
+
         $extraParaElToken = $usuario->id . $usuario->Usuario;
-        
-        setcookie(
+
+        /*setcookie(
             $this->cookie,
             json_encode(
                 (object) [
@@ -22,23 +22,23 @@ class Auth implements IAuth {
                 ]
             ),
             time() + (3600 * $this->tiempo)
-        );
+        );*/
     }
-    
+
     public function estaAutenticado() {
         if(!empty($_COOKIE[$this->cookie])) {
             $json = json_decode($_COOKIE[$this->cookie]);
-            
+
             if(empty($json)){
                 throw new Exception("No esta autenticado");
             }
-            
+
             if(empty($json->Token)) {
                 throw new Exception("No esta autenticado");
             }
-            
+
             $extraParaElToken = $json->id . $json->Usuario;
-            
+
             if($json->Token !== $this->token($extraParaElToken)) {
                 throw new Exception("No esta autenticado");
             }
@@ -46,20 +46,20 @@ class Auth implements IAuth {
             throw new Exception("No esta autenticado");
         }
     }
-    
+
     public function destruir() {
         $this->EstaAutenticado();
-        
+
         unset($_COOKIE[$this->cookie]);
         setcookie($this->cookie, null, -1);
     }
-    
+
     public function usuario() {
         $this->EstaAutenticado();
-        
+
         return json_decode($_COOKIE[$this->cookie]);
     }
-    
+
     private function token($extra){
         return sha1(tokenPorCliente() . $extra);
     }
