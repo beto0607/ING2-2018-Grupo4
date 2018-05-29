@@ -4,7 +4,7 @@ class Vehiculo
 	private $pdo;
 
     public $id;
-    public $IdUsuario;
+    public $idUsuario;
     public $dominio;
     public $descripcion;
     public $modelo;
@@ -82,7 +82,7 @@ class Vehiculo
 						descripcion			= ?,
 						modelo          	= ?,
 						marca        		= ?,
-						plazas 				= ?,
+						plazas 				= ?
 				    WHERE id = ?";
 
 			$this->pdo->prepare($sql)
@@ -130,35 +130,39 @@ class Vehiculo
 	}
 
 
-	public function Validar(Vehiculo $data)
+	public function Validar(Vehiculo $data, $action = "A")
 	{
 		$valido = '';
 
-			// Vehiculo repetido
-			$sql = "SELECT COUNT(1) AS 'Repetido' FROM vehiculos WHERE dominio = ?";
+		// Vehiculo repetido
+		$sql = "SELECT COUNT(1) AS 'Repetido' FROM vehiculos WHERE idUsuario = ? AND fechaBaja IS NULL AND dominio = ? AND (id <> ? OR ? = 0)";
+		$stm = $this->pdo
+					->prepare($sql);
+		$stm->execute(array($data->idUsuario, $data->dominio, $data->id, $data->id));
+		$val = $stm->fetch();
+		if ($action != "B" && $val['Repetido'] > 0)
+		{
+			$valido = 'El vehículo ingresado ya se encuentra en cargado.';
+		}
+		else
+		{
+			//vehiculo cargado en un viaje o a un usuario
+			$sql2 = "SELECT COUNT(1) AS 'Repetido' 
+						FROM vehiculos v 
+						INNER JOIN viajes vi 
+							ON v.id = vi.idVehiculo 
+						WHERE vi.FechaCancelacion IS NULL AND v.idUsuario = ? AND v.id = ?";
 			$stm = $this->pdo
-						->prepare($sql);
-			$stm->execute(array($data->id));
+						->prepare($sql2);
+			$stm->execute(array($data->idUsuario, $data->id));
 			$val = $stm->fetch();
-			if ($val['Repetido'] > 0)
+			if ($action == "B" && $val['Repetido'] > 0)
 			{
-				$valido = 'El vehiculo ingresado ya se encuentra en cargado.';
+				$valido = 'El vehículo ingresado se encuentra asignado a un viaje vigente.';
 			}
-			else
-			{
-				//vehiculo cargado en un viaje o a un usuario
-				$sql2 = "SELECT * FROM vehiculos v INNER JOIN viajes vi ON 'v.id' = 'vi.idVehiculo' WHERE 'vi.FechaCancelacion' IS NULL AND 'v.idUsuario' = ?";
-				$stm = $this->pdo
-							->prepare($sql2);
-				$stm->execute(array($data->idUsuario));
-				$val = $stm->fetch();
-				if ($val['Repetido'] > 0)
-				{
-					$valido = 'El vehiculo ingresado ya se encuentra en un viaje o pertenece a otro usuario.';
-				}
 
 
-			}
+		}
 
 		return $valido;
 	}

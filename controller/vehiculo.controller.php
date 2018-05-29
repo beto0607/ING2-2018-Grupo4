@@ -50,14 +50,15 @@ class VehiculoController{
             $id = 0;
             $valido = '';
             
-            $vehic->id = $_REQUEST['id'];
+            $vehic->id = isset($_REQUEST['id']) ? $_REQUEST['id'] : 0;
             $vehic->dominio = $_REQUEST['dominio'];
             $vehic->descripcion = $_REQUEST['descripcion'];
             $vehic->modelo = $_REQUEST['modelo'];
             $vehic->marca = $_REQUEST['marca'];
             $vehic->plazas = $_REQUEST['plazas'];
+            $vehic->idUsuario = $_REQUEST['idUsuario'];
 
-            $valido = $this->model->Validar($vehic);
+            $valido = $this->model->Validar($vehic, ($vehic->id > 0 ? "M" : "A"));
 
             if ($valido != '')
             {
@@ -72,7 +73,7 @@ class VehiculoController{
                 }
                 else
                 {   
-                   $id = $this->model->Registrar($vehic);
+                   $id = $this->model->Agregar($vehic);
                 }
                 
                 $result = ['success' => '1', 'mensaje' => 'El vehiculo ha sido guardado con éxito.', 'id' => $id];
@@ -89,8 +90,21 @@ class VehiculoController{
     public function Eliminar(){
         try
         {
-            $this->model->Eliminar($_REQUEST['id']);
-            echo json_encode(['success' => '1', 'mensaje' => 'El vehiculo ha sido eliminado con éxito.']);
+            $valido = '';
+            $vehic = new Vehiculo();
+            $vehic->id = $_REQUEST['id'];
+            $vehic->idUsuario = $_REQUEST['idUsuario'];
+            $valido = $this->model->Validar($vehic, "B");
+
+            if ($valido != '')
+            {
+                echo json_encode(['success' => '0', 'mensaje' => $valido]);
+            }
+            else 
+            {
+                $this->model->Eliminar($_REQUEST['id']);
+                echo json_encode(['success' => '1', 'mensaje' => 'El vehiculo ha sido eliminado con éxito.']);
+            }  
         }
         catch(Exception $e)
         {
