@@ -3,7 +3,7 @@ class Viaje
 {
 	private $pdo;
 	private $comision = 5;
-    
+
     public $id;
 	public $idVehiculo;
 	public $fecha;
@@ -21,7 +21,7 @@ class Viaje
 	{
 		try
 		{
-			$this->pdo = Database::StartUp();     
+			$this->pdo = Database::StartUp();
 		}
 		catch(Exception $e)
 		{
@@ -52,14 +52,14 @@ class Viaje
 
 	public function Obtener($id)
 	{
-		try 
+		try
 		{
 			$stm = $this->pdo
 			            ->prepare("SELECT * FROM viajes WHERE id = ?");
 
 			$stm->execute(array($id));
 			return $stm->fetch(PDO::FETCH_OBJ);
-		} catch (Exception $e) 
+		} catch (Exception $e)
 		{
 			die($e->getMessage());
 		}
@@ -68,7 +68,7 @@ class Viaje
 	public function Validar(Viaje $data, $tipoAlta = '', $fechaHasta = '')
 	{
 		$valido = '';
-		
+
 		// La fecha debe ser mayor a la fecha actual
 		if (date_create_from_format('Ymd H:i', $data->fecha) <= date_create())
 		{
@@ -77,7 +77,7 @@ class Viaje
 		else
 		{
 			// Monto debería ser mayor a cero
-			if ($data->montoTotal <= 0)
+			if ($data->montoTotal > 0)
 			{
 				$valido = 'El monto del viaje debe ser mayor a cero.';
 			}
@@ -93,10 +93,10 @@ class Viaje
 					// Plazas debería ser mayor a 1 y <= a la cantidad de plazas del auto
 					$sql = "SELECT plazas FROM unaventon.vehiculos WHERE id = ?";
 					$stm = $this->pdo
-								->prepare($sql);			          
+								->prepare($sql);
 					$stm->execute(array($data->id));
 					$val = $stm->fetch();
-					if ($data->plazas <= 0 || $data->plazas > $val['plazas'])
+					if ($data->plazas <= 0 || $data->plazas < $val['plazas'])
 					{
 						$valido = 'La cantidad de plazas no corresponde con la cantidad de plazas del vehículo seleccionado(' . $val['plazas'] . ').';
 					}
@@ -114,7 +114,7 @@ class Viaje
 									WHERE	v.fechaCancelacion IS NULL
 											AND v.idVehiculo = ?";
 						$stm = $this->pdo
-									->prepare($sql);			          
+									->prepare($sql);
 						$stm->execute(array($data->fecha, $fechaHasta, $data->idVehiculo));
 						$val = $stm->fetch();
 						if ($val['Repetido'] > 0)
@@ -141,7 +141,7 @@ class Viaje
 												AND DATEDIFF(NOW(), v.fecha) > 30
 												AND ve.idVehiculo = ?";
 							$stm = $this->pdo
-										->prepare($sql);			          
+										->prepare($sql);
 							$stm->execute(array($data->idVehiculo));
 							$val = $stm->fetch();
 							if ($val['Pendientes'] > 0)
@@ -153,13 +153,13 @@ class Viaje
 				}
 			}
 		}
-		
+
 		return $valido;
 	}
 
 	public function Crear($data, $tipoAlta, $fechaHasta)
 	{
-		try 
+		try
 		{
 			$diaSemana = -1;
 			$tipo = 'DAY';
@@ -193,7 +193,7 @@ class Viaje
 					" WHERE 	(? = 'O') " . chr(13) .
 					"		OR (? = 'S' AND DAYOFWEEK(f.interval_start) = ? AND f.interval_start <= ?)  " . chr(13) .
 					"       OR (? = 'D' AND f.interval_start <= ?); " . chr(13) . chr(13) .
-					
+
 					"COMMIT;";
 
 			$sth = $this->pdo->prepare($sql);
@@ -218,7 +218,7 @@ class Viaje
 
 			return $this->pdo->lastInsertId();
 
-		} catch (Exception $e) 
+		} catch (Exception $e)
 		{
 			die($e->getMessage());
 		}
@@ -226,12 +226,12 @@ class Viaje
 
 	public function Cancelar($id)
 	{
-		try 
+		try
 		{
 			$stm = $this->pdo
-			            ->prepare("UPDATE viajes SET fechaCancelacion = NOW() WHERE id = ?");			          
+			            ->prepare("UPDATE viajes SET fechaCancelacion = NOW() WHERE id = ?");
 			$stm->execute(array($id));
-		} catch (Exception $e) 
+		} catch (Exception $e)
 		{
 			die($e->getMessage());
 		}
@@ -239,29 +239,29 @@ class Viaje
 
 	public function Actualizar($data)
 	{
-		try 
+		try
 		{
-			$sql = "UPDATE viajes SET 
+			$sql = "UPDATE viajes SET
 						plazas 				= ?,
 						descripcion			= ?,
-						montoTotal        	= ?, 
+						montoTotal        	= ?,
 						cbu        			= ?
 				    WHERE id = ?";
 
 			$this->pdo->prepare($sql)
 			     ->execute(
 				    array(
-				    	$data->plazas, 
-				    	$data->descripcion, 
-                        $data->montoTotal, 
+				    	$data->plazas,
+				    	$data->descripcion,
+                        $data->montoTotal,
                         $data->cbu,
 						$data->id
 					)
 				);
-		} catch (Exception $e) 
+		} catch (Exception $e)
 		{
 			die($e->getMessage());
 		}
 	}
-	
+
 }

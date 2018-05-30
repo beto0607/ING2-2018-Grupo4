@@ -5,6 +5,12 @@ function bAlert(s){
 function bAlertCallback(s, c){
 	bootbox.alert(s,c);
 }
+function bConfirmCallbacks(s, c){
+	bootbox.confirm(s,function(r){
+		console.log(r);
+		c(r);
+	});
+}
 function showSpinner(){
 	dialog = bootbox.dialog({
 		closeButton: false,

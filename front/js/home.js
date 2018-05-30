@@ -75,6 +75,7 @@ function loadUserInfo(){
 	$.post(URLs.userInfo, {'id': userID})
 		.done(function(d,s){
 			try{
+				console.log(d);
 				d = parseJSON(d);
 				$("div.reputationContainer span strong")[0].innerHTML = (d.calificacionPiloto);
 				$("div.reputationContainer span strong")[1].innerHTML = (d.calificacionCopiloto);
@@ -82,6 +83,8 @@ function loadUserInfo(){
 				$("#userInfoModal input[name=\"user-info-lastname\"]").val(d.apellido);
 				$("#userInfoModal input[name=\"user-info-date\"]").val(d.fechaNacimiento);
 				$("#userInfoModal input[name=\"user-info-phone\"]").val(d.telefono);
+				$("#userInfoModal input[name=\"user-info-email\"]").val(d.email);
+				$("#userInfoModal input[name=\"user-info-username\"]").val(d.usuario);
 				infoLoaded("userInfo");
 			}catch(e){
 				console.log(e);
@@ -93,7 +96,7 @@ function loadUserInfo(){
 function userInfoInputClick(e){
 	$("#userInfoModal").attr("user-info-modify", "true");
 	$("#userInfoModal #buttonSaveUserInfo").removeClass("disabled");
-	$("#userInfoModal input").removeAttr("disabled");
+	$("#userInfoModal input.inputDisabled").removeAttr("disabled");
 	$("#userInfoModal .modal-title").text("Modificar datos");
 }
 function userInfoValidateForm(){
@@ -113,13 +116,17 @@ function userInfoValidateForm(){
 				required: true
 			}
 		},
-		submitHandler:userInfoSave
+		submitHandler: function(){
+			bConfirmCallbacks("AAA", userInfoSave);
+		}
+		//submitHandler:userInfoSave
 	});
 }
 function userInfoSubmit(){
 	$("#userInfoModal form").submit();
 }
-function userInfoSave(){
+function userInfoSave(r){
+	if(!r){return;}
 	var form = $("#userInfoModal form");
 
 	var data = {};
@@ -140,6 +147,8 @@ function userInfoSave(){
 					bAlert(d.mensaje);
 				}
 			} catch (e) {
+				console.log(d);
+				console.log(e);
 				bAlert("Ocurrió un error.");
 			}
 		})
@@ -319,7 +328,6 @@ function addTravelSubmit(){
 	$("#addTravelForm").submit();
 }
 function travelAddValidateForm(){
-
 	$("#addTravelForm").validate({
 		onfocusout: false,
 		rules: {
@@ -378,10 +386,8 @@ function addTravel(){
 		tipoAlta: dateTill,
 		descripcion: $("textarea[name=\"add-travel-desc\"]").val()
 	}
-	console.log(data);
 	$.post(URLs.travelAdd, data)
 		.done(function(d,s){
-			console.log(d);
 			d= parseJSON(d);
 			if(d.success == "1"){
 				bAlertCallback("Viaje creado.", reloadPage);
@@ -426,7 +432,6 @@ function ConfigureTravels(){
 		$("#addTravelForm input[name=\"add-travel-size\"]").attr("max", v.plazas);
 	});
 	$("#addTravelTypeSelect").on("change",function(){
-		console.log("asdfa" + $(this).val());
 		if($(this).val() != "O"){
 			$("#addTravelTillDate").removeAttr("disabled");
 		}else{
