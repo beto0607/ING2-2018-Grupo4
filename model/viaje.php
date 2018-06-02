@@ -30,7 +30,7 @@ class Viaje
 	}
 
 	function obtenerComision(){
-    	return $comision;
+    	return $this->comision;
 	}
 
 	public function Listar()
@@ -70,14 +70,14 @@ class Viaje
 		$valido = '';
 
 		// La fecha debe ser mayor a la fecha actual
-		if (date_create_from_format('Ymd H:i', $data->fecha) <= date_create())
+		if (date_create_from_format('Ymd His', $data->fecha) <= date_create())
 		{
 			$valido = 'La fecha del viaje debe ser superior a la fecha actual.';
 		}
 		else
 		{
 			// Monto debería ser mayor a cero
-			if ($data->montoTotal > 0)
+			if ($data->montoTotal <= 0)
 			{
 				$valido = 'El monto del viaje debe ser mayor a cero.';
 			}
@@ -92,8 +92,7 @@ class Viaje
 				{
 					// Plazas debería ser mayor a 1 y <= a la cantidad de plazas del auto
 					$sql = "SELECT plazas FROM unaventon.vehiculos WHERE id = ?";
-					$stm = $this->pdo
-								->prepare($sql);
+					$stm = $this->pdo->prepare($sql);
 					$stm->execute(array($data->id));
 					$val = $stm->fetch();
 					if ($data->plazas <= 0 || $data->plazas < $val['plazas'])
@@ -103,21 +102,12 @@ class Viaje
 					else
 					{
 						// No debería existir otro viaje en la misma fecha para el piloto
-						$sql = "CALL make_intervals(?, ?, 1, 'DAY');
+						$sql = "CALL viajes_eval(?, ?, ?);";
 
-								SELECT COUNT(1) AS 'Superpuestos'
-									FROM time_intervals ti
-								    INNER JOIN viajes v
-										ON	DATE_FORMAT(ti.interval_start, '%Y%m%d') = DATE_FORMAT(v.fecha, '%Y%m%d')
-									INNER JOIN vehiculos ve
-										ON	v.idVehiculo = ve.id
-									WHERE	v.fechaCancelacion IS NULL
-											AND v.idVehiculo = ?";
-						$stm = $this->pdo
-									->prepare($sql);
+						$stm = $this->pdo->prepare($sql);
 						$stm->execute(array($data->fecha, $fechaHasta, $data->idVehiculo));
 						$val = $stm->fetch();
-						if ($val['Repetido'] > 0)
+						if ($val['Superpuestos'] > 0)
 						{
 							$valido = 'Ya tiene un viajes para las fechas seleccionadas.';
 						}
@@ -139,9 +129,8 @@ class Viaje
 									            AND cop.idUsuario = c.IdUsuarioCalificado
 										WHERE 	v.fechaCierre IS NOT NULL
 												AND DATEDIFF(NOW(), v.fecha) > 30
-												AND ve.idVehiculo = ?";
-							$stm = $this->pdo
-										->prepare($sql);
+												AND ve.id = ?";
+							$stm = $this->pdo->prepare($sql);
 							$stm->execute(array($data->idVehiculo));
 							$val = $stm->fetch();
 							if ($val['Pendientes'] > 0)
@@ -175,11 +164,14 @@ class Viaje
 					break;
 				default:
 			}
-
-			$sql = 	"START TRANSACTION;" . chr(13) .
-					"CALL make_intervals(?, ?, 1, ?); " . chr(13) . chr(13) .
-
-					"INSERT INTO viajes(idVehiculo, fecha, origen, destino, plazas, descripcion, montoTotal, porcentajeComision, cbu) " . chr(13) .
+			$this->pdo->beginTransaction();
+			$sql = "CALL make_intervals(STR_TO_DATE(?, GET_FORMAT(DATETIME,'INTERNAL')), STR_TO_DATE(?, GET_FORMAT(DATETIME,'INTERNAL')), 1, ?); " . chr(13) . chr(13);
+			$sth = $this->pdo->prepare($sql);
+			$sth->bindValue(1, $data->fecha, PDO::PARAM_STR);
+			$sth->bindValue(2, $fechaHasta, PDO::PARAM_STR);
+			$sth->bindValue(3, $tipo, PDO::PARAM_STR);
+			$sth->execute();
+			$sql = 	"INSERT INTO viajes(idVehiculo, fecha, origen, destino, plazas, descripcion, montoTotal, porcentajeComision, cbu) " . chr(13) .
 					"SELECT ?, " . chr(13) .
 					" f.interval_start, " . chr(13) .
 					" ?, " . chr(13) .
@@ -191,35 +183,30 @@ class Viaje
 					" ? " . chr(13) .
 					" FROM time_intervals AS f " . chr(13) .
 					" WHERE 	(? = 'O') " . chr(13) .
-					"		OR (? = 'S' AND DAYOFWEEK(f.interval_start) = ? AND f.interval_start <= ?)  " . chr(13) .
-					"       OR (? = 'D' AND f.interval_start <= ?); " . chr(13) . chr(13) .
-
-					"COMMIT;";
-
+					"		OR (? = 'S' AND DAYOFWEEK(f.interval_start) = ? AND f.interval_start <= STR_TO_DATE(?, GET_FORMAT(DATETIME,'INTERNAL')))  " . chr(13) .
+					"       OR (? = 'D' AND f.interval_start <= STR_TO_DATE(?, GET_FORMAT(DATETIME,'INTERNAL'))); ";
 			$sth = $this->pdo->prepare($sql);
-			$sth->bindValue(1, $data->fecha, PDO::PARAM_STR);
-			$sth->bindValue(2, $fechaHasta, PDO::PARAM_STR);
-			$sth->bindValue(3, $tipo, PDO::PARAM_STR);
-			$sth->bindValue(4, $data->idVehiculo, PDO::PARAM_INT);
-			$sth->bindValue(5, $data->origen, PDO::PARAM_STR);
-			$sth->bindValue(6, $data->destino, PDO::PARAM_STR);
-			$sth->bindValue(7, $data->plazas, PDO::PARAM_INT);
-			$sth->bindValue(8, $data->descripcion, PDO::PARAM_STR);
-			$sth->bindValue(9, $data->montoTotal, PDO::PARAM_STR);
-			$sth->bindValue(10, $this->obtenerComision(), PDO::PARAM_STR);
-			$sth->bindValue(11, $data->cbu, PDO::PARAM_STR);
-			$sth->bindValue(12, $tipoAlta, PDO::PARAM_STR);
+			$sth->bindValue(1, $data->idVehiculo, PDO::PARAM_INT);
+			$sth->bindValue(2, $data->origen, PDO::PARAM_STR);
+			$sth->bindValue(3, $data->destino, PDO::PARAM_STR);
+			$sth->bindValue(4, $data->plazas, PDO::PARAM_INT);
+			$sth->bindValue(5, $data->descripcion, PDO::PARAM_STR);
+			$sth->bindValue(6, $data->montoTotal, PDO::PARAM_STR);
+			$sth->bindValue(7, $this->obtenerComision(), PDO::PARAM_STR);
+			$sth->bindValue(8, $data->cbu, PDO::PARAM_STR);
+			$sth->bindValue(9, $tipoAlta, PDO::PARAM_STR);
+			$sth->bindValue(10, $tipoAlta, PDO::PARAM_STR);
+			$sth->bindValue(11, $diaSemana, PDO::PARAM_INT);
+			$sth->bindValue(12, $fechaHasta, PDO::PARAM_STR);
 			$sth->bindValue(13, $tipoAlta, PDO::PARAM_STR);
-			$sth->bindValue(14, $diaSemana, PDO::PARAM_INT);
-			$sth->bindValue(15, $fechaHasta, PDO::PARAM_STR);
-			$sth->bindValue(16, $tipoAlta, PDO::PARAM_STR);
-			$sth->bindValue(17, $fechaHasta, PDO::PARAM_STR);
+			$sth->bindValue(14, $fechaHasta, PDO::PARAM_STR);
 			$sth->execute();
-
-			return $this->pdo->lastInsertId();
-
+			$id = $this->pdo->lastInsertId();
+			$this->pdo->commit();
+			return $id;
 		} catch (Exception $e)
 		{
+			$this->pdo->rollBack();
 			die($e->getMessage());
 		}
 	}
