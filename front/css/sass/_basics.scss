@@ -41,17 +41,35 @@ h2.navbar-center{
 	color: $mainColor;
 	background-color: white;
 	border-color: $mainColor;
+	&:hover{
+		color:white;
+		background-color: $mainColor;
+		border-color: white;
+	}
+	&.deleteButton{
+		margin-right: 3em;
+		color: $btnDeleteColor;
+		border-color: $btnDeleteColor;
+		&:hover{
+			color: white;
+			background-color: $btnDeleteColor;
+		}
+	}
 }
-.btn:hover{
-	color:white;
-	background-color: $mainColor;
-	border-color: white;
-}
-.btn-primary:disabled {
+.btn-primary.disabled, .btn-primary:disabled {
 	color: $btnDiabledColor;
 	background-color: $btnDiabledBackgroundColor;
 	border-color: $btnDiabledColor;
 	cursor: not-allowed;
+}
+.btn-secondary{
+	color: $btnSecondayColor;
+	border-color: $btnSecondayColor;
+	&:hover{
+		color:white;
+		background-color: $btnSecondayColor;
+		border-color: white;
+	}
 }
 
 form, .tab-pane{
