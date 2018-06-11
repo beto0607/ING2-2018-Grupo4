@@ -62,7 +62,6 @@ class ViajeController{
             /*$viaje->porcentajeComision = $_REQUEST['porcentajeComision'];
             $viaje->fechaCancelacion = $_REQUEST['fechaCancelacion'];
             $viaje->fechaCierre = $_REQUEST['fechaCierre'];*/
-            $viaje->cbu = $_REQUEST['cbu'];
 
             if ($flagEditar)
             {

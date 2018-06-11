@@ -1,0 +1,5 @@
+ALTER TABLE viajes
+DROP COLUMN cbu;
+    
+ALTER TABLE usuarios
+ADD COLUMN cbu char(22) NOT NULL;

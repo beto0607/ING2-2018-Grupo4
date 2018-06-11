@@ -70,6 +70,7 @@ class UsuarioController{
             $usu->calificacionPiloto = isset($_REQUEST['calificacionPiloto']) ? $_REQUEST['calificacionPiloto'] : 0;
             $usu->calificacionCopiloto = isset($_REQUEST['calificacionCopiloto']) ? $_REQUEST['calificacionCopiloto'] : 0;
             $usu->fechaBaja = isset($_REQUEST['fechaBaja']) ? $_REQUEST['fechaBaja'] : null;
+            $usu->cbu = $_REQUEST['cbu'];
 
             $valido = $this->model->Validar($usu, ($usu->id > 0 ? "M" : "A"));
 

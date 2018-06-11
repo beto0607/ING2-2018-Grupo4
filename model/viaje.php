@@ -15,7 +15,6 @@ class Viaje
 	public $porcentajeComision;
 	public $fechaCancelacion;
 	public $fechaCierre;
-	public $cbu;
 
 	public function __CONSTRUCT()
 	{
@@ -171,10 +170,9 @@ class Viaje
 			$sth->bindValue(2, $fechaHasta, PDO::PARAM_STR);
 			$sth->bindValue(3, $tipo, PDO::PARAM_STR);
 			$sth->execute();
-			$sql = 	"INSERT INTO viajes(idVehiculo, fecha, origen, destino, plazas, descripcion, montoTotal, porcentajeComision, cbu) " . chr(13) .
+			$sql = 	"INSERT INTO viajes(idVehiculo, fecha, origen, destino, plazas, descripcion, montoTotal, porcentajeComision) " . chr(13) .
 					"SELECT ?, " . chr(13) .
 					" f.interval_start, " . chr(13) .
-					" ?, " . chr(13) .
 					" ?, " . chr(13) .
 					" ?, " . chr(13) .
 					" ?, " . chr(13) .
@@ -193,7 +191,6 @@ class Viaje
 			$sth->bindValue(5, $data->descripcion, PDO::PARAM_STR);
 			$sth->bindValue(6, $data->montoTotal, PDO::PARAM_STR);
 			$sth->bindValue(7, $this->obtenerComision(), PDO::PARAM_STR);
-			$sth->bindValue(8, $data->cbu, PDO::PARAM_STR);
 			$sth->bindValue(9, $tipoAlta, PDO::PARAM_STR);
 			$sth->bindValue(10, $tipoAlta, PDO::PARAM_STR);
 			$sth->bindValue(11, $diaSemana, PDO::PARAM_INT);
@@ -231,8 +228,7 @@ class Viaje
 			$sql = "UPDATE viajes SET
 						plazas 				= ?,
 						descripcion			= ?,
-						montoTotal        	= ?,
-						cbu        			= ?
+						montoTotal        	= ?
 				    WHERE id = ?";
 
 			$this->pdo->prepare($sql)
@@ -241,7 +237,6 @@ class Viaje
 				    	$data->plazas,
 				    	$data->descripcion,
                         $data->montoTotal,
-                        $data->cbu,
 						$data->id
 					)
 				);

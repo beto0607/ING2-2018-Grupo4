@@ -14,6 +14,7 @@ class Usuario
     public $calificacionPiloto;
     public $calificacionCopiloto;
     public $fechaBaja;
+    public $cbu;
     public $Token;
     public $TokenCaducidad;
 
@@ -114,7 +115,8 @@ class Usuario
 						nombre          	= ?,
 						apellido        	= ?,
 						fechaNacimiento 	= ?,
-						telefono			= ?
+						telefono			= ?, 
+						cbu 				= ?
 				    WHERE id = ?";
 
 			$this->pdo->prepare($sql)
@@ -124,6 +126,7 @@ class Usuario
                         $data->apellido,
 						$data->fechaNacimiento,
                         $data->telefono,
+                        $data->cbu,
                         $data->id
 					)
 				);
@@ -137,8 +140,8 @@ class Usuario
 	{
 		try
 		{
-			$sql = "INSERT INTO usuarios (id, usuario, clave, nombre, apellido, fechaNacimiento, telefono, email, calificacionPiloto, calificacionCopiloto, fechaBaja)
-			        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			$sql = "INSERT INTO usuarios (id, usuario, clave, nombre, apellido, fechaNacimiento, telefono, email, calificacionPiloto, calificacionCopiloto, fechaBaja, cbu)
+			        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 			$this->pdo->prepare($sql)
 			     ->execute(
@@ -153,7 +156,8 @@ class Usuario
 						$data->email,
 						$data->calificacionPiloto,
 						$data->calificacionCopiloto,
-						$data->fechaBaja
+						$data->fechaBaja,
+						$data->cbu
 	                )
 				);
 
@@ -181,7 +185,7 @@ class Usuario
 			$sql = "SELECT COUNT(1) AS 'Repetido' FROM Usuarios WHERE usuario = ?";
 			$stm = $this->pdo
 						->prepare($sql);
-			$stm->execute(array($data->id));
+			$stm->execute(array($data->Usuario));
 			$val = $stm->fetch();
 			if ($action == "A" && $val['Repetido'] > 0)
 			{
