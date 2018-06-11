@@ -59,6 +59,7 @@ class ViajeController{
             $viaje->plazas = $_REQUEST['plazas'];
             $viaje->descripcion = $_REQUEST['descripcion'];
             $viaje->montoTotal = $_REQUEST['montoTotal'];
+            $viaje->duracion = $_REQUEST['duracion'];
             /*$viaje->porcentajeComision = $_REQUEST['porcentajeComision'];
             $viaje->fechaCancelacion = $_REQUEST['fechaCancelacion'];
             $viaje->fechaCierre = $_REQUEST['fechaCierre'];*/

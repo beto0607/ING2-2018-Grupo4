@@ -15,6 +15,7 @@ class Viaje
 	public $porcentajeComision;
 	public $fechaCancelacion;
 	public $fechaCierre;
+	public $duracion;
 
 	public function __CONSTRUCT()
 	{
@@ -92,7 +93,7 @@ class Viaje
 					// Plazas debería ser mayor a 1 y <= a la cantidad de plazas del auto
 					$sql = "SELECT plazas FROM unaventon.vehiculos WHERE id = ?";
 					$stm = $this->pdo->prepare($sql);
-					$stm->execute(array($data->id));
+					$stm->execute(array($data->idVehiculo));
 					$val = $stm->fetch();
 					if ($data->plazas <= 0 || $data->plazas < $val['plazas'])
 					{
@@ -101,10 +102,10 @@ class Viaje
 					else
 					{
 						// No debería existir otro viaje en la misma fecha para el piloto
-						$sql = "CALL viajes_eval(?, ?, ?);";
+						$sql = "CALL viajes_eval(?, ?, ?, ?, ?);";
 
 						$stm = $this->pdo->prepare($sql);
-						$stm->execute(array($data->fecha, $fechaHasta, $data->idVehiculo));
+						$stm->execute(array($data->fecha, $fechaHasta, $data->duracion, $data->idVehiculo, $data->id));
 						$val = $stm->fetch();
 						if ($val['Superpuestos'] > 0)
 						{
@@ -170,9 +171,10 @@ class Viaje
 			$sth->bindValue(2, $fechaHasta, PDO::PARAM_STR);
 			$sth->bindValue(3, $tipo, PDO::PARAM_STR);
 			$sth->execute();
-			$sql = 	"INSERT INTO viajes(idVehiculo, fecha, origen, destino, plazas, descripcion, montoTotal, porcentajeComision) " . chr(13) .
+			$sql = 	"INSERT INTO viajes(idVehiculo, fecha, origen, destino, plazas, descripcion, montoTotal, porcentajeComision, duracion) " . chr(13) .
 					"SELECT ?, " . chr(13) .
 					" f.interval_start, " . chr(13) .
+					" ?, " . chr(13) .
 					" ?, " . chr(13) .
 					" ?, " . chr(13) .
 					" ?, " . chr(13) .
@@ -191,6 +193,7 @@ class Viaje
 			$sth->bindValue(5, $data->descripcion, PDO::PARAM_STR);
 			$sth->bindValue(6, $data->montoTotal, PDO::PARAM_STR);
 			$sth->bindValue(7, $this->obtenerComision(), PDO::PARAM_STR);
+			$sth->bindValue(8, $data->duracion, PDO::PARAM_STR);
 			$sth->bindValue(9, $tipoAlta, PDO::PARAM_STR);
 			$sth->bindValue(10, $tipoAlta, PDO::PARAM_STR);
 			$sth->bindValue(11, $diaSemana, PDO::PARAM_INT);
