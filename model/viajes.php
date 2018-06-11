@@ -5,7 +5,7 @@ class Viajes
 	private $sql = "SELECT 	v.id AS idViaje, v.fecha, v.origen, v.destino, v.plazas AS plazasViaje, v.descripcion AS descripcionViaje, ROUND(v.montoTotal + (v.montoTotal * (v.PorcentajeComision/100)), 2) as montoTotal, ROUND((v.montoTotal + (v.montoTotal * (v.PorcentajeComision/100))) / 4, 2) as montoCopiloto, 
 	v.fechaCancelacion, v.fechaCierre, v.idVehiculo, ve.dominio, ve.descripcion AS descripcionVehiculo, ve.modelo AS modeloVehiculo,
 	ve.marca AS marcaVehiculo, ve.plazas AS plazasVehiculo, ve.idUsuario AS idUsuario, u.nombre, u.apellido, u.fechaNacimiento,
-	u.telefono, u.email, u.calificacionPiloto, u.calificacionCopiloto
+	u.telefono, u.email, u.calificacionPiloto, u.calificacionCopiloto, v.duracion
 	FROM viajes v
     INNER JOIN vehiculos ve
 		ON v.idvehiculo = ve.id
@@ -70,7 +70,7 @@ class Viajes
 		try 
 		{
 			$stm = $this->pdo
-			            ->prepare($sql + " WHERE v.id = ?  ORDER BY v.fecha DESC");
+			            ->prepare($sql + " WHERE v.fecha > NOW() AND v.id = ?  ORDER BY v.fecha DESC");
 
 			$stm->execute(array($id));
 			return $stm->fetch(PDO::FETCH_OBJ);
