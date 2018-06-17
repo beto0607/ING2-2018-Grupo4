@@ -33,6 +33,71 @@ class Viaje
     	return $this->comision;
 	}
 
+	function CantidadPlazasDisponibles($idViaje)
+	{
+		$sql = "SELECT	v.plazas - COUNT(cop.idUsuario) AS 'PlazasDisponibles'
+				FROM viajes v
+			    LEFT JOIN copilotos cop
+					ON	v.id = cop.idViaje
+						AND cop.fechaCancelacion IS NULL
+						AND cop.fechaAprobacion IS NOT NULL
+			    WHERE 	v.id = ?;";
+
+	    $stm = $this->pdo->prepare($sql);
+		$stm->execute(array($idViaje));
+		$val = $stm->fetch();
+
+		return $val['PlazasDisponibles'];
+	}
+
+	function ValidarCalificaciones($idUsuario)
+	{
+		try
+		{
+			$valido = "";
+			// No debería existir una calificación pendiente con más de 30 días de pendiente
+			$sql = "SELECT COUNT(1) AS 'Pendientes'
+						FROM (
+						SELECT	1
+							FROM viajes v
+						    INNER JOIN vehiculos ve
+								ON	v.idVehiculo = ve.id
+							LEFT JOIN calificaciones cal
+								ON	v.id = cal.idViaje
+									AND ve.idUsuario = cal.idUsuarioCalifica
+							WHERE 	ve.idUsuario = ?
+									AND v.fechaCierre IS NOT NULL
+									AND DATEDIFF(NOW(), v.fecha) > 30
+						            AND cal.id IS NULL
+						UNION
+						SELECT	1
+							FROM copilotos cop
+							INNER JOIN viajes v
+								ON	cop.idViaje = v.id
+							LEFT JOIN calificaciones cal
+								ON	v.id = cal.idViaje
+									AND cop.idUsuario = cal.IdUsuarioCalificado
+							WHERE	cop.idUsuario = ?
+									AND v.fechaCierre IS NOT NULL
+									AND DATEDIFF(NOW(), v.fecha) > 30
+						            AND cal.id IS NULL
+						) AS tmp";
+			$stm = $this->pdo->prepare($sql);
+			$stm->execute(array($idUsuario, $idUsuario));
+			$val = $stm->fetch();
+			if ($val['Pendientes'] > 0)
+			{
+				$valido = 'Debe realizar las calificaciones con más de 30 días de pendientes antes de cargar un nuevo viaje.';
+			}
+
+			return $valido;
+		}
+		catch (Exception $e)
+		{
+			die($e->getMessage());
+		}
+	}
+
 	public function Listar()
 	{
 		try
@@ -113,30 +178,12 @@ class Viaje
 						}
 						else
 						{
-							// No debería existir una calificación pendiente con más de 30 días de pendiente
-							$sql = "SELECT	COUNT(1) AS 'Pendientes'
-										FROM viajes v
-									    INNER JOIN vehiculos ve
-											ON	v.idVehiculo = ve.id
-										INNER JOIN usuarios u
-											ON	ve.idUsuario = u.id
-										INNER JOIN copilotos cop
-											ON	v.id = cop.idViaje
-												AND cop.fechaAprobacion IS NOT NULL
-									    LEFT JOIN calificaciones c
-											ON	v.id = c.idViaje
-												AND u.id = c.idUsuarioCalifica
-									            AND cop.idUsuario = c.IdUsuarioCalificado
-										WHERE 	v.fechaCierre IS NOT NULL
-												AND DATEDIFF(NOW(), v.fecha) > 30
-												AND ve.id = ?";
+							$sql = "SELECT idUsuario FROM vehiculos WHERE id = ?";
 							$stm = $this->pdo->prepare($sql);
 							$stm->execute(array($data->idVehiculo));
 							$val = $stm->fetch();
-							if ($val['Pendientes'] > 0)
-							{
-								$valido = 'Debe realizar las calificaciones con más de 30 días de pendientes antes de cargar un nuevo viaje.';
-							}
+							$idUsuario = $val['idUsuario'];
+							$valido = ValidarCalificaciones($idUsuario);
 						}
 					}
 				}
@@ -215,14 +262,71 @@ class Viaje
 	{
 		try
 		{
-			$stm = $this->pdo
-			            ->prepare("UPDATE viajes SET fechaCancelacion = NOW() WHERE id = ?");
+			$this->pdo->beginTransaction();
+			$stm = $this->pdo->prepare("UPDATE viajes SET fechaCancelacion = NOW() WHERE id = ?");
 			$stm->execute(array($id));
+
+			$stm->pdo->prepare("UPDATE copilotos SET fechaCancelacion = NOW() WHERE idViaje = ?");
+			$stm->execute(array($id));
+
+			$this->pdo->commit();
 		} catch (Exception $e)
 		{
+			$this->pdo->rollBack();
 			die($e->getMessage());
 		}
 	}
+
+	public function ValidarActualizar(Viaje $data)
+	{
+		$valido = '';
+
+		// Monto debería ser mayor a cero
+		if ($data->montoTotal <= 0)
+		{
+			$valido = 'El monto del viaje debe ser mayor a cero.';
+		}
+		else
+		{
+			// Plazas debería ser mayor a 1 y <= a la cantidad de plazas del auto
+			$sql = "SELECT plazas FROM unaventon.vehiculos WHERE id = ?";
+			$stm = $this->pdo->prepare($sql);
+			$stm->execute(array($data->idVehiculo));
+			$val = $stm->fetch();
+			if ($data->plazas <= 0 || $data->plazas < $val['plazas'])
+			{
+				$valido = 'La cantidad de plazas no corresponde con la cantidad de plazas del vehículo seleccionado(' . $val['plazas'] . ').';
+			}
+			else
+			{
+				// No debería existir otro viaje en la misma fecha para el piloto
+				$sql = "SELECT COUNT(1) AS 'Copilotos' FROM copilotos WHERE idViaje = ? AND fechaCancelacion IS NULL AND fechaRechazo IS NULL AND fechaAprobacion IS NOT NULL;";
+				$stm = $this->pdo->prepare($sql);
+				$stm->execute(array($data->id));
+				$val = $stm->fetch();
+				if ($val['Copilotos'] > 0)
+				{
+					$valido = 'El viaje ya tiene pilotos aprobados.';
+				}
+				else
+				{
+					// No debería existir otro viaje en la misma fecha para el piloto
+					$sql = "CALL viajes_eval(?, ?, ?, ?, ?);";
+
+					$stm = $this->pdo->prepare($sql);
+					$stm->execute(array($data->fecha, $data->fecha, $data->duracion, $data->idVehiculo, $data->id));
+					$val = $stm->fetch();
+					if ($val['Superpuestos'] > 0)
+					{
+						$valido = 'Ya tiene un viajes para las fechas seleccionadas.';
+					}
+				}
+			}
+		}
+
+		return $valido;
+	}
+
 
 	public function Actualizar($data)
 	{
@@ -231,7 +335,8 @@ class Viaje
 			$sql = "UPDATE viajes SET
 						plazas 				= ?,
 						descripcion			= ?,
-						montoTotal        	= ?
+						montoTotal        	= ?,
+						duracion			= ?
 				    WHERE id = ?";
 
 			$this->pdo->prepare($sql)
@@ -245,6 +350,180 @@ class Viaje
 				);
 		} catch (Exception $e)
 		{
+			die($e->getMessage());
+		}
+	}
+
+	public function ValidarPostulacion($idViaje, $idUsuario)
+	{
+		$valido = "";
+
+		$valido = $this->ValidarCalificaciones($idUsuario);
+
+		if ($valido == "")
+		{
+			$valido = $this->CantidadPlazasDisponibles($idViaje) > 0 ? "" : "No hay plazas disponibles para el viaje.";
+		}
+
+		return $valido;
+	}
+
+	public function PostularCopiloto($idViaje, $idUsuarioCopiloto)
+	{
+		try
+		{
+			$sql = "INSERT INTO copilotos(idViaje, idUsuario, fechaPostulacion) VALUES(?, ?, NOW())";
+
+			$this->pdo->prepare($sql)
+			     ->execute(
+				    array(
+				    	$idViaje,
+				    	$idUsuarioCopiloto
+					)
+				);
+
+		} catch (Exception $e)
+		{
+			die($e->getMessage());
+		}
+	}
+
+	public function AprobarPostulacion($idViaje, $idUsuarioCopiloto)
+	{
+		try
+		{
+			$sql = "UPDATE copilotos SET fechaAprobacion = NOW() WHERE idViaje = ? AND idUsuario = ?;";
+
+			$this->pdo->prepare($sql)
+			     ->execute(
+				    array(
+				    	$idViaje,
+				    	$idUsuarioCopiloto
+					)
+				);
+
+		} catch (Exception $e)
+		{
+			die($e->getMessage());
+		}
+	}
+
+	public function DesaprobarPostulacion($idViaje, $idUsuarioCopiloto)
+	{
+		try
+		{
+			$sql = "UPDATE copilotos SET fechaRechazo = NOW() WHERE idViaje = ? AND idUsuario = ?;";
+
+			$this->pdo->prepare($sql)
+			     ->execute(
+				    array(
+				    	$idViaje,
+				    	$idUsuarioCopiloto
+					)
+				);
+
+		} catch (Exception $e)
+		{
+			die($e->getMessage());
+		}
+	}
+
+	public function ValidarCancelacionPostulacion($idViaje, $idUsuarioCopiloto)
+	{
+		try
+		{
+			$valido = "";
+
+			$sql = "SELECT COUNT(1) AS 'Aprobada' FROM copilotos WHERE idViaje = ? AND idUsuario = ? AND fechaAprobacion IS NOT NULL;";
+			$stm = $this->pdo->prepare($sql);
+			$stm->execute(array($idViaje, $idUsuarioCopiloto));
+			$val = $stm->fetch();
+			if ($val['Aprobada'] > 0)
+			{
+				$valido = 'No puede cancelar la postulación, ya se encuentra aprobada.';
+			}
+
+			return $valido;
+
+		} catch (Exception $e)
+		{
+			die($e->getMessage());
+		}
+	}
+
+	public function CancelarPostulacion($idViaje, $idUsuarioCopiloto)
+	{
+		try
+		{
+			$sql = "UPDATE copilotos SET fechaCancelacion = NOW() WHERE idViaje = ? AND idUsuario = ?;";
+
+			$this->pdo->prepare($sql)
+			     ->execute(
+				    array(
+				    	$idViaje,
+				    	$idUsuarioCopiloto
+					)
+				);
+
+		} catch (Exception $e)
+		{
+			die($e->getMessage());
+		}
+	}
+
+	public function ValidarCancelacionReserva($idViaje, $idUsuarioCopiloto)
+	{
+		try
+		{
+			$valido = "";
+
+			$sql = "SELECT COUNT(1) AS 'Aprobada' FROM copilotos WHERE idViaje = ? AND idUsuario = ? AND fechaAprobacion IS NOT NULL;";
+			$stm = $this->pdo->prepare($sql);
+			$stm->execute(array($idViaje, $idUsuarioCopiloto));
+			$val = $stm->fetch();
+			if ($val['Aprobada'] == 0)
+			{
+				$valido = 'Debe contar con una postulación aprobada para cancelar la reserva.';
+			}
+
+			return $valido;
+
+		} catch (Exception $e)
+		{
+			die($e->getMessage());
+		}
+	}
+
+	public function CancelarReserva($idViaje, $idUsuarioCopiloto, $observaciones)
+	{
+		try
+		{
+			$this->pdo->beginTransaction();
+			$stm = $this->pdo->prepare("UPDATE copilotos SET fechaCancelacion = NOW() WHERE idViaje = ?");
+			$stm->execute(array($idViaje));
+
+			$sql = "INSERT INTO calificaciones(idViaje, idUsuarioCalifica, idUsuarioCalificado, fechaCalificacion, calificacion, observaciones)
+					SELECT	v.id, ve.idUsuario, ?, NOW(), -1, ?
+						FROM viajes v
+    					INNER JOIN vehiculos ve
+							ON	v.idVehiculo = ve.id
+						WHERE	v.id = ?";
+			$stm = $this->pdo->prepare($sql);
+			$stm->execute(array($idUsuarioCopiloto, $observaciones, $idViaje));			
+
+			$sql = "INSERT INTO calificaciones(idViaje, idUsuarioCalifica, idUsuarioCalificado, fechaCalificacion, calificacion, observaciones)
+					SELECT	v.id, ?, ve.idUsuario, NOW(), 0, 'Reserva cancelada por el copiloto.'
+						FROM viajes v
+    					INNER JOIN vehiculos ve
+							ON	v.idVehiculo = ve.id
+						WHERE	v.id = ?";
+			$stm = $this->pdo->prepare($sql);
+			$stm->execute(array($idUsuarioCopiloto, $idViaje));						
+
+			$this->pdo->commit();
+		} catch (Exception $e)
+		{
+			$this->pdo->rollBack();
 			die($e->getMessage());
 		}
 	}

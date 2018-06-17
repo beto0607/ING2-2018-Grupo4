@@ -29,17 +29,18 @@ class ViajeController{
         require_once 'view/footer.php';
     }
     
-    public function Crud(){
-        $viaje = new Viaje();
-        
-        if(isset($_REQUEST['id']))
+    public function Obtener(){
+        $result;
+        try
         {
-            $viaje = $this->model->Obtener($_REQUEST['id']);
+            $result = $this->model->Obtener($_REQUEST['id']);
         }
-        
-        require_once 'view/header.php';
-        require_once 'view/viaje/viaje-editar.php';
-        require_once 'view/footer.php';
+        catch(Exception $e)
+        {
+            $result = ['success' => '0', 'mensaje' => 'Ocurrió el siguiente error:' . $e->getMessage()];
+        }
+
+        echo json_encode($result);
     }
     
     public function Guardar(){
@@ -66,7 +67,7 @@ class ViajeController{
 
             if ($flagEditar)
             {
-                $valido = $this->model->Validar($viaje);
+                $valido = $this->model->ValidarActualizar($viaje);
             }
             else
             {
@@ -92,8 +93,6 @@ class ViajeController{
                    $id = $this->model->Crear($viaje, $tipoAlta, $fechaHasta);
                    $result = ['success' => '1', 'mensaje' => 'El viaje ha sido guardado con éxito.', 'id' => $id];
                 }
-                
-                
             }
         }
         catch(Exception $e)
@@ -115,6 +114,128 @@ class ViajeController{
             echo json_encode(['success' => '0', 'mensaje' => 'Ocurrió el siguiente error:' . $e->getMessage()]);
         }
     }
+
+    public function PostularCopiloto(){
+        try 
+        {
+            $valido = "";
+            $idViaje = $_REQUEST['idViaje'];
+            $idUsuario = $_REQUEST['idUsuario'];
+            $valido = $this->model->ValidarPostulacion($idViaje, $idUsuario);
+            if ($valido != '')
+            {
+                $result = ['success' => '0', 'mensaje' => $valido];
+            }
+            else 
+            {
+                $this->model->PostularCopiloto($idViaje, $idUsuario);
+                $result = ['success' => '1', 'mensaje' => 'La postulación ha sido guardada con éxito.'];
+            }
+        }
+        catch(Exception $e)
+        {
+            $result = ['success' => '0', 'mensaje' => 'Ocurrió el siguiente error:' . $e->getMessage()];
+        }
+
+        echo json_encode($result);
+    }
+
+    public function AprobarPostulacion()
+    { 
+        try 
+        {
+            $valido = "";
+            $idViaje = $_REQUEST['idViaje'];
+            $idUsuario = $_REQUEST['idUsuario'];
+            $valido = $this->model->ValidarPostulacion($idViaje, $idUsuario);
+            if ($valido != '')
+            {
+                $result = ['success' => '0', 'mensaje' => $valido];
+            }
+            else 
+            {
+                $this->model->AprobarPostulacion($idViaje, $idUsuario);
+                $result = ['success' => '1', 'mensaje' => 'La postulación ha sido aprobada con éxito.'];
+            }
+        }
+        catch(Exception $e)
+        {
+            $result = ['success' => '0', 'mensaje' => 'Ocurrió el siguiente error:' . $e->getMessage()];
+        }
+
+        echo json_encode($result);
+    }
+
+    public function DesaprobarPostulacion()
+    { 
+        try 
+        {
+            $valido = "";
+            $idViaje = $_REQUEST['idViaje'];
+            $idUsuario = $_REQUEST['idUsuario'];
+            $this->model->DesaprobarPostulacion($idViaje, $idUsuario);
+            $result = ['success' => '1', 'mensaje' => 'La postulación ha sido desaprobada con éxito.'];
+        }
+        catch(Exception $e)
+        {
+            $result = ['success' => '0', 'mensaje' => 'Ocurrió el siguiente error:' . $e->getMessage()];
+        }
+
+        echo json_encode($result);
+    }    
+
+    public function CancelarPostulacion()
+    { 
+        try 
+        {
+            $valido = "";
+            $idViaje = $_REQUEST['idViaje'];
+            $idUsuario = $_REQUEST['idUsuario'];
+            $valido = $this->model->ValidarCancelacionPostulacion($idViaje, $idUsuario);
+            if ($valido != '')
+            {
+                $result = ['success' => '0', 'mensaje' => $valido];
+            }
+            else 
+            {
+                $this->model->CancelarPostulacion($idViaje, $idUsuario);
+                $result = ['success' => '1', 'mensaje' => 'La postulación ha sido cancelada con éxito.'];
+            }
+        }
+        catch(Exception $e)
+        {
+            $result = ['success' => '0', 'mensaje' => 'Ocurrió el siguiente error:' . $e->getMessage()];
+        }
+
+        echo json_encode($result);
+    }
+
+    public function CancelarReserva()
+    { 
+        try 
+        {
+            $valido = "";
+            $idViaje = $_REQUEST['idViaje'];
+            $idUsuario = $_REQUEST['idUsuario'];
+            $observaciones = $_REQUEST['observaciones'];
+            $valido = $this->model->ValidarCancelacionReserva($idViaje, $idUsuario);
+            if ($valido != '')
+            {
+                $result = ['success' => '0', 'mensaje' => $valido];
+            }
+            else 
+            {
+                $this->model->CancelarReserva($idViaje, $idUsuario, $observaciones);
+                $result = ['success' => '1', 'mensaje' => 'La reserva ha sido cancelada con éxito.'];
+            }
+        }
+        catch(Exception $e)
+        {
+            $result = ['success' => '0', 'mensaje' => 'Ocurrió el siguiente error:' . $e->getMessage()];
+        }
+
+        echo json_encode($result);
+    }        
 
     public function Listar(){
         echo json_encode($this->model->Listar());
