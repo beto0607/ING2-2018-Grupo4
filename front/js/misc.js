@@ -18,9 +18,7 @@ function showSpinner(){
 	});
 }
 function hideSpinner(){
-	setTimeout(function(){
-		dialog.modal('hide');
-		}, 500);
+	setTimeout(function(){dialog.modal('hide');}, 500);
 }
 function setDialogText(s){
 	dialog.find('.bootbox-body').html(s);
@@ -67,12 +65,18 @@ function parseJSON(d){
 	return d;
 }
 function configureValidatorMessages(){
-jQuery.extend(jQuery.validator.messages, {
-	required: "Campo obligatorio.",
-	email: "E-mail inválido.",
-	number: "Debe ingresar un número.",
-	equalTo: "Los campos son diferentes.",
-	min: jQuery.validator.format("Ingresa un valor mayor a {0}."),
-	max: jQuery.validator.format("Ingresa un valor menor o igual a {0}.")
-});
+	jQuery.validator.addMethod("pattern", function(value, element) {
+		return value.match($(element).attr("pattern"));
+    //return this.optional(element) || (parseFloat(value) > 0);
+	}, "Debe ingresar solo números.");
+	jQuery.extend(jQuery.validator.messages, {
+		required: "Campo obligatorio.",
+		email: "E-mail inválido.",
+		number: "Debe ingresar un número.",
+		equalTo: "Los campos son diferentes.",
+		min: jQuery.validator.format("Ingresa un valor mayor a {0}."),
+		max: jQuery.validator.format("Ingresa un valor menor o igual a {0}."),
+		minlength: jQuery.validator.format("Debe ingresar {0} caracteres como mínimo."),
+		maxlength: jQuery.validator.format("Debe ingresar {0} caracteres como máximo.")
+	});
 }
