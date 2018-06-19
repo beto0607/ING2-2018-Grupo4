@@ -18,6 +18,7 @@ var loadItems = {
 };
 var userID = getCookie("userID");
 var username = "";
+var cbu = "";
 var vehicles = null;
 $(document).ready(function(){
 	userID = getCookie("userID");
@@ -88,6 +89,7 @@ function loadUserInfo(){
 				$("#userInfoModal input[name=\"user-info-username\"]").val(d.usuario);
 				$("#userInfoModal input[name=\"user-info-cbu\"]").val(d.cbu);
 				username = d.usuario;
+				cbu = d.cbu;
 				infoLoaded("userInfo");
 			}catch(e){
 				console.log(e);
@@ -385,6 +387,14 @@ function travelAddValidateForm(){
 	});
 }
 function addTravel(){
+	var duration = $("#addTravelDuration").val();
+	console.log(duration);
+
+	if(cbu ==""){
+		bAlert("Debe ingresar un CBU, desde \"Mi Perfil\"");
+		return;
+	}
+
 	var form = $("#addTravelForm");
 	var date = getInputValue(form, "add-travel-date").split("-").join("");
 	date += " " + getInputValue(form, "add-travel-hour");
@@ -462,13 +472,12 @@ function ConfigureTravels(){
 	$("#buttonSaveTravel").on("click", addTravelSubmit);
 	$("#addTravelForm input[name=\"add-travel-size\"]").attr("disabled", "true");
 	$("#addTravelTillRow input").attr("disabled","true");
-	$('#addTravelDuration').durationPicker();
-
-	/*$("#addTravelDuration").on("change",function(){
+	$("#addTravelDuration").on("change",function(){
 		var h = Math.floor($(this).val());
 		var m = $(this).val() - h;
 		$("#addTravelDurationTime").text(h+"hs "+(m*60)+"m");
-	});*/
+	});
+	$("#addTravelCBU").val(cbu);
 }
 function Configure(){
 	configureValidatorMessages();

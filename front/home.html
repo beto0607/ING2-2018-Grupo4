@@ -14,7 +14,6 @@
 	<link href="./lib/font-awesome/font-awesome-solid.css" rel="stylesheet">
 	<link href="./lib/font-awesome/fontawesome.css" rel="stylesheet">
 
-	<!--link href="./lib/duration-picker.min.css" rel="stylesheet"-->
 
 	<link rel="stylesheet" type="text/css" href="./css/home.css">
 </head>
@@ -107,7 +106,8 @@
 	</div>
 	<div class="container" id="lastTravelsContainer">
 		<div class="row">
-			<h2>Últimos viajes agregados</h2>
+			<h2 class="col-md-10">Últimos viajes agregados</h2>
+			<a class="btn btn-primary col-md-2" href="travels.html">Ver más viajes</a>
 		</div>
 		<div class="row">
 			<ul></ul>
@@ -320,6 +320,16 @@
 							</div>
 							<div class="form-row">
 								<div class="form-group col-md-6">
+									<label for="add-travel-monto">Monto</label>
+									<input type="number" name="add-travel-monto" class="form-control" placeholder="Monto" min="1"  step="50"/>
+								</div>
+								<div class="form-group col-md-6">
+									<label for="add-travel-cbu">CBU</label>
+									<input type="text" name="add-travel-cbu" id="addTravelCBU" class="form-control" placeholder="CBU" disabled="true"/>
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="form-group col-md-6">
 									<label for="add-travel-type">Tipo</label>
 									<select id="addTravelTypeSelect" name="add-travel-type" class="form-control">
 										<option value="O">Ocasional</option>
@@ -328,8 +338,9 @@
 									</select>
 								</div>
 								<div class="form-group col-md-6">
-									<label for="add-travel-monto">Monto</label>
-									<input type="number" name="add-travel-monto" class="form-control" placeholder="Monto" min="1"  step="50"/>
+									<label for="add-travel-duration">Duración del viaje en horas</label>
+									<input type="number" id="addTravelDuration" name="add-travel-duration" class="form-control" placeholder="Duración" step=".25" min="0.25"/>
+									<time id="addTravelDurationTime"></time>
 								</div>
 							</div>
 							<div class="form-row">
@@ -340,13 +351,6 @@
 								<div class="form-group col-md-6">
 									<label for="add-travel-hour">Hora de inicio</label>
 									<input type="time" name="add-travel-hour" class="form-control" placeholder="Hora"  />
-								</div>
-							</div>
-							<div class="form-row">
-								<div class="form-group col-md-6">
-									<label for="add-travel-duration">Duración del viaje en horas</label>
-									<input type="number" id="addTravelDuration" name="add-travel-duration" class="form-control" placeholder="Duración" step=".25" min="0.25"/>
-									<time id="addTravelDurationTime"></time>
 								</div>
 							</div>
 							<div class="form-row" id="addTravelTillRow">
@@ -395,7 +399,6 @@
   <script type="text/javascript" src="./lib/jquery.validate.min.js"></script>
 	<script type="text/javascript" src="./lib/bootbox.min.js"></script>
 	<script type="text/javascript" src="./lib/mustache.min.js"></script>
-  <!--script type="text/javascript" src="./lib/duration-picker.min.js"></script-->
 	<script type="text/javascript" src="./js/misc.js"></script>
 	<script type="text/javascript" src="./js/home.js"></script>
 </body>
