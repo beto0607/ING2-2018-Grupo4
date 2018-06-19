@@ -18,7 +18,7 @@ var loadItems = {
 };
 var userID = getCookie("userID");
 var username = "";
-var cbu = "";
+var userJSON;
 var vehicles = null;
 $(document).ready(function(){
 	userID = getCookie("userID");
@@ -79,6 +79,7 @@ function loadUserInfo(){
 			try{
 				console.log(d);
 				d = parseJSON(d);
+				userJSON = d;
 				$("div.reputationContainer span strong")[0].innerHTML = (d.calificacionPiloto);
 				$("div.reputationContainer span strong")[1].innerHTML = (d.calificacionCopiloto);
 				$("#userInfoModal input[name=\"user-info-firstname\"]").val(d.nombre);
@@ -89,7 +90,7 @@ function loadUserInfo(){
 				$("#userInfoModal input[name=\"user-info-username\"]").val(d.usuario);
 				$("#userInfoModal input[name=\"user-info-cbu\"]").val(d.cbu);
 				username = d.usuario;
-				cbu = d.cbu;
+				$("#addTravelCBU").val(d.cbu);
 				infoLoaded("userInfo");
 			}catch(e){
 				console.log(e);
@@ -141,6 +142,7 @@ function userInfoSave(r){
 	var form = $("#userInfoModal form");
 
 	var data = {};
+	data["id"] = userID;
 	data["Usuario"] = username;
 	data["nombre"] = getInputValue(form, "user-info-firstname");
 	data["apellido"] = getInputValue(form, "user-info-lastname");
@@ -345,6 +347,8 @@ function addTravelSubmit(){
 	$("#addTravelForm").submit();
 }
 function travelAddValidateForm(){
+	var duration = $("#addTravelDuration").val();
+	console.log(duration);
 	$("#addTravelForm").validate({
 		onfocusout: false,
 		rules: {
@@ -477,7 +481,6 @@ function ConfigureTravels(){
 		var m = $(this).val() - h;
 		$("#addTravelDurationTime").text(h+"hs "+(m*60)+"m");
 	});
-	$("#addTravelCBU").val(cbu);
 }
 function Configure(){
 	configureValidatorMessages();
