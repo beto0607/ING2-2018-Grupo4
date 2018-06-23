@@ -394,7 +394,7 @@ function addTravel(){
 	var duration = $("#addTravelDuration").val();
 	console.log(duration);
 
-	if(cbu ==""){
+	if(!userJSON.cbu){
 		bAlert("Debe ingresar un CBU, desde \"Mi Perfil\"");
 		return;
 	}
@@ -404,17 +404,23 @@ function addTravel(){
 	date += " " + getInputValue(form, "add-travel-hour");
 	var dateTill = getInputValue(form,"add-travel-type") == "O" ?
 		date :
-		getInputValue(form, "add-travel-till-date") + " " + getInputValue(form, "add-travel-hour");
+		getInputValue(form, "add-travel-till-date").split("-").join("") + " " + getInputValue(form, "add-travel-hour");
 	var data = {
 		idUsuario: userID,
-		idVehiculo: getInputValue(form, "add-travel-vehicles"),
+		idVehiculo: $("#addTravelVehiclesSelect").val(),
+		//idVehiculo: getInputValue(form, "add-travel-vehicles"),
 		plazas: getInputValue(form, "add-travel-size"),
 		origen: getInputValue(form, "add-travel-origen"),
 		destino: getInputValue(form, "add-travel-destino"),
 		fecha: date,
-		tipoAlta: dateTill,
-		descripcion: $("textarea[name=\"add-travel-desc\"]").val()
-	}
+		tipoAlta: getInputValue(form,"add-travel-type"),
+		descripcion: $("textarea[name=\"add-travel-desc\"]").val(),
+		montoTotal: getInputValue(form, "add-travel-monto"),
+		duracion: duration,
+		fechaHasta: dateTill
+	};
+	console.log(data);
+	return;
 	$.post(URLs.travelAdd, data)
 		.done(function(d,s){
 			d= parseJSON(d);
