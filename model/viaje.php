@@ -160,7 +160,7 @@ class Viaje
 					$stm = $this->pdo->prepare($sql);
 					$stm->execute(array($data->idVehiculo));
 					$val = $stm->fetch();
-					if ($data->plazas <= 0 || $data->plazas < $val['plazas'])
+					if ($data->plazas <= 0 || $data->plazas > $val['plazas'])
 					{
 						$valido = 'La cantidad de plazas no corresponde con la cantidad de plazas del vehículo seleccionado(' . $val['plazas'] . ').';
 					}
@@ -183,7 +183,7 @@ class Viaje
 							$stm->execute(array($data->idVehiculo));
 							$val = $stm->fetch();
 							$idUsuario = $val['idUsuario'];
-							$valido = ValidarCalificaciones($idUsuario);
+							$valido = $this->ValidarCalificaciones($idUsuario);
 						}
 					}
 				}
