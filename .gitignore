@@ -4,4 +4,4 @@ node_modules/*
 
 package-lock.json
 
-./lib/db/database.php
+lib/db/database.php
