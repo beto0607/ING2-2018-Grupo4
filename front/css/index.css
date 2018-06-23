@@ -41,18 +41,36 @@ h2.navbar-center {
   background-color: white;
   border-color: #f17376;
 }
-
 .btn:hover {
   color: white;
   background-color: #f17376;
   border-color: white;
 }
+.btn.deleteButton {
+  margin-right: 3em;
+  color: #af0303;
+  border-color: #af0303;
+}
+.btn.deleteButton:hover {
+  color: white;
+  background-color: #af0303;
+}
 
-.btn-primary:disabled {
-  color: #c46567;
+.btn-primary.disabled, .btn-primary:disabled {
+  color: #5e6672;
   background-color: #eeeeee;
-  border-color: #c46567;
+  border-color: #5e6672;
   cursor: not-allowed;
+}
+
+.btn-secondary {
+  color: #84b3f4;
+  border-color: #84b3f4;
+}
+.btn-secondary:hover {
+  color: white;
+  background-color: #84b3f4;
+  border-color: white;
 }
 
 form, .tab-pane {
@@ -72,6 +90,15 @@ form input.is-invalid, .tab-pane input.is-invalid {
 
 .floatLeft {
   float: left;
+}
+
+.sectionWhiteSpace {
+  display: block;
+  height: 100px;
+}
+
+.modal-body {
+  overflow-y: scroll;
 }
 
 .registerLink:hover {

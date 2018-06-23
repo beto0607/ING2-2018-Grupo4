@@ -1,0 +1,20 @@
+{{#isMine}}
+  <li class="travelListItem pilot" travel-id="{{idViaje}}" travel-userID="{{idUsuario}}">
+{{/isMine}}
+{{^isMine}}
+  <li class="travelListItem" travel-id="{{idViaje}}" travel-userID="{{idUsuario}}">
+{{/isMine}}
+  <span><i class="fas fa-map-marker"></i> {{origen}}</span>
+  <span class="floatRight"><i class="fas fa-map-marker"></i> {{destino}}</span>
+  <br>
+  <span>Cuando: <i class="fas fa-calendar-alt"></i> {{dateFormatted}}</span>
+  <br>
+  <span>Duración: <i class="fas fa-clock"></i> {{duracion}}</span>
+  <br>
+  <span>Precio: <i class="fas fa-money-bill-wave"></i> ${{montoCopiloto}}</span>
+  <br>
+  {{#isMine}}
+    <span><i class="fas fa-car"></i> Sos el piloto</span>
+  {{/isMine}}
+
+</li>

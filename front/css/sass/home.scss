@@ -93,7 +93,37 @@ i.fas, i.far{
 }
 #lastTravelsContainer{
 	/*display: none;*/
+	ul{
+    list-style: none;
+    margin: auto;
+    display: grid;
+    grid-column-gap: 2em;
+    grid-row-gap: 2em;
+    grid-template-columns: auto auto auto;
 
+    li{
+
+      border-radius: 30px;
+
+      display: inline-block;
+      float: left;
+      background: white;
+      border: 2px solid $mainColor;
+      padding: 2.5em;
+
+      cursor: pointer;
+      &:hover{
+        color: white;
+        background-color: $mainColor;
+      }
+      &.pilot{
+        border: 2px solid green;
+        &:hover{
+          color: white;
+          background-color: green;
+        }
+      }
+    }/*
 	ul{
 		display: block;
 		width: 100%;
@@ -130,7 +160,7 @@ i.fas, i.far{
 				background-color: $mainColor;
 				transform: scale(1.1);
 			}
-		}
+		}*/
 	}
 	#travelInfoModal .modal-body .col-md-6{
 		margin: 0.25em auto;

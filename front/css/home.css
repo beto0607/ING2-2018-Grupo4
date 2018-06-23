@@ -47,6 +47,7 @@ h2.navbar-center {
   border-color: white;
 }
 .btn.deleteButton {
+  margin-right: 3em;
   color: #af0303;
   border-color: #af0303;
 }
@@ -94,6 +95,10 @@ form input.is-invalid, .tab-pane input.is-invalid {
 .sectionWhiteSpace {
   display: block;
   height: 100px;
+}
+
+.modal-body {
+  overflow-y: scroll;
 }
 
 i.fas, i.far {
@@ -195,39 +200,70 @@ i.fas:hover, i.far:hover {
   /*display: none;*/
 }
 #lastTravelsContainer ul {
-  display: block;
-  width: 100%;
-  padding: 0;
-  margin: 0;
   list-style: none;
+  margin: auto;
+  display: grid;
+  grid-column-gap: 2em;
+  grid-row-gap: 2em;
+  grid-template-columns: auto auto auto;
+  /*
+  ul{
+  	display: block;
+  	width: 100%;
+  	padding: 0;
+  	margin:0;
+  	list-style: none;
+
+  	li{
+  		border-radius: 10px;
+
+  		border: 2px solid $mainColor;
+  		color: $mainColor;
+  		background-color: white;
+
+  		padding: 1em 2em;
+  		margin: 0.5em;
+  		display: inline-block;
+  		width: 30%;
+  		min-width: 16em;
+  		height: 10em;
+  		transition: all .5s;
+  		cursor: pointer;
+  		span{
+  			line-height: 2.5em;
+  		}
+  		.more{
+  			display: none;
+  			position: absolute;
+  			right: 3.5em;
+  			bottom: 0.5em;
+  		}
+  		&:hover{
+  			color: white;
+  			background-color: $mainColor;
+  			transform: scale(1.1);
+  		}
+  	}*/
 }
 #lastTravelsContainer ul li {
-  border-radius: 10px;
-  border: 2px solid #f17376;
-  color: #f17376;
-  background-color: white;
-  padding: 1em 2em;
-  margin: 0.5em;
+  border-radius: 30px;
   display: inline-block;
-  width: 30%;
-  min-width: 16em;
-  height: 10em;
-  transition: all 0.5s;
+  float: left;
+  background: white;
+  border: 2px solid #f17376;
+  padding: 2.5em;
   cursor: pointer;
-}
-#lastTravelsContainer ul li span {
-  line-height: 2.5em;
-}
-#lastTravelsContainer ul li .more {
-  display: none;
-  position: absolute;
-  right: 3.5em;
-  bottom: 0.5em;
 }
 #lastTravelsContainer ul li:hover {
   color: white;
   background-color: #f17376;
-  transform: scale(1.1);
+}
+#lastTravelsContainer ul li.pilot {
+  border: 2px solid green;
+}
+#lastTravelsContainer ul li.pilot:hover {
+  color: white;
+  background-color: green;
 }
 #lastTravelsContainer #travelInfoModal .modal-body .col-md-6 {
   margin: 0.25em auto;

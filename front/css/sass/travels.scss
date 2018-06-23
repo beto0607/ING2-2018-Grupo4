@@ -1,1 +1,37 @@
 @import 'basics';
+
+#travelsContainer{
+  padding-top: 10em;
+  ul{
+    list-style: none;
+    margin: auto;
+    display: grid;
+    grid-column-gap: 2em;
+    grid-row-gap: 2em;
+    grid-template-columns: auto auto auto;
+
+    li{
+
+      border-radius: 30px;
+
+      display: inline-block;
+      float: left;
+      background: white;
+      border: 2px solid $mainColor;
+      padding: 2.5em;
+
+      cursor: pointer;
+      &:hover{
+        color: white;
+        background-color: $mainColor;
+      }
+      &.pilot{
+        border: 2px solid green;
+        &:hover{
+          color: white;
+          background-color: green;
+        }
+      }
+    }
+  }
+}

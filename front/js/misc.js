@@ -80,3 +80,13 @@ function configureValidatorMessages(){
 		maxlength: jQuery.validator.format("Debe ingresar {0} caracteres como máximo.")
 	});
 }
+function onFailPost(e){
+	hideSpinner();
+	bAlert("Se perdió la conexión con el servidor", reloadPage);
+}
+function orderTravels(d){
+  d.sort(function(a,b){
+    return -1*( parseInt(a.idViaje) - parseInt(b.idViaje));
+  });
+  return d;
+}

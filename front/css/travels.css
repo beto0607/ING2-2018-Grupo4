@@ -96,3 +96,39 @@ form input.is-invalid, .tab-pane input.is-invalid {
   display: block;
   height: 100px;
 }
+
+.modal-body {
+  overflow-y: scroll;
+}
+
+#travelsContainer {
+  padding-top: 10em;
+}
+#travelsContainer ul {
+  list-style: none;
+  margin: auto;
+  display: grid;
+  grid-column-gap: 2em;
+  grid-row-gap: 2em;
+  grid-template-columns: auto auto auto;
+}
+#travelsContainer ul li {
+  border-radius: 30px;
+  display: inline-block;
+  float: left;
+  background: white;
+  border: 2px solid #f17376;
+  padding: 2.5em;
+  cursor: pointer;
+}
+#travelsContainer ul li:hover {
+  color: white;
+  background-color: #f17376;
+}
+#travelsContainer ul li.pilot {
+  border: 2px solid green;
+}
+#travelsContainer ul li.pilot:hover {
+  color: white;
+  background-color: green;
+}

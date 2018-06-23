@@ -47,23 +47,34 @@ $(document).ready(function(){
 function loadLastTravels(){
 	$.post(URLs.travelsList)
 		.done(function(d,s){
-			d = JSON.parse(d);
+			d = parseJSON(d);
+			d = orderTravels(d);
+			var ts = [];
+			for(var i = 0; i < (d.length > 10 ? 10 : d.length);i++){
+				ts.push(d[i]);
+			}
+			d = ts;
 			addLastTravels(d);
 		})
 		.fail(onFailPost)
 }
 function addLastTravels(d){
 	$("#lastTravelsContainer ul").empty();
-	$.get('mustacheTemplates/homeTravels.mst', function(template) {
+	$.get('mustacheTemplates/travelsTravel.mst', function(template) {
 		for(var i = 0; i< d.length; i++){
-			var rendered = Mustache.render(template, d[i]);
+			var t = d[i];
+			var date = new Date(t.fecha);
+			t["dateFormatted"] = date.toLocaleString();
+			t["isMine"] = userID == t.idUsuario;
+			var rendered = Mustache.render(template, t);
 			$("#lastTravelsContainer ul").append(rendered);
 		}
+		$("li.travelListItem").on("click", travelListItemClick);
 		infoLoaded("travelsList");
   });
 }
 function travelListItemClick(){
-	$("#travelInfoModal").modal("show");
+	changeLocation("./travels.html?travel="+$(this).attr("travel-id"))
 }
 /*------------Funciones del manejo de userInfo------------*/
 function signoutClick(e){

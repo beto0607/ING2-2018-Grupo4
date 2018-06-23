@@ -1,0 +1,34 @@
+
+<div class="travelInfoContainer container" travel-id="{{idViaje}}" travel-userID="{{idUsuario}}" auto-id="{{idVehiculo}}">
+  <span><strong>Desde:</strong> {{origen}}</span>
+  <br>
+  <span><strong>Hasta:</strong> {{destino}}</span>
+  <br>
+  <span><strong>Cuando:</strong> {{dateFormatted}}</span>
+  <br>
+  <span><strong>Duración:</strong> {{duracion}}</span>
+  <br>
+  <span><strong>Precio:</strong> ${{montoCopiloto}}</span>
+  <br>
+  <span><strong>Descripción del viaje:</strong> {{descripcionViaje}}</span>
+  <br>
+  <span><strong>Lugares disponibles:</strong> {{plazasViaje}}</span>
+  <hr>
+  <span><strong>Piloto:</strong> {{email}}</span>
+  <br>
+  <span><strong>Reputación:</strong> {{calificacionPiloto}}</span>
+  <hr>
+  <span><strong>Auto:</strong> {{marcaVehiculo}} - {{modeloVehiculo}}</span>
+  <br>
+  <span><strong>Patente:</strong> {{dominio}}</span>
+  <br>
+  <span><strong>Descripción del auto:</strong> {{descripcionVehiculo}}</span>
+  <br>
+  <hr>
+  {{^isCopilot}}
+    <button class="btn btn-primary">Postularse</button>
+  {{/isCopilot}}
+  {{#isCopilot}}
+    <button type="button" class="btn btn-primary deleteButton" id="buttonUnpostulate">Cancelar postulación</button>
+  {{/isCopilot}}
+</div>

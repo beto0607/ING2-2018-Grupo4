@@ -25,18 +25,32 @@
 		</a>
 
 		<h2 class="navbar-center">Un Aventón</h2>
-		<a class="navbar-right btn btn-primary" href="home.html">Volver</a>
+		<a class="navbar-right btn btn-primary" href="home.html">Ir al home</a>
 	</nav>
-  <footer class="footer fixed-bottom">
+  <div class="container" id="travelsContainer">
+    <ul></ul>
+  </div>
+	<div id="travelInfoModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="travelInfoModal" aria-hidden="true" data-backdrop="static">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Viaje</h5>
+				</div>
+				<div class="modal-body">
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<footer class="footer fixed-bottom">
 		<div class="container">
 			<span class="text-muted">Hecho por Grupo 4 - ING 2 - 2018</span>
 			<br>
 			<a href="terminos.html">Términos y condiciones de uso</a>
 		</div>
 	</footer>
-  <div class="container" id="travelsContainer">
-    <ul></ul>
-  </div>
 
   <script type="text/javascript" src="./lib/jquery-3.3.1.min.js"></script>
   <script type="text/javascript" src="./lib/bootstrap.min.js"></script>
