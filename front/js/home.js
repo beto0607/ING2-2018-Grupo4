@@ -225,6 +225,14 @@ function loadVehicles(){
 		})
 		.fail(onFailPost);
 }
+function existsVehicle(id){
+	if(id){
+		for(var v in vehicles){
+			if(vehicles[v].id == id){return true;}
+		}
+	}
+	return false;
+}
 function DeleteVehicleConfirmation(){
 	bConfirmCallbacks("¿Desea eliminar el vehículo?", deleteVehicle)
 }
@@ -348,7 +356,6 @@ function addTravelSubmit(){
 }
 function travelAddValidateForm(){
 	var duration = $("#addTravelDuration").val();
-	console.log(duration);
 	$("#addTravelForm").validate({
 		onfocusout: false,
 		rules: {
@@ -390,39 +397,61 @@ function travelAddValidateForm(){
 		submitHandler:addTravel
 	});
 }
+function addTravelCheckDates(form){
+	var today = new Date();
+	var startDate = new Date(getInputValue(form, "add-travel-date") + "T" +getInputValue(form, "add-travel-hour"));
+	var endDate = new Date(getInputValue(form, "add-travel-date-end") + "T" +getInputValue(form, "add-travel-hour-end"));
+	return	startDate > today && (endDate > startDate || $("#addTravelTypeSelect").val() == "O");
+}
 function addTravel(){
-	var duration = $("#addTravelDuration").val();
-	console.log(duration);
+	var form = $("#addTravelForm");
 
 	if(!userJSON.cbu){
 		bAlert("Debe ingresar un CBU, desde \"Mi Perfil\"");
 		return;
 	}
+	var duration = parseFloat($("#addTravelDuration").val());
+	if(duration <= 0){
+		bAlert("Debe ingresar una duración válida.");
+		return;
+	}
+	var dHours = Math.floor(duration)
+	duration =  dHours.toString()+ ":" +  ((duration - dHours) * 60).toString();
 
-	var form = $("#addTravelForm");
+	if(!addTravelCheckDates(form)){
+		bAlert("Debe ingresar fechas y horas de inicio y fin válidas.");
+		return;
+	}
+	if(!existsVehicle($("#addTravelVehiclesSelect").val())){
+		bAlert("Debe seleccionar un vehículo o agregar uno desde \"Mis vehículos\".");
+		return;
+	}
+	var travelType = $("#addTravelTypeSelect").val();
 	var date = getInputValue(form, "add-travel-date").split("-").join("");
-	date += " " + getInputValue(form, "add-travel-hour");
-	var dateTill = getInputValue(form,"add-travel-type") == "O" ?
+	date += " " + getInputValue(form, "add-travel-hour").split(":").join("")+"00";
+
+	var dateTill = travelType == "O" ?
 		date :
-		getInputValue(form, "add-travel-till-date").split("-").join("") + " " + getInputValue(form, "add-travel-hour");
+		getInputValue(form, "add-travel-date-end").split("-").join("")
+		+ " " + getInputValue(form, "add-travel-hour-end").split(":").join("")+"00";
 	var data = {
 		idUsuario: userID,
 		idVehiculo: $("#addTravelVehiclesSelect").val(),
-		//idVehiculo: getInputValue(form, "add-travel-vehicles"),
 		plazas: getInputValue(form, "add-travel-size"),
 		origen: getInputValue(form, "add-travel-origen"),
 		destino: getInputValue(form, "add-travel-destino"),
 		fecha: date,
-		tipoAlta: getInputValue(form,"add-travel-type"),
+		tipoAlta: travelType,
 		descripcion: $("textarea[name=\"add-travel-desc\"]").val(),
 		montoTotal: getInputValue(form, "add-travel-monto"),
 		duracion: duration,
+		cbu: userJSON.cbu,
 		fechaHasta: dateTill
 	};
 	console.log(data);
-	return;
 	$.post(URLs.travelAdd, data)
 		.done(function(d,s){
+			console.log(d);
 			d= parseJSON(d);
 			if(d.success == "1"){
 				bAlertCallback("Viaje creado.", reloadPage);
@@ -468,7 +497,7 @@ function ConfigureTravels(){
 		}else{
 			$("#addTravelForm input[name=\"add-travel-size\"]").removeAttr("disabled");
 			var v = getVehicle(vID);
-			console.log(v);
+			//console.log(v);
 			$("#addTravelForm input[name=\"add-travel-size\"]").attr("max", v.plazas);
 		}
 	});
