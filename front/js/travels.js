@@ -39,10 +39,9 @@ function addTravels(d){
   $.get('mustacheTemplates/travelsTravel.mst', function(template) {
     try{
       for(var i = 0; i< d.length; i++){
-        var t = d[i];
-        var date = new Date(t.fecha);
-        t["dateFormatted"] = date.toLocaleString();
-        t["isMine"] = userID == t.idUsuario;
+        var date = new Date(d[i].fecha);
+        d[i]["dateFormatted"] = date.toLocaleString();
+        d[i]["isMine"] = userID == d[i].idUsuario;
         var rendered = Mustache.render(template, d[i]);
         $("#travelsContainer ul").append(rendered);
       }
@@ -59,6 +58,8 @@ function travelClick(){
   var tID = $(this).attr("travel-id");
   travelInfo = getTravel(tID);
   travelInfo["isCopilot"] = true;
+	console.log(userID);
+	console.log(travelInfo);
   if(travelInfo.isMine){
     $.get('mustacheTemplates/travelsInfoMine.mst', showTravelInfo);
   }else{
@@ -66,7 +67,6 @@ function travelClick(){
   }
 }
 function showTravelInfo(template){
-
   $("#travelInfoModal .modal-body").empty();
   var rendered = Mustache.render(template, travelInfo);
   $("#travelInfoModal .modal-body").append(rendered);

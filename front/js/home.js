@@ -49,6 +49,7 @@ function loadLastTravels(){
 		.done(function(d,s){
 			d = parseJSON(d);
 			d = orderTravels(d);
+			addMyTravels(d);
 			var ts = [];
 			for(var i = 0; i < (d.length > 10 ? 10 : d.length);i++){
 				ts.push(d[i]);
@@ -57,6 +58,21 @@ function loadLastTravels(){
 			addLastTravels(d);
 		})
 		.fail(onFailPost)
+}
+function addMyTravels(d){
+	$("#myTravelsContianer ul").empty();
+	$.get('mustacheTemplates/travelsTravel.mst', function(template) {
+		for(var i = 0; i<d.length; i++){
+			if(d[i].idUsuario == userID){
+				var t = d[i];
+				var date = new Date(t.fecha);
+				t["dateFormatted"] = date.toLocaleString();
+				t["isMine"] = userID == t.idUsuario;
+				var rendered = Mustache.render(template, t);
+				$("#myTravelsContianer ul").append(rendered);
+			}
+		}
+	});
 }
 function addLastTravels(d){
 	$("#lastTravelsContainer ul").empty();
