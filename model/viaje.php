@@ -183,7 +183,7 @@ class Viaje
 							$stm->execute(array($data->idVehiculo));
 							$val = $stm->fetch();
 							$idUsuario = $val['idUsuario'];
-							$valido = ValidarCalificaciones($idUsuario);
+							$valido = $this->ValidarCalificaciones($idUsuario);
 						}
 					}
 				}
