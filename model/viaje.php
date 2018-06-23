@@ -509,7 +509,7 @@ class Viaje
 							ON	v.idVehiculo = ve.id
 						WHERE	v.id = ?";
 			$stm = $this->pdo->prepare($sql);
-			$stm->execute(array($idUsuarioCopiloto, $observaciones, $idViaje));			
+			$stm->execute(array($idUsuarioCopiloto, $observaciones, $idViaje));
 
 			$sql = "INSERT INTO calificaciones(idViaje, idUsuarioCalifica, idUsuarioCalificado, fechaCalificacion, calificacion, observaciones)
 					SELECT	v.id, ?, ve.idUsuario, NOW(), 0, 'Reserva cancelada por el copiloto.'
@@ -518,7 +518,7 @@ class Viaje
 							ON	v.idVehiculo = ve.id
 						WHERE	v.id = ?";
 			$stm = $this->pdo->prepare($sql);
-			$stm->execute(array($idUsuarioCopiloto, $idViaje));						
+			$stm->execute(array($idUsuarioCopiloto, $idViaje));
 
 			$this->pdo->commit();
 		} catch (Exception $e)
