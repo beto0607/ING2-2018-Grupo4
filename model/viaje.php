@@ -130,6 +130,63 @@ class Viaje
 		}
 	}
 
+	public function ObtenerCopilotos($id)
+	{
+		try
+		{
+			$stm = $this->pdo
+			            ->prepare("SELECT	cop.fechaPostulacion, cop.fechaAprobacion, cop.fechaPago, cop.montoPago, cop.fechaCancelacion, cop.fechaRechazo,
+											u.id, u.usuario, u.nombre, u.apellido, u.email, u.calificacionPiloto, u.calificacionCopiloto,
+											CASE 
+												WHEN cop.fechaCancelacion IS NOT NULL THEN 'Cancelado'
+									            WHEN cop.fechaAprobacion IS NOT NULL THEN 'Aprobado'
+									            ELSE '--'
+											END AS 'estado'
+									FROM viajes v
+									INNER JOIN copilotos cop
+										ON	v.id = cop.idViaje
+											AND cop.fechaAprobacion IS NOT NULL 
+											AND cop.fechaCancelacion IS NULL
+									INNER JOIN usuarios u
+										ON	cop.idUsuario = u.id
+									WHERE 	v.id = ?");
+
+			$stm->execute(array($id));
+			return $stm->fetch(PDO::FETCH_OBJ);
+		} catch (Exception $e)
+		{
+			die($e->getMessage());
+		}
+	}
+
+	public function ObtenerPostulaciones($id)
+	{
+		try
+		{
+			$stm = $this->pdo
+			            ->prepare("SELECT	cop.fechaPostulacion, cop.fechaAprobacion, cop.fechaPago, cop.montoPago, cop.fechaCancelacion, cop.fechaRechazo,
+											u.id, u.usuario, u.nombre, u.apellido, u.email, u.calificacionPiloto, u.calificacionCopiloto,
+											CASE 
+												WHEN cop.fechaRechazo IS NOT NULL THEN 'Rechazado'
+									            WHEN cop.fechaAprobacion IS NOT NULL AND cop.fechaCancelacion IS NOT NULL THEN 'Cancelado'
+									            ELSE 'Pendiente'
+									        END AS 'estado'
+									FROM viajes v
+									INNER JOIN copilotos cop
+										ON	v.id = cop.idViaje
+											AND (cop.fechaAprobacion IS NULL OR (cop.fechaAprobacion IS NULL AND cop.fechaCancelacion IS NOT NULL))
+									INNER JOIN usuarios u
+										ON	cop.idUsuario = u.id
+									WHERE 	v.id = ?");
+
+			$stm->execute(array($id));
+			return $stm->fetch(PDO::FETCH_OBJ);
+		} catch (Exception $e)
+		{
+			die($e->getMessage());
+		}
+	}
+
 	public function Validar(Viaje $data, $tipoAlta = '', $fechaHasta = '')
 	{
 		$valido = '';
@@ -218,9 +275,10 @@ class Viaje
 			$sth->bindValue(2, $fechaHasta, PDO::PARAM_STR);
 			$sth->bindValue(3, $tipo, PDO::PARAM_STR);
 			$sth->execute();
-			$sql = 	"INSERT INTO viajes(idVehiculo, fecha, origen, destino, plazas, descripcion, montoTotal, porcentajeComision, duracion) " . chr(13) .
+			$sql = 	"INSERT INTO viajes(idVehiculo, fecha, origen, destino, plazas, descripcion, montoTotal, porcentajeComision, duracion, cbu) " . chr(13) .
 					"SELECT ?, " . chr(13) .
 					" f.interval_start, " . chr(13) .
+					" ?, " . chr(13) .
 					" ?, " . chr(13) .
 					" ?, " . chr(13) .
 					" ?, " . chr(13) .
@@ -241,12 +299,13 @@ class Viaje
 			$sth->bindValue(6, $data->montoTotal, PDO::PARAM_STR);
 			$sth->bindValue(7, $this->obtenerComision(), PDO::PARAM_STR);
 			$sth->bindValue(8, $data->duracion, PDO::PARAM_STR);
-			$sth->bindValue(9, $tipoAlta, PDO::PARAM_STR);
+			$sth->bindValue(9, $data->cbu, PDO::PARAM_STR);
 			$sth->bindValue(10, $tipoAlta, PDO::PARAM_STR);
-			$sth->bindValue(11, $diaSemana, PDO::PARAM_INT);
-			$sth->bindValue(12, $fechaHasta, PDO::PARAM_STR);
-			$sth->bindValue(13, $tipoAlta, PDO::PARAM_STR);
-			$sth->bindValue(14, $fechaHasta, PDO::PARAM_STR);
+			$sth->bindValue(11, $tipoAlta, PDO::PARAM_STR);
+			$sth->bindValue(12, $diaSemana, PDO::PARAM_INT);
+			$sth->bindValue(13, $fechaHasta, PDO::PARAM_STR);
+			$sth->bindValue(14, $tipoAlta, PDO::PARAM_STR);
+			$sth->bindValue(15, $fechaHasta, PDO::PARAM_STR);
 			$sth->execute();
 			$id = $this->pdo->lastInsertId();
 			$this->pdo->commit();
@@ -509,7 +568,7 @@ class Viaje
 							ON	v.idVehiculo = ve.id
 						WHERE	v.id = ?";
 			$stm = $this->pdo->prepare($sql);
-			$stm->execute(array($idUsuarioCopiloto, $observaciones, $idViaje));
+			$stm->execute(array($idUsuarioCopiloto, $observaciones, $idViaje));			
 
 			$sql = "INSERT INTO calificaciones(idViaje, idUsuarioCalifica, idUsuarioCalificado, fechaCalificacion, calificacion, observaciones)
 					SELECT	v.id, ?, ve.idUsuario, NOW(), 0, 'Reserva cancelada por el copiloto.'
@@ -518,7 +577,7 @@ class Viaje
 							ON	v.idVehiculo = ve.id
 						WHERE	v.id = ?";
 			$stm = $this->pdo->prepare($sql);
-			$stm->execute(array($idUsuarioCopiloto, $idViaje));
+			$stm->execute(array($idUsuarioCopiloto, $idViaje));						
 
 			$this->pdo->commit();
 		} catch (Exception $e)

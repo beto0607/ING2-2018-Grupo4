@@ -42,6 +42,34 @@ class ViajeController{
 
         echo json_encode($result);
     }
+
+    public function ObtenerCopilotos(){
+        $result;
+        try
+        {
+            $result = $this->model->ObtenerCopilotos($_REQUEST['id']);
+        }
+        catch(Exception $e)
+        {
+            $result = ['success' => '0', 'mensaje' => 'Ocurrió el siguiente error:' . $e->getMessage()];
+        }
+
+        echo json_encode($result);
+    }
+
+    public function ObtenerPostulaciones(){
+        $result;
+        try
+        {
+            $result = $this->model->ObtenerPostulaciones($_REQUEST['id']);
+        }
+        catch(Exception $e)
+        {
+            $result = ['success' => '0', 'mensaje' => 'Ocurrió el siguiente error:' . $e->getMessage()];
+        }
+
+        echo json_encode($result);
+    }
     
     public function Guardar(){
         $result;
@@ -61,6 +89,7 @@ class ViajeController{
             $viaje->descripcion = $_REQUEST['descripcion'];
             $viaje->montoTotal = $_REQUEST['montoTotal'];
             $viaje->duracion = $_REQUEST['duracion'];
+            $viaje->duracion = $_REQUEST['cbu'];
             /*$viaje->porcentajeComision = $_REQUEST['porcentajeComision'];
             $viaje->fechaCancelacion = $_REQUEST['fechaCancelacion'];
             $viaje->fechaCierre = $_REQUEST['fechaCierre'];*/

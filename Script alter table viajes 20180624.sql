@@ -1,0 +1,11 @@
+ALTER TABLE viajes
+	ADD COLUMN fechaCreacion DATETIME DEFAULT NOW();
+
+ALTER TABLE viajes
+	ADD COLUMN cbu CHAR(22) NOT NULL;
+
+UPDATE viajes 
+	SET cbu = '1111';
+
+ALTER TABLE viajes
+	MODIFY cbu CHAR(22) NOT NULL;
