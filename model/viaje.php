@@ -413,6 +413,29 @@ class Viaje
 		}
 	}
 
+	public function UsuarioEnViaje($idViaje, $idUsuario)
+	{
+		try
+		{
+			$valido = "";
+
+			$sql = "SELECT COUNT(1) AS 'Copiloto' FROM copilotos WHERE idViaje = ? AND idUsuario = ? AND fechaCancelacion IS NULL AND fechaRechazo IS NULL";
+			$stm = $this->pdo->prepare($sql);
+			$stm->execute(array($idViaje, $idUsuario));
+			$val = $stm->fetch();
+			if ($val['Copiloto'] > 0)
+			{
+				$valido = 'El usuario ya participa en el viaje.';
+			}
+
+			return $valido;
+
+		} catch (Exception $e)
+		{
+			die($e->getMessage());
+		}
+	}
+
 	public function ValidarPostulacion($idViaje, $idUsuario)
 	{
 		$valido = "";
@@ -423,6 +446,12 @@ class Viaje
 		{
 			$valido = $this->CantidadPlazasDisponibles($idViaje) > 0 ? "" : "No hay plazas disponibles para el viaje.";
 		}
+		else
+		{
+			$valido = $this->UsuarioEnViaje($idViaje, $idUsuario);	
+		}
+
+		//falta validar que el usuario ya no se encuentre postulado
 
 		return $valido;
 	}
