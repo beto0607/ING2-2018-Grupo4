@@ -144,8 +144,8 @@ class Usuario
 	{
 		try
 		{
-			$sql = "INSERT INTO usuarios (id, usuario, clave, nombre, apellido, fechaNacimiento, telefono, email, calificacionPiloto, calificacionCopiloto, fechaBaja, cbu, foto)
-			        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			$sql = "INSERT INTO usuarios (id, usuario, clave, nombre, apellido, fechaNacimiento, telefono, email, calificacionPiloto, calificacionCopiloto, fechaBaja, foto)
+			        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 			$this->pdo->prepare($sql)
 			     ->execute(
@@ -161,7 +161,6 @@ class Usuario
 						$data->calificacionPiloto,
 						$data->calificacionCopiloto,
 						$data->fechaBaja,
-						$data->cbu,
 						$data->foto
 	                )
 				);
