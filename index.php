@@ -12,6 +12,7 @@ require_once 'vendor/autoload.php';
 /* Autenticacion: session|db|token */
 define('__AUTH__', 'session');
 define('__SECRET_KEY__', 'asdawdsd8ws.6@');
+define('__FOTOS__', dirname(__FILE__) . DIRECTORY_SEPARATOR . 'fotos');
 
 /* Controlador por defecto */
 $controller = 'auth';

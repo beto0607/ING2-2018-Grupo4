@@ -72,6 +72,20 @@ class UsuarioController{
             $usu->fechaBaja = isset($_REQUEST['fechaBaja']) ? $_REQUEST['fechaBaja'] : null;
             $usu->cbu = $_REQUEST['cbu'];
 
+            if (isset($_FILES['foto']))
+            {
+                $info = pathinfo($_FILES['foto']['name']);
+                $ext = $info['extension'];
+                
+                $path = __FOTOS__ . DIRECTORY_SEPARATOR . $usu->Usuario . '.' . $ext;
+                $usu->foto = basename($_FILES['foto']['name']);
+                move_uploaded_file( $_FILES['foto']['tmp_name'], $path);
+            }
+            else
+            {
+                $usu->foto = 'NULO';
+            }
+
             $valido = $this->model->Validar($usu, ($usu->id > 0 ? "M" : "A"));
 
             if ($valido != '')

@@ -15,6 +15,7 @@ class Usuario
     public $calificacionCopiloto;
     public $fechaBaja;
     public $cbu;
+    public $foto;
     public $Token;
     public $TokenCaducidad;
 
@@ -116,7 +117,8 @@ class Usuario
 						apellido        	= ?,
 						fechaNacimiento 	= ?,
 						telefono			= ?, 
-						cbu 				= ?
+						cbu 				= ?,
+						foto 				= CASE WHEN ? = 'NULO' THEN foto ELSE ? END
 				    WHERE id = ?";
 
 			$this->pdo->prepare($sql)
@@ -127,6 +129,8 @@ class Usuario
 						$data->fechaNacimiento,
                         $data->telefono,
                         $data->cbu,
+                        $data->foto,
+                        $data->foto,
                         $data->id
 					)
 				);
@@ -140,8 +144,8 @@ class Usuario
 	{
 		try
 		{
-			$sql = "INSERT INTO usuarios (id, usuario, clave, nombre, apellido, fechaNacimiento, telefono, email, calificacionPiloto, calificacionCopiloto, fechaBaja, cbu)
-			        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			$sql = "INSERT INTO usuarios (id, usuario, clave, nombre, apellido, fechaNacimiento, telefono, email, calificacionPiloto, calificacionCopiloto, fechaBaja, cbu, foto)
+			        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 			$this->pdo->prepare($sql)
 			     ->execute(
@@ -157,7 +161,8 @@ class Usuario
 						$data->calificacionPiloto,
 						$data->calificacionCopiloto,
 						$data->fechaBaja,
-						$data->cbu
+						$data->cbu,
+						$data->foto
 	                )
 				);
 
