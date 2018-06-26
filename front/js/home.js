@@ -360,7 +360,10 @@ function deleteVehicle(r){
 		.fail(onFailPost);
 }
 function vehicleModifySubmit(){
-	$("#modifyVehicleForm").submit();
+	bConfirmCallbacks("¿Desea guardar los cambios?",function(r){
+		if(!r){return;}
+		$("#modifyVehicleForm").submit();
+	});
 }
 function vehicleModifyValidateForm(){
 	$("#modifyVehicleForm").validate({
@@ -410,7 +413,10 @@ function modifyVehicle(){
 		.fail(onFailPost);
 }
 function vehicleAddSubmit(){
-	$("#addVehicleForm").submit();
+	bConfirmCallbacks("¿Desea agregarel vehículo?",function(r){
+		if(!r){return;}
+		$("#addVehicleForm").submit();
+	});
 }
 function vehicleAddValidateForm(){
 	$("#addVehicleForm").validate({
