@@ -48,6 +48,7 @@ class ViajeController{
         try
         {
             $result = $this->model->ObtenerCopilotos($_REQUEST['id']);
+            $result = ['success' => '1', 'copilotos' => $result];
         }
         catch(Exception $e)
         {
@@ -62,6 +63,7 @@ class ViajeController{
         try
         {
             $result = $this->model->ObtenerPostulaciones($_REQUEST['id']);
+            $result = ['success' => '1', 'postulaciones' => $result];
         }
         catch(Exception $e)
         {

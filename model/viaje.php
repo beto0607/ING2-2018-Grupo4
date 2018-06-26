@@ -152,7 +152,7 @@ class Viaje
 									WHERE 	v.id = ?");
 
 			$stm->execute(array($id));
-			return $stm->fetch(PDO::FETCH_OBJ);
+			return $stm->fetchAll(PDO::FETCH_OBJ);
 		} catch (Exception $e)
 		{
 			die($e->getMessage());
@@ -180,7 +180,7 @@ class Viaje
 									WHERE 	v.id = ?");
 
 			$stm->execute(array($id));
-			return $stm->fetch(PDO::FETCH_OBJ);
+			return $stm->fetchAll(PDO::FETCH_OBJ);
 		} catch (Exception $e)
 		{
 			die($e->getMessage());
