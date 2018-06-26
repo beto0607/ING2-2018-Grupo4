@@ -82,20 +82,23 @@ function travelClick(){
 function travelInfoLoaded(){
 	console.log(travelInfo);
   if(travelInfo.isMine){
+		travelInfo["hasPostulations"] = travelInfo["postulations"].length != 0;
+		travelInfo["hasCopilots"] = travelInfo["copilots"].length != 0;
     $.get('mustacheTemplates/travelsInfoMine.mst', showTravelInfo);
   }else{
+		//El viaje no es mio
 		travelInfo["isPostulant"] = isPostulant();
 		var p = getPostulation();
 		travelInfo["postulation"] = {
-			"approved":p.fechaAprobacion != null,
-			"canceled": p.fechaCancelacion != null,
-			"desapproved": p.fechaRechazo != null
+			"approved": p && p.fechaAprobacion ? p.fechaAprobacion != null : false,
+			"canceled": p && p.fechaCancelacion ? p.fechaCancelacion != null :false,
+			"desapproved":  p && p.fechaRechazo ? p.fechaRechazo != null :false
 		};
 
 		travelInfo["isCopilot"] = isCopilot();
 		var c = getCopilotState();
 		travelInfo["copilotState"] = {
-			"paid": c.fechaPago != null,
+			"paid": c && c.fechaPago ? c.fechaPago != null : false,
 			"calified": false//FALTA AGREGAR EL ESTADO "CALIFICASTE"
 		};
 		travelInfo["canPostulate"] = !(travelInfo["isCopilot"] || travelInfo["isPostulant"]);

@@ -35,3 +35,23 @@
     }
   }
 }
+
+.travelInfoContainer{
+  overflow-y: scroll;
+  img{
+    height: 2em;
+    left: -.5em;
+  }
+
+  .copilotContainer, .postulationContainer{
+    margin-bottom: .5em;
+  }
+}
+
+.modal-dialog{
+    overflow-y: initial !important
+}
+.modal-body{
+    height: 75vh;
+    overflow-y: scroll;
+}

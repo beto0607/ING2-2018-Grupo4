@@ -132,3 +132,24 @@ form input.is-invalid, .tab-pane input.is-invalid {
   color: white;
   background-color: green;
 }
+
+.travelInfoContainer {
+  overflow-y: scroll;
+}
+.travelInfoContainer img {
+  height: 2em;
+  left: -0.5em;
+}
+.travelInfoContainer .copilotContainer, .travelInfoContainer .postulationContainer {
+  margin-bottom: 0.5em;
+  border-bottom: 1px #ccc dotted;
+}
+
+.modal-dialog {
+  overflow-y: initial !important;
+}
+
+.modal-body {
+  height: 75vh;
+  overflow-y: scroll;
+}

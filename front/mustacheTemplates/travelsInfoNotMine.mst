@@ -14,9 +14,18 @@
   <br>
   <span><strong>Lugares disponibles:</strong> {{plazasDisponibles}} de {{plazasViaje}}</span>
   <hr>
-  <span><strong>Piloto:</strong> {{usuario}}</span>
+  <strong>Información del piloto</strong>
   <br>
-  <span><strong>Reputación:</strong> {{calificacionPiloto}}</span>
+  {{#foto}}
+  <span><strong>Piloto:</strong> {{usuario}}</span>
+  {{#foto}}
+    <img src="../fotos/{{foto}}"/>
+  {{/foto}}
+  {{^foto}}
+    <img src="../fotos/default.png"/>
+  {{/foto}}
+  <br>
+  <span><strong>Reputación:</strong> {{calificacionPiloto}} <i class="fas fa-star"></i></span>
   <hr>
   <span><strong>Auto:</strong> {{marcaVehiculo}} - {{modeloVehiculo}}</span>
   <br>
@@ -39,19 +48,23 @@
     {{/postulation.desapproved}}
 
     {{#postulation.canceled}}
-    <span>Cancelaste el viaje.</span>
+    <span>Cancelaste la postulación al viaje.</span>
+    <br>
     {{/postulation.canceled}}
     {{#postulation.desapproved}}
     <span>No te aprobaron en el viaje. :'(</span>
+    <br>
     {{/postulation.desapproved}}
     {{/isPostulant}}
 
     {{#isCopilot}}
       {{#copilotState.paid}}
       <span>Ya pagaste el viaje.</span>
+      <br>
       {{/copilotState.paid}}
       {{#copilotState.calified}}
       <span>Ya calificaste.</span>
+      <br>
       {{/copilotState.calified}}
       <span>Sos copiloto del viaje</span>
       <br>

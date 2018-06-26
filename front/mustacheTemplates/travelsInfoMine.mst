@@ -12,11 +12,19 @@
   <br>
   <span><strong>Descripción del viaje:</strong> {{descripcionViaje}}</span>
   <br>
-  <span><strong>Lugares disponibles:</strong> {{plazasViaje}}</span>
+  <span><strong>Lugares disponibles:</strong> {{plazasDisponibles}} de {{plazasViaje}}</span>
   <hr>
-  <span><strong>Piloto:</strong> {{email}}</span>
+  <strong>Información del piloto</strong>
   <br>
-  <span><strong>Reputación:</strong> {{calificacionPiloto}}</span>
+  <span><strong>Piloto:</strong> {{usuario}}</span>
+  {{#foto}}
+    <img src="../fotos/{{foto}}"/>
+  {{/foto}}
+  {{^foto}}
+    <img src="../fotos/default.png"/>
+  {{/foto}}
+  <br>
+  <span><strong>Reputación:</strong> {{calificacionPiloto}} <i class="fas fa-star"></i></span>
   <hr>
   <span><strong>Auto:</strong> {{marcaVehiculo}} - {{modeloVehiculo}}</span>
   <br>
@@ -25,10 +33,79 @@
   <span><strong>Descripción del auto:</strong> {{descripcionVehiculo}}</span>
   <br>
   <hr>
-  {{^isCopilot}}
-    <button class="btn btn-primary">Postularse</button>
-  {{/isCopilot}}
-  {{#isCopilot}}
-    <button type="button" class="btn btn-primary deleteButton" id="buttonUnpostulate">Cancelar postulación</button>
-  {{/isCopilot}}
+  {{#hasPostulations}}
+    <span><strong>Postulaciones:</strong></span>
+    <br>
+    <br>
+    {{#postulations}}
+      <div class="container postulationContainer" user-id="{{id}}" user-name="{{usuario}}">
+        <span><strong>Usuario: </strong> {{usuario}}</span>
+        {{#foto}}
+          <img src="../fotos/{{foto}}"/>
+        {{/foto}}
+        {{^foto}}
+          <img src="../fotos/default.png"/>
+        {{/foto}}
+        <br>
+        <span><strong>Reputación como copiloto:</strong> {{calificacionCopiloto}} <i class="fas fa-star"></i></span>
+        <br>
+        {{^fechaAprobacion}}
+        {{^fechaCancelacion}}
+        {{^fechaRechazo}}
+          <button class="btn btn-primary travelApproveButton">Aprobar postulación</button>
+          <button class="btn btn-primary travelDesapproveButton">Desaprobar postulación</button>
+        {{/fechaRechazo}}
+        {{/fechaCancelacion}}
+        {{/fechaAprobacion}}
+        {{#fechaAprobacion}}
+          <span>Usuario ya aprobado.</span>
+          <br>
+        {{/fechaAprobacion}}
+        {{#fechaRechazo}}
+          <span>Usuario ya desaprobado.</span>
+          <br>
+        {{/fechaRechazo}}
+        {{#fechaCancelacion}}
+          <span>El usuario canceló la postulación.</span>
+          <br>
+        {{/fechaCancelacion}}
+      </div>
+    {{/postulations}}
+  {{/hasPostulations}}
+  {{#hasCopilots}}
+    <span><strong>Copilotos:</strong></span>
+    <br>
+    {{#copilots}}
+      <div class="container copilotContainer" user-id="{{id}}" user-name="{{usuario}}">
+        <span><strong>Usuario: </strong> {{usuario}}</span>
+        {{#foto}}
+          <img src="../fotos/{{foto}}"/>
+        {{/foto}}
+        {{^foto}}
+          <img src="../fotos/default.png"/>
+        {{/foto}}
+        <br>
+        <span><strong>Nombre completo: </strong> {{nombre}} {{apellido}}</span>
+        <br>
+        <span><strong>E-mail: </strong> <a href="mailto:{{email}}" target="_blank">{{email}}</a></span>
+        <br>
+        <span><strong>Reputación como copiloto:</strong> {{calificacionCopiloto}} <i class="fas fa-star"></i></span>
+        <br>
+        <strong>Estado:</strong>
+        {{#fechaPago}}
+          <span>Usuario ya pago ${{montoPago}}.</span>
+          <br>
+        {{/fechaPago}}
+        {{#fechaCancelacion}}
+          <span>El usuario no desea participar del viaje.</span>
+          <br>
+        {{/fechaCancelacion}}
+        <br>
+      </div>
+    {{/copilots}}
+  {{/hasCopilots}}
+
+  <hr>
+  <button type="button" class="btn btn-primary deleteButton travelCancelButton">Cancelar viaje</button>
+
 </div>
