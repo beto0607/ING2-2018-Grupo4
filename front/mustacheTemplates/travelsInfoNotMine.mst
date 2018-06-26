@@ -28,8 +28,6 @@
   <hr>
   <span><strong>Auto:</strong> {{marcaVehiculo}} - {{modeloVehiculo}}</span>
   <br>
-  <span><strong>Patente:</strong> {{dominio}}</span>
-  <br>
   <span><strong>Descripción del auto:</strong> {{descripcionVehiculo}}</span>
   <br>
   <hr>

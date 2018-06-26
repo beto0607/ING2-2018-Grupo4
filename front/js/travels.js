@@ -218,6 +218,7 @@ function cancelTravelClick(){
 }
 function cancelTravel(r){
 	if(!r){return;}
+	console.log(travelInfo);
 	$.post(URLs.travelCancel,
 		{id: travelInfo.idViaje})
 		.done(function(d,s){

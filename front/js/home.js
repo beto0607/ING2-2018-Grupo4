@@ -595,7 +595,7 @@ function addTravel(){
 		return;
 	}
 	var dHours = Math.floor(duration)
-	duration =  dHours.toString()+ ":" +  ((duration - dHours) * 60).toString();
+	duration = (dHours <10 ? "0": "")+ dHours.toString() +":"+  (((duration - dHours) * 60)< 10 ? "0" : "" )+((duration - dHours) * 60).toString() +":00";
 
 	if(!addTravelCheckDates(form)){
 		bAlert("Debe ingresar fechas y horas de inicio y fin válidas.");
