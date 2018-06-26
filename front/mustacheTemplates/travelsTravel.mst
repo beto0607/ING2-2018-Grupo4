@@ -1,5 +1,9 @@
 {{#isMine}}
   <li class="travelListItem pilot" travel-id="{{idViaje}}" travel-userID="{{idUsuario}}">
+    {{#fechaCancelacion}}
+    <span><strong style="color:red;">VIAJE ELIMINADO</strong></span>
+    <br>
+    {{/fechaCancelacion}}
 {{/isMine}}
 {{^isMine}}
   <li class="travelListItem" travel-id="{{idViaje}}" travel-userID="{{idUsuario}}">

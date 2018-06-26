@@ -32,7 +32,7 @@ function loadTravels(){
 	$.post(URLs.travelsList)
 		.done(function(d,s){
 			d = parseJSON(d);
-      d = orderTravels(d);
+      //d = orderTravels(d);
       console.log(d);
 			addTravels(d);
 		})
@@ -43,6 +43,7 @@ function addTravels(d){
   $.get('mustacheTemplates/travelsTravel.mst', function(template) {
     try{
       for(var i = 0; i< d.length; i++){
+				if(d[i].fechaCancelacion != null){continue;}
         var date = new Date(d[i].fecha);
         d[i]["dateFormatted"] = date.toLocaleString();
         d[i]["isMine"] = userID == d[i].idUsuario;

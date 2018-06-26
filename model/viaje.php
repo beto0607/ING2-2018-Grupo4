@@ -137,7 +137,7 @@ class Viaje
 			$stm = $this->pdo
 			            ->prepare("SELECT	cop.fechaPostulacion, cop.fechaAprobacion, cop.fechaPago, cop.montoPago, cop.fechaCancelacion, cop.fechaRechazo,
 											u.id, u.usuario, u.nombre, u.apellido, u.email, u.calificacionPiloto, u.calificacionCopiloto,
-											CASE 
+											CASE
 												WHEN cop.fechaCancelacion IS NOT NULL THEN 'Cancelado'
 									            WHEN cop.fechaAprobacion IS NOT NULL THEN 'Aprobado'
 									            ELSE '--'
@@ -145,7 +145,7 @@ class Viaje
 									FROM viajes v
 									INNER JOIN copilotos cop
 										ON	v.id = cop.idViaje
-											AND cop.fechaAprobacion IS NOT NULL 
+											AND cop.fechaAprobacion IS NOT NULL
 											AND cop.fechaCancelacion IS NULL
 									INNER JOIN usuarios u
 										ON	cop.idUsuario = u.id
@@ -166,7 +166,7 @@ class Viaje
 			$stm = $this->pdo
 			            ->prepare("SELECT	cop.fechaPostulacion, cop.fechaAprobacion, cop.fechaPago, cop.montoPago, cop.fechaCancelacion, cop.fechaRechazo,
 											u.id, u.usuario, u.nombre, u.apellido, u.email, u.calificacionPiloto, u.calificacionCopiloto,
-											CASE 
+											CASE
 												WHEN cop.fechaRechazo IS NOT NULL THEN 'Rechazado'
 									            WHEN cop.fechaAprobacion IS NOT NULL AND cop.fechaCancelacion IS NOT NULL THEN 'Cancelado'
 									            ELSE 'Pendiente'
@@ -325,7 +325,7 @@ class Viaje
 			$stm = $this->pdo->prepare("UPDATE viajes SET fechaCancelacion = NOW() WHERE id = ?");
 			$stm->execute(array($id));
 
-			$stm = $this->pdo->prepare("UPDATE copilotos SET fechaCancelacion = NOW() WHERE idViaje = ?");
+			$stm->pdo->prepare("UPDATE copilotos SET fechaCancelacion = NOW() WHERE idViaje = ?");
 			$stm->execute(array($id));
 
 			$this->pdo->commit();
@@ -448,7 +448,7 @@ class Viaje
 		}
 		else
 		{
-			$valido = $this->UsuarioEnViaje($idViaje, $idUsuario);	
+			$valido = $this->UsuarioEnViaje($idViaje, $idUsuario);
 		}
 
 		//falta validar que el usuario ya no se encuentre postulado
@@ -597,7 +597,7 @@ class Viaje
 							ON	v.idVehiculo = ve.id
 						WHERE	v.id = ?";
 			$stm = $this->pdo->prepare($sql);
-			$stm->execute(array($idUsuarioCopiloto, $observaciones, $idViaje));			
+			$stm->execute(array($idUsuarioCopiloto, $observaciones, $idViaje));
 
 			$sql = "INSERT INTO calificaciones(idViaje, idUsuarioCalifica, idUsuarioCalificado, fechaCalificacion, calificacion, observaciones)
 					SELECT	v.id, ?, ve.idUsuario, NOW(), 0, 'Reserva cancelada por el copiloto.'
@@ -606,7 +606,7 @@ class Viaje
 							ON	v.idVehiculo = ve.id
 						WHERE	v.id = ?";
 			$stm = $this->pdo->prepare($sql);
-			$stm->execute(array($idUsuarioCopiloto, $idViaje));						
+			$stm->execute(array($idUsuarioCopiloto, $idViaje));
 
 			$this->pdo->commit();
 		} catch (Exception $e)

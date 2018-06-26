@@ -2,14 +2,14 @@
 require_once 'model/viaje.php';
 
 class ViajeController{
-    
+
     private $model,
             $auth;
-    
+
     public function __CONSTRUCT(){
         $this->model = new Viaje();
         $this->auth  = FactoryAuth::getInstance();
-        
+
         try
         {
             if(!isset($_REQUEST['debug']))
@@ -20,15 +20,15 @@ class ViajeController{
             header('Location: index.php');
         }
     }
-    
+
     public function Index(){
-    
+
         require_once 'view/header.php';
         require_once 'view/menu.php';
         require_once 'view/viaje/viaje.php';
         require_once 'view/footer.php';
     }
-    
+
     public function Obtener(){
         $result;
         try
@@ -72,7 +72,7 @@ class ViajeController{
 
         echo json_encode($result);
     }
-    
+
     public function Guardar(){
         $result;
         try
@@ -81,7 +81,7 @@ class ViajeController{
             $id = 0;
             $valido = '';
             $flagEditar = (!isset($_REQUEST['id']) ? 0 : $_REQUEST['id']) != 0 ;
-            
+
             $viaje->id = isset($_REQUEST['id']) ? $_REQUEST['id'] : 0;
             $viaje->idVehiculo = $_REQUEST['idVehiculo'];
             $viaje->fecha = $_REQUEST['fecha'];
@@ -91,7 +91,7 @@ class ViajeController{
             $viaje->descripcion = $_REQUEST['descripcion'];
             $viaje->montoTotal = $_REQUEST['montoTotal'];
             $viaje->duracion = $_REQUEST['duracion'];
-            $viaje->duracion = $_REQUEST['cbu'];
+            $viaje->cbu = $_REQUEST['cbu'];
             /*$viaje->porcentajeComision = $_REQUEST['porcentajeComision'];
             $viaje->fechaCancelacion = $_REQUEST['fechaCancelacion'];
             $viaje->fechaCierre = $_REQUEST['fechaCierre'];*/
@@ -111,7 +111,7 @@ class ViajeController{
             {
                 $result = ['success' => '0', 'mensaje' => $valido];
             }
-            else 
+            else
             {
                 if ($flagEditar)
                 {
@@ -120,7 +120,7 @@ class ViajeController{
                     $result = ['success' => '1', 'mensaje' => 'El viaje ha sido modificado con éxito.', 'id' => $id];
                 }
                 else
-                {   
+                {
                    $id = $this->model->Crear($viaje, $tipoAlta, $fechaHasta);
                    $result = ['success' => '1', 'mensaje' => 'El viaje ha sido guardado con éxito.', 'id' => $id];
                 }
@@ -133,7 +133,7 @@ class ViajeController{
 
         echo json_encode($result);
     }
-    
+
     public function Cancelar(){
         try
         {
@@ -147,7 +147,7 @@ class ViajeController{
     }
 
     public function PostularCopiloto(){
-        try 
+        try
         {
             $valido = "";
             $idViaje = $_REQUEST['idViaje'];
@@ -157,7 +157,7 @@ class ViajeController{
             {
                 $result = ['success' => '0', 'mensaje' => $valido];
             }
-            else 
+            else
             {
                 $this->model->PostularCopiloto($idViaje, $idUsuario);
                 $result = ['success' => '1', 'mensaje' => 'La postulación ha sido guardada con éxito.'];
@@ -172,8 +172,8 @@ class ViajeController{
     }
 
     public function AprobarPostulacion()
-    { 
-        try 
+    {
+        try
         {
             $valido = "";
             $idViaje = $_REQUEST['idViaje'];
@@ -183,7 +183,7 @@ class ViajeController{
             {
                 $result = ['success' => '0', 'mensaje' => $valido];
             }
-            else 
+            else
             {
                 $this->model->AprobarPostulacion($idViaje, $idUsuario);
                 $result = ['success' => '1', 'mensaje' => 'La postulación ha sido aprobada con éxito.'];
@@ -198,8 +198,8 @@ class ViajeController{
     }
 
     public function DesaprobarPostulacion()
-    { 
-        try 
+    {
+        try
         {
             $valido = "";
             $idViaje = $_REQUEST['idViaje'];
@@ -213,11 +213,11 @@ class ViajeController{
         }
 
         echo json_encode($result);
-    }    
+    }
 
     public function CancelarPostulacion()
-    { 
-        try 
+    {
+        try
         {
             $valido = "";
             $idViaje = $_REQUEST['idViaje'];
@@ -227,7 +227,7 @@ class ViajeController{
             {
                 $result = ['success' => '0', 'mensaje' => $valido];
             }
-            else 
+            else
             {
                 $this->model->CancelarPostulacion($idViaje, $idUsuario);
                 $result = ['success' => '1', 'mensaje' => 'La postulación ha sido cancelada con éxito.'];
@@ -242,8 +242,8 @@ class ViajeController{
     }
 
     public function CancelarReserva()
-    { 
-        try 
+    {
+        try
         {
             $valido = "";
             $idViaje = $_REQUEST['idViaje'];
@@ -254,7 +254,7 @@ class ViajeController{
             {
                 $result = ['success' => '0', 'mensaje' => $valido];
             }
-            else 
+            else
             {
                 $this->model->CancelarReserva($idViaje, $idUsuario, $observaciones);
                 $result = ['success' => '1', 'mensaje' => 'La reserva ha sido cancelada con éxito.'];
@@ -266,7 +266,7 @@ class ViajeController{
         }
 
         echo json_encode($result);
-    }        
+    }
 
     public function Listar(){
         echo json_encode($this->model->Listar());

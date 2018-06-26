@@ -1,5 +1,9 @@
 
 <div class="travelInfoContainer container" travel-id="{{idViaje}}" travel-userID="{{idUsuario}}" auto-id="{{idVehiculo}}">
+  {{#fechaCancelacion}}
+  <span><strong>VIAJE CANCELADO</strong></span>
+  <br>
+  {{/fechaCancelacion}}
   <span><strong>Desde:</strong> {{origen}}</span>
   <br>
   <span><strong>Hasta:</strong> {{destino}}</span>
@@ -32,7 +36,9 @@
   <br>
   <hr>
   {{#canPostulate}}
+    {{^fechaCancelacion}}
     <button type="button" class="btn btn-primary travelPostulateButton">Postularse</button>
+    {{/fechaCancelacion}}
   {{/canPostulate}}
   {{^canPostulate}}
     {{#isPostulant}}
@@ -40,7 +46,9 @@
     <br>
     {{^postulation.desapproved}}
     {{^postulation.canceled}}
+    {{^fechaCancelacion}}
     <button type="button" class="btn btn-primary deleteButton travelCancelPostulationButton">Abandonar viaje</button>
+    {{/fechaCancelacion}}
     {{/postulation.canceled}}
     {{/postulation.desapproved}}
 
@@ -66,7 +74,9 @@
       <span>Sos copiloto del viaje</span>
       <br>
       {{^copilotState.calified}}
+      {{^fechaCancelacion}}
       <button type="button" class="btn btn-primary deleteButton travelCancelCopilotButton">Abandonar viaje</button>
+      {{/fechaCancelacion}}
       {{/copilotState.calified}}
     {{/isCopilot}}
   {{/canPostulate}}
