@@ -56,7 +56,7 @@ function loadLastTravels(){
 			travels = d;
 			//addMyTravels(d);
 			var ts = [];
-			for(var i = 0; i < (d.length > 10 ? 10 : d.length);i++){
+			for(var i = 0; i < (d.length > 9 ? 9 : d.length);i++){
 				ts.push(d[i]);
 			}
 			d = ts;
@@ -122,7 +122,7 @@ function myTravelInfo(){
 			var date = new Date(travel["fecha"]);
 			travel["dateStart"] = date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
 			travel["hourStart"] = date.toLocaleTimeString();
-			console.log(travel);
+		
 			$("#myTravelEditModal .modal-body").empty();
 			var output = Mustache.render(t, travel);
 			$("#myTravelEditModal .modal-body").append(output);
