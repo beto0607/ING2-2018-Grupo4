@@ -325,7 +325,7 @@ class Viaje
 			$stm = $this->pdo->prepare("UPDATE viajes SET fechaCancelacion = NOW() WHERE id = ?");
 			$stm->execute(array($id));
 
-			$stm->pdo->prepare("UPDATE copilotos SET fechaCancelacion = NOW() WHERE idViaje = ?");
+			$stm = $this->pdo->prepare("UPDATE copilotos SET fechaCancelacion = NOW() WHERE idViaje = ?");
 			$stm->execute(array($id));
 
 			$this->pdo->commit();
