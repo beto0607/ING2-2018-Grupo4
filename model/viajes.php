@@ -91,9 +91,9 @@ class Viajes
 	}
 	public function ViajesUsuario($id){
 		try{
-			$stm = $this->pdo->prepare("SELECT v.id AS idViaje FROM viajes v INNER JOIN copilotos cop ON cop.idViaje = v.id WHERE cop.idUsuario = ?");
+			$stm = $this->pdo->prepare("SELECT idViaje FROM copilotos WHERE idUsuario = ? ;");
 			$stm->execute(array($id));
-			return $stm->fetch(PDO::FETCH_OBJ);
+			return $stm->fetchAll(PDO::FETCH_OBJ);
 		} catch (Exception $e)
 		{
 			die($e->getMessage());

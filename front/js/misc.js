@@ -105,7 +105,7 @@ function isPostulant(){
 function isCopilot(){
 	if(travelInfo.copilots == false){return false;}
 	for(var cop in travelInfo.copilots){
-		cop =travelInfo.postulations[cop];
+		cop =travelInfo.copilots[cop];
 		if(cop.id == userID){return true;}
 	}
 	return false;

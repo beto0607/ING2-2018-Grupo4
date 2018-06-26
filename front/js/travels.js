@@ -117,7 +117,7 @@ function getPostulation(){
 }
 function getCopilotState(){
 	for(var c in travelInfo.copilots){
-		c =travelInfo.postulations[c];
+		c =travelInfo.copilots[c];
 		if(c.id == userID){
 			return c;
 		}
@@ -127,7 +127,8 @@ function getCopilotState(){
 function cancelCopilotClick(){
 	bConfirmCallbacks("¿Seguro que desea cancela la reserva al viaje? De haber pagado, se le devolverá el dinero pero será calificado negativamente", cancelCopilot);
 }
-function cancelCopilot(){
+function cancelCopilot(r){
+	if(!r){return;}
 	$.post(URLs.travelCancelReserve,
 		{idViaje: travelInfo.idViaje, idUsuario: userID, observaciones: "El usuario canceló el viaje.*Mensaje generado automáticamente."})
 		.done(function(d,s){
@@ -143,7 +144,8 @@ function cancelCopilot(){
 function postulateButtonClick(){
 	bConfirmCallbacks("¿Seguro que desea postularse en el viaje?", postulateButton);
 }
-function postulateButton(){
+function postulateButton(r){
+	if(!r){return;}
 	$.post(URLs.travelPostulate,
 		{idViaje: travelInfo.idViaje, idUsuario: userID})
 		.done(function(d,s){
@@ -161,7 +163,8 @@ function approvePostulationClick(){
 	var username = $(this).parent().attr("user-name");
 	bConfirmCallbacks("¿Seguro que desea aprobar la postulación de " + username + "?", approvePostulation);
 }
-function approvePostulation(){
+function approvePostulation(r){
+	if(!r){return;}
 	$.post(URLs.travelApprove,
 		{idViaje: travelInfo.idViaje, idUsuario: userPostulation})
 		.done(function(d,s){
@@ -179,7 +182,8 @@ function desapprovePostulationClick(){
 	var username = $(this).parent().attr("user-name");
 	bConfirmCallbacks("¿Seguro que desea desaprobar la postulación de " + username + "?", desapprovePostulation);
 }
-function desapprovePostulation(){
+function desapprovePostulation(r){
+	if(!r){return;}
 	$.post(URLs.travelDesapprove,
 		{idViaje: travelInfo.idViaje, idUsuario: userPostulation})
 		.done(function(d){
@@ -195,7 +199,8 @@ function desapprovePostulation(){
 function cancelPostulationClick(){
 	bConfirmCallbacks("¿Seguro que desea cancela la postulación al viaje?", cancelPostulation);
 }
-function cancelPostulation(){
+function cancelPostulation(r){
+	if(!r){return;}
 	$.post(URLs.travelCancelPostulation,
 		{idViaje: travelInfo.idViaje, idUsuario: userID})
 		.done(function(d,s){
@@ -211,7 +216,8 @@ function cancelPostulation(){
 function cancelTravelClick(){
 	bConfirmCallbacks("¿Seguro que desea cancelar el viaje? Se devolverá el dinero, y serás calificado negativamente.", cancelTravel);
 }
-function cancelTravel(){
+function cancelTravel(r){
+	if(!r){return;}
 	$.post(URLs.travelCancel,
 		{id: travelInfo.idViaje})
 		.done(function(d,s){

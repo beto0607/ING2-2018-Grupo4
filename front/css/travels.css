@@ -142,14 +142,12 @@ form input.is-invalid, .tab-pane input.is-invalid {
 }
 .travelInfoContainer .copilotContainer, .travelInfoContainer .postulationContainer {
   margin-bottom: 0.5em;
-  border-bottom: 1px #ccc dotted;
 }
 
-.modal-dialog {
+#travelInfoModal .modal-dialog {
   overflow-y: initial !important;
 }
-
-.modal-body {
+#travelInfoModal .modal-body {
   height: 75vh;
   overflow-y: scroll;
 }

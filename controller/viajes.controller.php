@@ -38,7 +38,7 @@ class ViajesController{
         echo json_encode($this->model->Obtener($id));
     }
     public function ViajesUsuario(){
-      $id = $_REQUEST['id'];
+      $id = $_REQUEST['idUsuario'];
       echo json_encode($this->model->ViajesUsuario($id));
 
     }

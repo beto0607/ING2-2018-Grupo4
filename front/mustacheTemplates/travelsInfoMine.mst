@@ -92,6 +92,8 @@
         <span><strong>Reputación como copiloto:</strong> {{calificacionCopiloto}} <i class="fas fa-star"></i></span>
         <br>
         <strong>Estado:</strong>
+        <span>Usuario ya aprobado.</span>
+        <br>
         {{#fechaPago}}
           <span>Usuario ya pago ${{montoPago}}.</span>
           <br>

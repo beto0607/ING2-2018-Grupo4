@@ -16,7 +16,6 @@
   <hr>
   <strong>Información del piloto</strong>
   <br>
-  {{#foto}}
   <span><strong>Piloto:</strong> {{usuario}}</span>
   {{#foto}}
     <img src="../fotos/{{foto}}"/>
