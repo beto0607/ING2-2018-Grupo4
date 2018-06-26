@@ -115,14 +115,14 @@ function myTravelInfo(){
 	if(travel.isMine){
 		$.get("./mustacheTemplates/homeMyTravelEdit.mst", function(t){
 			travel["vehicles"] = vehicles;
-			travel["cbu"] = userJSON.cbu;
+			//travel["cbu"] = userJSON.cbu;
 			travel["duracionString"] = travel["duracion"].split(":")[0]+"h "+ travel["duracion"].split(":")[1]+"m";
 			travel["duracionFlotante"] = parseFloat(travel["duracion"].split(":")[0])+ (parseFloat(travel["duracion"].split(":")[1])/60);
 			travel["montoWithoutComission"] = parseFloat(travel["montoTotal"]) / 1.05;
 			var date = new Date(travel["fecha"]);
 			travel["dateStart"] = date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
 			travel["hourStart"] = date.toLocaleTimeString();
-		
+
 			$("#myTravelEditModal .modal-body").empty();
 			var output = Mustache.render(t, travel);
 			$("#myTravelEditModal .modal-body").append(output);
@@ -343,7 +343,8 @@ function existsVehicle(id){
 function DeleteVehicleConfirmation(){
 	bConfirmCallbacks("¿Desea eliminar el vehículo?", deleteVehicle)
 }
-function deleteVehicle(){
+function deleteVehicle(r){
+	if(!r){return;}
 	var vID = $("#modifyVehicleDialog").attr("vehicle-id");
 	if(!vID){return;}
 	$.post(URLs.vehiclesRemove, {id: vID, idUsuario: userID})
