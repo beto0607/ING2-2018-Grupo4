@@ -25,10 +25,39 @@
   <span><strong>Descripción del auto:</strong> {{descripcionVehiculo}}</span>
   <br>
   <hr>
-  {{#isCopilot}}
-    <button type="button" class="btn btn-primary deleteButton" id="buttonUnpostulate">Abandonar viaje</button>
-  {{/isCopilot}}
-  {{#isPostulant}}
-    <button type="button" class="btn btn-primary deleteButton" id="buttonUnpostulate">Abandonar viaje</button>
-  {{/isCopilot}}
+  {{#canPostulate}}
+    <button type="button" class="btn btn-primary travelPostulateButton">Postularse</button>
+  {{/canPostulate}}
+  {{^canPostulate}}
+    {{#isPostulant}}
+    <span>Ya te postulaste en este viaje</span>
+    <br>
+    {{^postulation.desapproved}}
+    {{^postulation.canceled}}
+    <button type="button" class="btn btn-primary deleteButton travelCancelPostulationButton">Abandonar viaje</button>
+    {{/postulation.canceled}}
+    {{/postulation.desapproved}}
+
+    {{#postulation.canceled}}
+    <span>Cancelaste el viaje.</span>
+    {{/postulation.canceled}}
+    {{#postulation.desapproved}}
+    <span>No te aprobaron en el viaje. :'(</span>
+    {{/postulation.desapproved}}
+    {{/isPostulant}}
+
+    {{#isCopilot}}
+      {{#copilotState.paid}}
+      <span>Ya pagaste el viaje.</span>
+      {{/copilotState.paid}}
+      {{#copilotState.calified}}
+      <span>Ya calificaste.</span>
+      {{/copilotState.calified}}
+      <span>Sos copiloto del viaje</span>
+      <br>
+      {{^copilotState.calified}}
+      <button type="button" class="btn btn-primary deleteButton travelCancelCopilotButton">Abandonar viaje</button>
+      {{/copilotState.calified}}
+    {{/isCopilot}}
+  {{/canPostulate}}
 </div>

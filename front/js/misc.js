@@ -42,6 +42,9 @@ function getCookie(name) {
     }
     return null;
 }
+function reloadPageTravel(){
+	changeLocation(travelInfo != null && travelInfo.idViaje ? "travels.html?travel="+travelInfo.idViaje : "travels.html");
+}
 function reloadPage(t =500){
 	setTimeout(function(){
 		window.location.reload();
@@ -94,14 +97,16 @@ function orderTravels(d){
 function isPostulant(){
 	if(travelInfo.postulations == false){return false;}
 	for(var cop in travelInfo.postulations){
-		if(cop.idUsuario == userID){return true;}
+		cop =travelInfo.postulations[cop];
+		if(cop.id == userID){return true;}
 	}
 	return false;
 }
 function isCopilot(){
 	if(travelInfo.copilots == false){return false;}
 	for(var cop in travelInfo.copilots){
-		if(cop.idUsuario == userID){return true;}
+		cop =travelInfo.postulations[cop];
+		if(cop.id == userID){return true;}
 	}
 	return false;
 }

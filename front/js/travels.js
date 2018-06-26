@@ -84,11 +84,41 @@ function travelInfoLoaded(){
   if(travelInfo.isMine){
     $.get('mustacheTemplates/travelsInfoMine.mst', showTravelInfo);
   }else{
-		travelInfo["isPostulant"] = isCopilot();
+		travelInfo["isPostulant"] = isPostulant();
+		var p = getPostulation();
+		travelInfo["postulation"] = {
+			"approved":p.fechaAprobacion != null,
+			"canceled": p.fechaCancelacion != null,
+			"desapproved": p.fechaRechazo != null
+		};
+
 		travelInfo["isCopilot"] = isCopilot();
-		travelInfo["postulationState"] = "";
+		var c = getCopilotState();
+		travelInfo["copilotState"] = {
+			"paid": c.fechaPago != null,
+			"calified": false//FALTA AGREGAR EL ESTADO "CALIFICASTE"
+		};
+		travelInfo["canPostulate"] = !(travelInfo["isCopilot"] || travelInfo["isPostulant"]);
+		travelInfo["copilotState"] = travelInfo["isCopilot"] ? getCopilotState(): "<VACÍO>";
+		//travelInfo["postulationState"] = travelInfo["isPostulant"] ? getPostulationState(): "<VACÍO>";
     $.get('mustacheTemplates/travelsInfoNotMine.mst', showTravelInfo);
   }
+}
+function getPostulation(){
+	for(var c in travelInfo.postulations){
+		c =travelInfo.postulations[c];
+		if(c.id == userID){
+			return c;
+		}
+	}
+}
+function getCopilotState(){
+	for(var c in travelInfo.copilots){
+		c =travelInfo.postulations[c];
+		if(c.id == userID){
+			return c;
+		}
+	}
 }
 //-----CANCELAR COPILOTO AL VIAJE----
 function cancelCopilotClick(){
@@ -100,7 +130,23 @@ function cancelCopilot(){
 		.done(function(d,s){
 			d = parseJSON(d);
 			if(d.success == "1"){
-				bAlertCallback("Reserva cancelada.", reloadPage);
+				bAlertCallback("Reserva cancelada.", reloadPageTravel);
+			}else{
+				bAlert(""+d.mensaje);
+			}
+		});
+}
+//-------POSTULARSE-----
+function postulateButtonClick(){
+	bConfirmCallbacks("¿Seguro que desea postularse en el viaje?", postulateButton);
+}
+function postulateButton(){
+	$.post(URLs.travelPostulate,
+		{idViaje: travelInfo.idViaje, idUsuario: userID})
+		.done(function(d,s){
+			d = parseJSON(d);
+			if(d.success=="1"){
+				bAlertCallback("Postulación enviada.", reloadPageTravel);
 			}else{
 				bAlert(""+d.mensaje);
 			}
@@ -118,7 +164,7 @@ function approvePostulation(){
 		.done(function(d,s){
 			d = parseJSON(d);
 			if(d.success == "1"){
-				bAlertCallback("Postulación aprobada.", reloadPage);
+				bAlertCallback("Postulación aprobada.", reloadPageTravel);
 			}else{
 				bAlert(""+d.mensaje);
 			}
@@ -136,7 +182,7 @@ function desapprovePostulation(){
 		.done(function(d){
 			d = parseJSON(d);
 			if(d.success == "1"){
-				bAlertCallback("Postulación desaprobada.", reloadPage);
+				bAlertCallback("Postulación desaprobada.", reloadPageTravel);
 			}else{
 				bAlert(""+d.mensaje);
 			}
@@ -152,7 +198,7 @@ function cancelPostulation(){
 		.done(function(d,s){
 			d = parseJSON(d);
 			if(d.success == "1"){
-				bAlertCallback("Postulación eliminada.", reloadPage);
+				bAlertCallback("Postulación eliminada.", reloadPageTravel);
 			}else{
 				bAlert(""+d.mensaje);
 			}
@@ -182,6 +228,7 @@ function showTravelInfo(template){
 	ConfigureTravelInfoEvents();
 }
 function ConfigureTravelInfoEvents(){
+	$(".travelPostulateButton").on("click", postulateButtonClick);
 	$(".travelCancelButton").on("click", cancelTravelClick);
 	$(".travelCancelPostulationButton").on("click", cancelPostulationClick);
 	$(".travelDesapproveButton").on("click", desapprovePostulationClick);
