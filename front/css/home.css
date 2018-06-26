@@ -134,7 +134,7 @@ i.fas:hover, i.far:hover {
   color: #f17376;
 }
 
-#searchContainer {
+#searchContainer, #lastTravelsContainer {
   margin-top: 5em;
 }
 
@@ -196,9 +196,6 @@ i.fas:hover, i.far:hover {
   color: #f17376;
 }
 
-#myTravelsContianer, #lastTravelsContainer {
-  /*display: none;*/
-}
 #myTravelsContianer ul, #lastTravelsContainer ul {
   list-style: none;
   margin: auto;

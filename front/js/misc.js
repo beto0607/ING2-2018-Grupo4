@@ -86,7 +86,22 @@ function onFailPost(e){
 }
 function orderTravels(d){
   d.sort(function(a,b){
-    return -1*( parseInt(a.idViaje) - parseInt(b.idViaje));
+		return -1*( new Date(a.fechaCreacion) - new Date(b.fechaCreacion));
+    //return -1*( parseInt(a.idViaje) - parseInt(b.idViaje));
   });
   return d;
+}
+function isPostulant(){
+	if(travelInfo.postulations == false){return false;}
+	for(var cop in travelInfo.postulations){
+		if(cop.idUsuario == userID){return true;}
+	}
+	return false;
+}
+function isCopilot(){
+	if(travelInfo.copilots == false){return false;}
+	for(var cop in travelInfo.copilots){
+		if(cop.idUsuario == userID){return true;}
+	}
+	return false;
 }

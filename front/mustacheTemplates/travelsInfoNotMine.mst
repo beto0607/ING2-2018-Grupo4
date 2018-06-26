@@ -12,9 +12,9 @@
   <br>
   <span><strong>Descripción del viaje:</strong> {{descripcionViaje}}</span>
   <br>
-  <span><strong>Lugares disponibles:</strong> {{plazasViaje}}</span>
+  <span><strong>Lugares disponibles:</strong> {{plazasDisponibles}} de {{plazasViaje}}</span>
   <hr>
-  <span><strong>Piloto:</strong> {{email}}</span>
+  <span><strong>Piloto:</strong> {{usuario}}</span>
   <br>
   <span><strong>Reputación:</strong> {{calificacionPiloto}}</span>
   <hr>
@@ -25,10 +25,10 @@
   <span><strong>Descripción del auto:</strong> {{descripcionVehiculo}}</span>
   <br>
   <hr>
-  {{^isCopilot}}
-    <button class="btn btn-primary">Postularse</button>
-  {{/isCopilot}}
   {{#isCopilot}}
-    <button type="button" class="btn btn-primary deleteButton" id="buttonUnpostulate">Cancelar postulación</button>
+    <button type="button" class="btn btn-primary deleteButton" id="buttonUnpostulate">Abandonar viaje</button>
+  {{/isCopilot}}
+  {{#isPostulant}}
+    <button type="button" class="btn btn-primary deleteButton" id="buttonUnpostulate">Abandonar viaje</button>
   {{/isCopilot}}
 </div>
