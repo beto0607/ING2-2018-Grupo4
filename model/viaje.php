@@ -365,7 +365,7 @@ class Viaje
 				$val = $stm->fetch();
 				if ($val['Copilotos'] > 0)
 				{
-					$valido = 'El viaje ya tiene pilotos aprobados.';
+					$valido = 'El viaje ya tiene copilotos aprobados.';
 				}
 				else
 				{
@@ -392,18 +392,23 @@ class Viaje
 		try
 		{
 			$sql = "UPDATE viajes SET
+						idVehiculo			= ?,
 						plazas 				= ?,
 						descripcion			= ?,
 						montoTotal        	= ?,
-						duracion			= ?
+						duracion			= ?,
+						cbu 				= ?
 				    WHERE id = ?";
 
 			$this->pdo->prepare($sql)
 			     ->execute(
 				    array(
+				    	$data->idVehiculo,
 				    	$data->plazas,
 				    	$data->descripcion,
                         $data->montoTotal,
+                        $data->duracion,
+                        $data->cbu,
 						$data->id
 					)
 				);
