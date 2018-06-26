@@ -196,7 +196,7 @@ i.fas:hover, i.far:hover {
   color: #f17376;
 }
 
-#myTravelsContianer ul, #lastTravelsContainer ul {
+#myTravelsContainer ul, #lastTravelsContainer ul {
   list-style: none;
   margin: auto;
   display: grid;
@@ -242,7 +242,7 @@ i.fas:hover, i.far:hover {
   		}
   	}*/
 }
-#myTravelsContianer ul li, #lastTravelsContainer ul li {
+#myTravelsContainer ul li, #lastTravelsContainer ul li {
   border-radius: 30px;
   display: inline-block;
   float: left;
@@ -251,21 +251,21 @@ i.fas:hover, i.far:hover {
   padding: 2.5em;
   cursor: pointer;
 }
-#myTravelsContianer ul li:hover, #lastTravelsContainer ul li:hover {
+#myTravelsContainer ul li:hover, #lastTravelsContainer ul li:hover {
   color: white;
   background-color: #f17376;
 }
-#myTravelsContianer ul li.pilot, #lastTravelsContainer ul li.pilot {
+#myTravelsContainer ul li.pilot, #lastTravelsContainer ul li.pilot {
   border: 2px solid green;
 }
-#myTravelsContianer ul li.pilot:hover, #lastTravelsContainer ul li.pilot:hover {
+#myTravelsContainer ul li.pilot:hover, #lastTravelsContainer ul li.pilot:hover {
   color: white;
   background-color: green;
 }
-#myTravelsContianer #travelInfoModal .modal-body .col-md-6, #lastTravelsContainer #travelInfoModal .modal-body .col-md-6 {
+#myTravelsContainer #travelInfoModal .modal-body .col-md-6, #lastTravelsContainer #travelInfoModal .modal-body .col-md-6 {
   margin: 0.25em auto;
 }
-#myTravelsContianer #travelInfoModal .modal-body .col-md-6 i, #lastTravelsContainer #travelInfoModal .modal-body .col-md-6 i {
+#myTravelsContainer #travelInfoModal .modal-body .col-md-6 i, #lastTravelsContainer #travelInfoModal .modal-body .col-md-6 i {
   width: 1em;
   height: 1em;
   display: inline-block;

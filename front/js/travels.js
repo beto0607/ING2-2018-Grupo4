@@ -133,7 +133,7 @@ function cancelCopilot(){
 		.done(function(d,s){
 			d = parseJSON(d);
 			if(d.success == "1"){
-				bAlertCallback("Reserva cancelada.", reloadPageTravel);
+				bAlertCallback("Reserva cancelada. Se envió notificación al piloto.", reloadPageTravel);
 			}else{
 				bAlert(""+d.mensaje);
 			}
@@ -149,7 +149,7 @@ function postulateButton(){
 		.done(function(d,s){
 			d = parseJSON(d);
 			if(d.success=="1"){
-				bAlertCallback("Postulación enviada.", reloadPageTravel);
+				bAlertCallback("Postulación enviada. Se envió notificación al piloto.", reloadPageTravel);
 			}else{
 				bAlert(""+d.mensaje);
 			}
@@ -167,7 +167,7 @@ function approvePostulation(){
 		.done(function(d,s){
 			d = parseJSON(d);
 			if(d.success == "1"){
-				bAlertCallback("Postulación aprobada.", reloadPageTravel);
+				bAlertCallback("Postulación aprobada. Se envió notificación al copiloto.", reloadPageTravel);
 			}else{
 				bAlert(""+d.mensaje);
 			}
@@ -185,7 +185,7 @@ function desapprovePostulation(){
 		.done(function(d){
 			d = parseJSON(d);
 			if(d.success == "1"){
-				bAlertCallback("Postulación desaprobada.", reloadPageTravel);
+				bAlertCallback("Postulación desaprobada. Se envió notificación al copiloto.", reloadPageTravel);
 			}else{
 				bAlert(""+d.mensaje);
 			}
@@ -201,7 +201,7 @@ function cancelPostulation(){
 		.done(function(d,s){
 			d = parseJSON(d);
 			if(d.success == "1"){
-				bAlertCallback("Postulación eliminada.", reloadPageTravel);
+				bAlertCallback("Postulación eliminada. Se envió notificación al piloto.", reloadPageTravel);
 			}else{
 				bAlert(""+d.mensaje);
 			}
@@ -217,7 +217,7 @@ function cancelTravel(){
 		.done(function(d,s){
 			d = parseJSON(d);
 			if(d.success == "1"){
-				bAlertCallback("Viaje eliminado.", reloadPage);
+				bAlertCallback("Viaje eliminado. Se enviaron las notificaciones a los copilotos.", reloadPage);
 			}else{
 				bAlert(""+d.mensaje);
 			}

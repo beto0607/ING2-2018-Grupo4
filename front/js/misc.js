@@ -61,9 +61,9 @@ function changeLocation(s,t= 500){
 function parseJSON(d){
 	try{d = JSON.parse(d);}
 	catch(e){
+		console.log(d);
 		d = d.substr(1, d.length-1);
 		d = JSON.parse(d);
-		console.log(d);
 	}
 	return d;
 }

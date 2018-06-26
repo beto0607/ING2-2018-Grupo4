@@ -1,6 +1,7 @@
 var URLs = {
 	travelsList:"../index.php?c=viajes&a=Listar&debug=1",
 	travelAdd:"../index.php?c=viaje&a=Guardar&debug=1",
+	travelsFor: "../index.php?c=viajes&a=ViajesUsuario&debug=1",
 
 	vehiclesList:"../index.php?c=vehiculo&a=Listar&debug=1",
 	vehiclesRemove:"../index.php?c=vehiculo&a=Eliminar&debug=1",
@@ -12,6 +13,7 @@ var URLs = {
 };
 var loadItems = {
 	//"userTravels": false,
+	"travelsFor": false,
 	"travelsList": false,
 	"vehiclesList": false,
 	"userInfo": false
@@ -20,6 +22,7 @@ var userID = getCookie("userID");
 var username = "";
 var userJSON;
 var vehicles = null;
+var travels;
 $(document).ready(function(){
 	userID = getCookie("userID");
 	if(!userID || userID == ""){goToIndex();}
@@ -48,30 +51,62 @@ function loadLastTravels(){
 	$.post(URLs.travelsList)
 		.done(function(d,s){
 			d = parseJSON(d);
+			console.log(d);
 			d = orderTravels(d);
-			addMyTravels(d);
+			travels = d;
+			//addMyTravels(d);
 			var ts = [];
 			for(var i = 0; i < (d.length > 10 ? 10 : d.length);i++){
 				ts.push(d[i]);
 			}
 			d = ts;
 			addLastTravels(d);
+
+			$.post(URLs.travelsFor, {idUsuario: userID})
+				.done(addMyTravels)
 		})
 		.fail(onFailPost)
+}
+function getTravel(id){
+	for(var t in travels){
+		if(id == travels[t].id){
+			return travels[t];
+		}
+	}
+	return false;
+}
+function getTravelsWherePilot(id){
+	var _t = [];
+	for(var t in travels){
+		if(id == travels[t].idUsuario){
+			_t.push(travels[t]);
+		}
+	}
+	return _t;
 }
 function addMyTravels(d){
 	$("#myTravelsContianer ul").empty();
 	$.get('mustacheTemplates/travelsTravel.mst', function(template) {
+		d = parseJSON(d);
+		console.log(d);
+		var myT = getTravelsWherePilot(userID);
 		for(var i = 0; i<d.length; i++){
-			if(d[i].idUsuario == userID){
-				var t = d[i];
-				var date = new Date(t.fecha);
-				t["dateFormatted"] = date.toLocaleString();
-				t["isMine"] = userID == t.idUsuario;
-				var rendered = Mustache.render(template, t);
-				$("#myTravelsContianer ul").append(rendered);
+			var t = getTravel(d[i]);
+			if(t){
+				myT.push(t);
 			}
 		}
+		console.log(myT);
+		myT = orderTravels(myT);
+		for(var i = 0; i<myT.length; i++){
+			var t = myT[i];
+			var date = new Date(t.fecha);
+			t["dateFormatted"] = date.toLocaleString();
+			t["isMine"] = userID == t.idUsuario;
+			var rendered = Mustache.render(template, t);
+			$("#myTravelsContainer ul").append(rendered);
+		}
+		infoLoaded("travelsFor");
 	});
 }
 function addLastTravels(d){
