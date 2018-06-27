@@ -726,4 +726,77 @@ class Viaje
 		}
 	}
 
+	public function EnviarMensaje($idViaje, $mensaje, $idUsuario)
+	{
+		try
+		{
+			$sql = "INSERT INTO mensajes (fecha, mensaje, idViaje, idUsuario)
+					VALUES (NOW(), ?, ?, ?)";
+
+			$this->pdo->prepare($sql)
+			     ->execute(
+				    array(
+				    	$idViaje,
+				    	$mensaje,
+				    	$idUsuario
+					)
+				);
+
+		} catch (Exception $e)
+		{
+			die($e->getMessage());
+		}
+	}
+
+	public function ValidarRespuesta($idMensaje)
+	{
+		/*
+			- Debe existir una respuesta pendiente por parte del usuario.
+		*/
+		try
+		{
+			$valido = "";
+
+			$sql = "SELECT	COUNT(1) AS 'Respuesta'
+						FROM mensajes men
+					    INNER JOIN respuestas res
+							ON	men.id = res.idMensaje
+						WHERE men.id = ?";
+			$stm = $this->pdo->prepare($sql);
+			$stm->execute(array($idMensaje));
+			$val = $stm->fetch();
+			if ($val['Respuesta'] > 0)
+			{
+				$valido = 'No hay respuesta pendiente para realizar.';
+			}
+
+			return $valido;
+
+		} catch (Exception $e)
+		{
+			die($e->getMessage());
+		}
+	}
+
+	public function ResponderMensaje($idMensaje, $respuesta)
+	{
+		try
+		{
+			$sql = "INSERT INTO respuesta (fecha, respuesta, idMensaje)
+					VALUES (NOW(), ?, ?)";
+
+			$this->pdo->prepare($sql)
+			     ->execute(
+				    array(
+				    	$idMensaje,
+				    	$respuesta
+					)
+				);
+
+		} catch (Exception $e)
+		{
+			die($e->getMessage());
+		}
+	}
+
 }

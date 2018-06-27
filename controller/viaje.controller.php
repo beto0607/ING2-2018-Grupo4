@@ -328,6 +328,53 @@ class ViajeController{
         echo json_encode($result);
     }
 
+    public function EnviarMensaje(){
+        try
+        {
+            $valido = "";
+            $idViaje = $_REQUEST['idViaje'];
+            $idUsuario = $_REQUEST['idUsuario'];
+            $mensaje = $_REQUEST['mensaje'];
+
+            $this->model->EnviarMensaje($idViaje, $mensaje, $idUsuario);
+            $result = ['success' => '1', 'mensaje' => 'El mensaje ha sido guardado con éxito.'];
+
+        }
+        catch(Exception $e)
+        {
+            $result = ['success' => '0', 'mensaje' => 'Ocurrió el siguiente error:' . $e->getMessage()];
+        }
+
+        echo json_encode($result);
+    }
+
+    public function ResponderMensaje(){
+        try
+        {
+            $valido = "";
+            $idMensaje = $_REQUEST['idMensaje'];
+            $mensaje = $_REQUEST['respuesta'];
+
+            $valido = $this->model->ValidarRespuesta($idMensaje);
+            
+            if ($valido != '')
+            {
+                $result = ['success' => '0', 'mensaje' => $valido];
+            }
+            else
+            {
+                $this->model->ResponderMensaje($idViaje, $mensaje, $idUsuario);
+                $result = ['success' => '1', 'mensaje' => 'La respuesta ha sido guardada con éxito.'];
+            }
+        }
+        catch(Exception $e)
+        {
+            $result = ['success' => '0', 'mensaje' => 'Ocurrió el siguiente error:' . $e->getMessage()];
+        }
+
+        echo json_encode($result);
+    }
+
     public function Test(){
         echo json_encode(['success' => '1', 'mensaje' => 'El viaje ha sido guardado con éxito.', 'id' => '23']);
     }
