@@ -621,4 +621,109 @@ class Viaje
 		}
 	}
 
+	public function ValidarCalificarPiloto($idViaje, $idUsuarioCalifica, $idUsuarioPiloto)
+	{
+		/*
+			- Debe existir una calificación pendiente por parte del usuario.
+			- El viaje tiene que estar pago
+		*/
+		try
+		{
+			$valido = "";
+
+			$sql = "SELECT	COUNT(1) AS 'Pendiente'
+						FROM copilotos cop
+					    LEFT JOIN calificaciones cal
+							ON	cop.idViaje = cal.idViaje
+								AND cop.idUsuario = cal.idUsuarioCalifica
+						WHERE cop.idViaje = ? AND cop.idUsuario = ? AND cal.IdUsuarioCalificado ? AND cop.fechaPago IS NOT NULL";
+			$stm = $this->pdo->prepare($sql);
+			$stm->execute(array($idViaje, $idUsuarioCalifica, $idUsuarioPiloto));
+			$val = $stm->fetch();
+			if ($val['Pendiente'] == 0)
+			{
+				$valido = 'No hay calificación pendiente para realizar.';
+			}
+			else
+			{
+				$sql = "SELECT COUNT(1) AS 'Pendiente'
+							FROM copilotos cop
+						    WHERE 	cop.idViaje = ? AND cop.idUsuario = ? AND cop.fechaAprobacion IS NOT NULL AND cop.fechaCancelacion IS NULL AND cop.fechaPago IS NULL";
+				$stm = $this->pdo->prepare($sql);
+				$stm->execute(array($idViaje, $idUsuarioCopiloto));
+				$val = $stm->fetch();
+				if ($val['Pendiente'] > 0)
+				{
+					$valido = 'Debe pagar su participación en el viaje para poder calificar al piloto.';	
+				}
+			}
+
+			return $valido;
+
+		} catch (Exception $e)
+		{
+			die($e->getMessage());
+		}
+	}
+
+	public function ValidarCalificarCopiloto($idViaje, $idUsuarioCalifica, $idUsuarioCopiloto)
+	{
+		/*
+			- Debe existir una calificación pendiente por parte del usuario.
+		*/
+		try
+		{
+			$valido = "";
+
+			$sql = "SELECT	COUNT(1) AS 'Pendiente'
+						FROM viajes v
+					    INNER JOIN vehiculos ve
+							ON v.idVehiculo = ve.id
+					    INNER JOIN copilotos cop
+							ON v.id = cop.idViaje
+						INNER JOIN calificaciones cal
+							ON 	v.id = cal.idViaje
+								AND cop.idUsuario = cal.idUsuarioCalificado
+								AND cal.idUsuarioCalifica = ve.idUsuario
+					    WHERE v.id = ? AND cop.fechaPago IS NOT NULL AND cop.idUsuario = ? AND ve.idUsuario = ?";
+			$stm = $this->pdo->prepare($sql);
+			$stm->execute(array($idViaje, $idUsuarioCopiloto, $idUsuarioCalifica));
+			$val = $stm->fetch();
+			if ($val['Pendiente'] == 0)
+			{
+				$valido = 'No hay calificación pendiente para realizar.';
+			}
+
+			return $valido;
+
+		} catch (Exception $e)
+		{
+			die($e->getMessage());
+		}
+	}
+
+	public function CalificarUsuario($idViaje, $idUsuarioCalifica, $idUsuarioCalificado, $calificacion, $observaciones)
+	{
+		try
+		{
+			$sql = "INSERT INTO calificaciones(idViaje, idUsuarioCalifica, IdUsuarioCalificado, FechaCalificacion, Calificacion, observaciones)
+					VALUES (?, ?, ?, NOW(), ?, ?)";
+
+			$this->pdo->prepare($sql)
+			     ->execute(
+				    array(
+				    	$idViaje,
+				    	$idUsuarioCalifica,
+				    	$idUsuarioCalificado,
+				    	$calificacion,
+				    	$observaciones
+					)
+				);
+
+		} catch (Exception $e)
+		{
+			die($e->getMessage());
+		}
+	}
+
 }

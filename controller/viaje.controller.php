@@ -272,6 +272,62 @@ class ViajeController{
         echo json_encode($this->model->Listar());
     }
 
+    public function CalificarPiloto(){
+        try
+        {
+            $valido = "";
+            $idViaje = $_REQUEST['idViaje'];
+            $idUsuarioCalifica = $_REQUEST['idUsuarioCopiloto'];
+            $idUsuarioPiloto = $_REQUEST['idUsuarioPiloto'];
+            $calificacion = $_REQUEST['calificacion'];
+            $observaciones = $_REQUEST['observaciones'];
+            $valido = $this->model->ValidarCalificarPiloto($idViaje, $idUsuarioCalifica, $idUsuarioPiloto);
+            if ($valido != '')
+            {
+                $result = ['success' => '0', 'mensaje' => $valido];
+            }
+            else
+            {
+                $this->model->CalificarUsuario($idViaje, $idUsuarioCalifica, $idUsuarioPiloto, $calificacion, $observaciones);
+                $result = ['success' => '1', 'mensaje' => 'La calificación ha sido guardada con éxito.'];
+            }
+        }
+        catch(Exception $e)
+        {
+            $result = ['success' => '0', 'mensaje' => 'Ocurrió el siguiente error:' . $e->getMessage()];
+        }
+
+        echo json_encode($result);
+    }
+
+    public function CalificarCopiloto(){
+        try
+        {
+            $valido = "";
+            $idViaje = $_REQUEST['idViaje'];
+            $idUsuarioCalifica = $_REQUEST['idUsuarioPiloto'];
+            $idUsuarioCopiloto = $_REQUEST['idUsuarioCopiloto'];
+            $calificacion = $_REQUEST['calificacion'];
+            $observaciones = $_REQUEST['observaciones'];
+            $valido = $this->model->ValidarCalificarCopiloto($idViaje, $idUsuarioCalifica, $idUsuarioCopiloto);
+            if ($valido != '')
+            {
+                $result = ['success' => '0', 'mensaje' => $valido];
+            }
+            else
+            {
+                $this->model->CalificarUsuario($idViaje, $idUsuarioCalifica, $idUsuarioCopiloto, $calificacion, $observaciones);
+                $result = ['success' => '1', 'mensaje' => 'La calificación ha sido guardada con éxito.'];
+            }
+        }
+        catch(Exception $e)
+        {
+            $result = ['success' => '0', 'mensaje' => 'Ocurrió el siguiente error:' . $e->getMessage()];
+        }
+
+        echo json_encode($result);
+    }
+
     public function Test(){
         echo json_encode(['success' => '1', 'mensaje' => 'El viaje ha sido guardado con éxito.', 'id' => '23']);
     }
