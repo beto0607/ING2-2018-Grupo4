@@ -94,6 +94,83 @@ class Usuario
 		}
 	}
 
+	public function ValidarEliminar($id)
+	{
+		// valido que no tenga viajes pendientes (ni como copiloto ni como piloto), que no tenga pagos pendientes ni calificaciones.
+		try
+		{
+			$valido = "";
+
+			$sql = "SELECT COUNT(vi.id) AS 'viajesP'
+						FROM usuarios U
+					    INNER JOIN vehiculos ve
+							ON u.id = ve.idUsuario
+						LEFT JOIN viajes vi
+							ON	ve.id = vi.idvehiculo
+								AND vi.fecha > NOW()
+								AND vi.fechaCancelacion IS NULL
+						WHERE	u.id = ?";
+
+			$stm = $this->pdo->prepare($sql);
+			$stm->execute(array($id));
+			$val = $stm->fetch();
+			if ($val['viajesP'] > 0)
+			{
+				$valido = 'El usuario tiene viajes pendientes.';
+			}
+			else
+			{
+				$sql = "SELECT COUNT(vi.id) AS 'copilotoP'
+							FROM usuarios U
+							INNER JOIN copilotos cop
+								ON	u.id = cop.idUsuario
+									AND cop.fechaAprobacion IS NOT NULL
+						            AND cop.fechaCancelacion IS NULL
+						            AND cop.fechaRechazo IS NULL
+							INNER JOIN viajes vi
+								ON	cop.idViaje = vi.id
+									AND vi.fechaCancelacion IS NULL
+						            AND vi.fecha > NOW()
+							WHERE	u.id = ?";
+				$stm = $this->pdo->prepare($sql);
+				$stm->execute(array($id));
+				$val = $stm->fetch();
+				if ($val['copilotoP'] > 0)
+				{
+					$valido = 'El usuario participa en viajes pendientes.';
+				}
+				else
+				{
+					$sql = "SELECT COUNT(vi.id) AS 'calificacionesP'
+							FROM copilotos cop
+						    INNER JOIN viajes vi
+								ON	cop.idViaje = vi.id
+									AND vi.fechaCancelacion IS NULL
+							LEFT JOIN calificaciones cal
+								ON	cop.idViaje = cal.idViaje
+									AND cop.idUsuario = cal.idUsuarioCalifica
+							WHERE 	cop.idUsuario = ?
+									AND cop.fechaCancelacion IS NULL
+						            AND cop.fechaAprobacion IS NOT NULL
+									AND cal.id IS NULL ";
+					$stm = $this->pdo->prepare($sql);
+					$stm->execute(array($id));
+					$val = $stm->fetch();
+					if ($val['calificacionesP'] > 0)
+					{
+						$valido = 'El usuario tiene calificaciones pendientes.';
+					}
+				}
+			}
+
+			return $valido;
+
+		} catch (Exception $e)
+		{
+			die($e->getMessage());
+		}
+	}
+
 	public function Eliminar($id)
 	{
 		try
