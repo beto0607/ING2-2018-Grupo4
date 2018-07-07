@@ -289,4 +289,23 @@ class Usuario
 
 		return $valido;
 	}
+
+	public function CambiarClave($usuario, $clave)
+	{
+		try
+		{
+			$sql = "UPDATE usuarios SET clave = ? WHERE id = ?";
+
+			$this->pdo->prepare($sql)
+			     ->execute(
+				    array(
+						sha1($clave),
+				    	$usuario
+					)
+				);
+		} catch (Exception $e)
+		{
+			die($e->getMessage());
+		}
+	}
 }

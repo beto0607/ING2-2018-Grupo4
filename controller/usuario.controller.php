@@ -145,6 +145,26 @@ class UsuarioController{
         echo json_encode($result);
     }
 
+    public function CambiarClave(){
+        try
+        {
+            $idUsuario = $_REQUEST['id'];
+            $clave = $_REQUEST['clave'];
+            $valido = '';
+            
+            $this->model->CambiarClave($idUsuario, $clave);
+            
+            $result = ['success' => '1', 'mensaje' => 'La contraseña ha sido cambiada con éxito.'];
+                
+        }
+        catch(Exception $e)
+        {
+            $result = ['success' => '0', 'mensaje' => 'Ocurrió el siguiente error:' . $e->getMessage()];
+        }
+
+        echo json_encode($result);
+    }
+
     public function Listar(){
         echo json_encode($this->model->Listar());
     }
