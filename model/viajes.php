@@ -75,6 +75,30 @@ class Viajes
 		}
 	}
 
+	public function Buscar($filtros)
+	{
+		try
+		{
+			$result = array();
+
+			$where = " WHERE 1=1 ";
+
+			$where .= " AND v.fecha >= '" . $filtros['fechaDesde'] . "' ";
+			$where .= " AND fecha < timestampadd(DAY, 1, '" . $filtros['fechaHasta'] . "') ";
+			$where .= " AND v.origen LIKE '%" . $filtros['origen'] . "%' ";
+			$where .= " AND v.destino LIKE '%" . $filtros['destino'] . "%' ";
+
+			$stm = $this->pdo->prepare($this->sql . $where . $this->group . " ORDER BY v.fecha");
+			$stm->execute();
+
+			return $stm->fetchAll(PDO::FETCH_OBJ);
+		}
+		catch(Exception $e)
+		{
+			die($e->getMessage());
+		}
+	}
+
 	public function Obtener($id)
 	{
 		try
