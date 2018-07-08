@@ -375,6 +375,55 @@ class ViajeController{
         echo json_encode($result);
     }
 
+    public function Pagar(){
+        try
+        {
+            $valido = "";
+            $data = array(
+                        'idViaje' => $_REQUEST['idViaje'], 
+                        'idUsuario' => $_REQUEST['idUsuario']
+                    ); 
+
+            $valido = $this->model->ValidarPago($data);
+
+            if ($valido != '')
+            {
+                $result = ['success' => '0', 'mensaje' => $valido];
+            }
+            else
+            {
+                $importe = 0;
+                $mensaje = '';
+
+                $valores = $this->model->ObtenerValoresPago($data);
+
+                $importe = $valores['montoPago'];
+
+                $mensaje = array(
+                                'Se realizó el pago con éxito.', 
+                                'Se depositó al piloto $ ' . number_format($importe, 2)
+                            );
+
+                if ($valores['porcentajeComision'] != "")
+                {
+                    $mensaje += ['Se cobró de comisión $ '. $valores['porcentajeComision']];
+                }
+
+                $data += ['importe' => $importe];
+            
+                $this->model->RealizarPago($data);
+
+                $result = ['success' => '1', 'mensaje' => $mensaje];
+            }
+        }
+        catch(Exception $e)
+        {
+            $result = ['success' => '0', 'mensaje' => 'Ocurrió el siguiente error:' . $e->getMessage()];
+        }
+
+        echo json_encode($result);
+    }
+
     public function Test(){
         echo json_encode(['success' => '1', 'mensaje' => 'El viaje ha sido guardado con éxito.', 'id' => '23']);
     }
