@@ -325,7 +325,7 @@ class Viaje
 			$stm = $this->pdo->prepare("UPDATE viajes SET fechaCancelacion = NOW() WHERE id = ?");
 			$stm->execute(array($id));
 
-			$stm->pdo->prepare("UPDATE copilotos SET fechaCancelacion = NOW() WHERE idViaje = ?");
+			$stm = $this->pdo->prepare("UPDATE copilotos SET fechaCancelacion = NOW() WHERE idViaje = ?");
 			$stm->execute(array($id));
 
 			$this->pdo->commit();
@@ -790,6 +790,104 @@ class Viaje
 				    array(
 				    	$idMensaje,
 				    	$respuesta
+					)
+				);
+
+		} catch (Exception $e)
+		{
+			die($e->getMessage());
+		}
+	}
+
+	public function ValidarPago($data)
+	{
+		/*
+			- Debe existir un pago pendiente por parte del usuario.
+		*/
+		try
+		{
+			$valido = "";
+
+			$sql = "SELECT	COUNT(1) AS 'Pendiente'
+						FROM copilotos cop
+					    WHERE	cop.idViaje = ?
+								AND cop.idUsuario = ?
+					            AND fechaAprobacion IS NOT NULL
+					            AND fechaCancelacion IS NULL
+					            AND fechaPago IS NULL";
+			$stm = $this->pdo->prepare($sql);
+			$stm->execute(array($data['idViaje'], $data['idUsuario']));
+			$val = $stm->fetch();
+			if ($val['Pendiente'] == 0)
+			{
+				$valido = 'No hay pago pendiente para realizar.';
+			}
+
+			return $valido;
+
+		} catch (Exception $e)
+		{
+			die($e->getMessage());
+		}
+	}
+
+	public function ObtenerValoresPago($data)
+	{
+		try
+		{
+			$sql = "SELECT 	vi.id, 
+							ROUND(ROUND(vi.montoTotal / vi.plazas, 2) 
+							- 	CASE 
+									WHEN COUNT(cop.idUsuario) = 0 
+										THEN ROUND(vi.montoTotal / vi.plazas, 2) * (vi.porcentajeComision / 100) 
+									ELSE 0 
+								END, 2) AS 'montoPago', 
+					        CASE 
+								WHEN COUNT(cop.idUsuario) = 0 
+									THEN CONCAT(ROUND(ROUND(vi.montoTotal / vi.plazas, 2) * (vi.porcentajeComision / 100), 2), ' (', CONVERT(vi.porcentajeComision, char), ')') 
+								ELSE ''
+							END AS 'porcentajeComision', 
+					        vi.cbu
+						FROM Viajes vi
+					    LEFT JOIN copilotos cop
+							ON	vi.id = cop.idViaje
+								AND cop.fechaAprobacion IS NOT NULL
+					            AND cop.fechaCancelacion IS NULL
+					            AND cop.fechaPago IS NOT NULL
+						WHERE vi.id = ?
+					    GROUP BY vi.id, vi.cbu ";
+
+			$stm = $this->pdo->prepare($sql);
+			$stm->execute(array($data['idViaje']));
+
+			$val = $stm->fetch();
+			
+			return $val;
+
+		} catch (Exception $e)
+		{
+			die($e->getMessage());
+		}
+	}
+
+	public function RealizarPago($data)
+	{
+		try
+		{
+			$sql = "UPDATE copilotos
+						SET fechaPago = NOW(),
+							montoPago = ?
+						WHERE 	idviaje = ?
+								AND idusuario = ?
+					            AND fechaCancelacion IS NULL
+					            AND fechaRechazo IS NULL";
+
+			$this->pdo->prepare($sql)
+			     ->execute(
+				    array(
+				    	$data['importe'],
+				    	$data['idViaje'],
+				    	$data['idUsuario']
 					)
 				);
 

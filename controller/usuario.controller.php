@@ -121,13 +121,48 @@ class UsuarioController{
     public function Eliminar(){
         try
         {
-            $this->model->Eliminar($_REQUEST['id']);
-            echo json_encode(['success' => '1', 'mensaje' => 'El usuario ha sido eliminado con éxito.']);
+            $idUsuario = $_REQUEST['id'];
+            $valido = '';
+            $valido = $this->model->ValidarEliminar($idUsuario);
+
+            if ($valido != '')
+            {
+                $result = ['success' => '0', 'mensaje' => $valido];
+            }
+            else 
+            {
+                $this->model->Eliminar($_REQUEST['id']);
+
+                $result = ['success' => '1', 'mensaje' => 'El usuario ha sido eliminado con éxito.'];
+            }
+                
         }
         catch(Exception $e)
         {
-            echo json_encode(['success' => '0', 'mensaje' => 'Ocurrió el siguiente error:' . $e->getMessage()]);
+            $result = ['success' => '0', 'mensaje' => 'Ocurrió el siguiente error:' . $e->getMessage()];
         }
+
+        echo json_encode($result);
+    }
+
+    public function CambiarClave(){
+        try
+        {
+            $idUsuario = $_REQUEST['id'];
+            $clave = $_REQUEST['clave'];
+            $valido = '';
+            
+            $this->model->CambiarClave($idUsuario, $clave);
+            
+            $result = ['success' => '1', 'mensaje' => 'La contraseña ha sido cambiada con éxito.'];
+                
+        }
+        catch(Exception $e)
+        {
+            $result = ['success' => '0', 'mensaje' => 'Ocurrió el siguiente error:' . $e->getMessage()];
+        }
+
+        echo json_encode($result);
     }
 
     public function Listar(){
