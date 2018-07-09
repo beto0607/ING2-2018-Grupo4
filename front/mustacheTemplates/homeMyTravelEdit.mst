@@ -7,6 +7,14 @@
       </div>
     </div>
     {{/fechaCancelacion}}
+    {{#fechaCancelacion}}
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <strong style="color:red;">VIAJE ELIMINADO</strong>
+        <br>
+      </div>
+    </div>
+    {{/fechaCancelacion}}
   <div class="form-row">
     <div class="form-group col-md-6">
       <label for="edit-travel-vehicles">Vehículo</label>

@@ -10,7 +10,8 @@ var URLs = {
 	vehiclesModify:"../index.php?c=vehiculo&a=Guardar&debug=1",
 
 	userInfo: "../index.php?c=usuario&a=Obtener&debug=1",
-	userInfoSave: "../index.php?c=usuario&a=Guardar&debug=1"
+	userInfoSave: "../index.php?c=usuario&a=Guardar&debug=1",
+	userDelete: "../index.php?c=usuario&a=EliminarUsuario&debug=1"
 };
 var loadItems = {
 	"travelsFor": false,
@@ -40,11 +41,12 @@ $(document).ready(function(){
 	});
 	$("#signoutButton").on("click", signoutClick);
 	/*------------Eventos del manejo de user data------------*/
-	$("#buttonSaveUserInfo").on("click", userInfoSubmit);
+	//$("#buttonSaveUserInfo").on("click", userInfoSubmit);
 	$("#userInfoModal .editButton").on("click", userInfoInputClick);
 	/*------------Eventos del manejo de viajes------------*/
 	$(".travelListItem").on("click", travelListItemClick);
 
+	$("#removeUsuario").on("click", deleteUserButtonClick);
 });
 /*------------Funciones del manejo de viajes---------------*/
 function loadLastTravels(){
@@ -115,14 +117,14 @@ function myTravelInfo(){
 	if(travel.isMine){
 		$.get("./mustacheTemplates/homeMyTravelEdit.mst", function(t){
 			travel["vehicles"] = vehicles;
-			//travel["cbu"] = userJSON.cbu;
 			travel["duracionString"] = travel["duracion"].split(":")[0]+"h "+ travel["duracion"].split(":")[1]+"m";
 			travel["duracionFlotante"] = parseFloat(travel["duracion"].split(":")[0])+ (parseFloat(travel["duracion"].split(":")[1])/60);
-			travel["montoWithoutComission"] = parseFloat(travel["montoTotal"]) / 1.05;
+
 			var date = new Date(travel["fecha"]);
 			travel["dateStart"] = date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
 			travel["hourStart"] = date.toLocaleTimeString();
 
+			console.log(travel);
 			$("#myTravelEditModal .modal-body").empty();
 			var output = Mustache.render(t, travel);
 			$("#myTravelEditModal .modal-body").append(output);
@@ -173,12 +175,29 @@ function travelListItemClick(){
 	changeLocation("./travels.html?travel="+$(this).attr("travel-id"))
 }
 /*------------Funciones del manejo de userInfo------------*/
+function deleteUserButtonClick(){
+	bConfirmCallbacks("¿Seguro que desea eliminar el usuario? No podrá volver a utilizarlo", function(r){
+		if(!r){return;}
+		bConfirmCallbacks("¿Totalmente seguro que desea eliminar el usuario?",deleteUserSubmit);
+	});
+}
+function deleteUserSubmit(r){
+	if(!r){return;}
+	$.post(URLs.userDelete, {idUsuario: userID})
+		.done(function(d,s){
+			if(parseJSON(d).success="1"){	
+				bAlertCallback("Fue un placer... :'-( ", goToIndex);
+			}
+		})
+		.fail(onFailPost);
+}
 function signoutClick(e){
 	setCookie("userID", "", 1);
 	$.post(URLs.signout)
 		.done(function(){
 			bAlertCallback("Cerraste sesión", goToIndex);
 		})
+		.fail(onFailPost);
 }
 function loadUserInfo(){
 	$.post(URLs.userInfo, {'id': userID})
@@ -211,8 +230,10 @@ function userInfoInputClick(e){
 	$("#userInfoModal #buttonSaveUserInfo").removeClass("disabled");
 	$("#userInfoModal input.inputDisabled").removeAttr("disabled");
 	$("#userInfoModal .modal-title").text("Modificar datos");
+	$("#userInfoModal #buttonSaveUserInfo").on("click", userInfoSubmit);
 }
 function userInfoValidateForm(){
+	console.log("userInfoValidateForm");
 	$("#userInfoModal form").validate({
 		onfocusout: false,
 		rules: {
@@ -243,8 +264,10 @@ function userInfoValidateForm(){
 }
 function userInfoSubmit(){
 	$("#userInfoModal form").submit();
+	return false;
 }
 function userInfoSave(r){
+	console.log("userInfoSave");
 	if(!r){return;}
 	var form = $("#userInfoModal form");
 
@@ -512,7 +535,7 @@ function editTravel(){
 	var dHours = Math.floor(duration)
 	duration = (dHours <10 ? "0": "")+ dHours.toString() +":"+  (((duration - dHours) * 60)< 10 ? "0" : "" )+((duration - dHours) * 60).toString() +":00";
 
-	if(!existsVehicle($("#addTravelVehiclesSelect").val())){
+	if(!existsVehicle($("#editTravelVehiclesSelect").val())){
 		bAlert("Debe seleccionar un vehículo o agregar uno desde \"Mis vehículos\".");
 		return;
 	}
@@ -585,10 +608,7 @@ function travelAddValidateForm(){
 			},
 			"add-travel-type":{
 				required: true
-			},
-			"add-travel-till-date":{
-				required: true
-			},
+			}
 		},
 		submitHandler:addTravel
 	});
@@ -596,7 +616,7 @@ function travelAddValidateForm(){
 function addTravelCheckDates(form){
 	var today = new Date();
 	var startDate = new Date(getInputValue(form, "add-travel-date") + "T" +getInputValue(form, "add-travel-hour"));
-	var endDate = new Date(getInputValue(form, "add-travel-date-end") + "T" +getInputValue(form, "add-travel-hour-end"));
+	var endDate = new Date(getInputValue(form, "add-travel-date-end") + "T" +getInputValue(form, "add-travel-hour"));
 	return	startDate > today && (endDate > startDate || $("#addTravelTypeSelect").val() == "O");
 }
 function addTravel(){
@@ -630,7 +650,7 @@ function addTravel(){
 	var dateTill = travelType == "O" ?
 		date :
 		getInputValue(form, "add-travel-date-end").split("-").join("")
-		+ " " + getInputValue(form, "add-travel-hour-end").split(":").join("")+"00";
+		+ " " + getInputValue(form, "add-travel-hour").split(":").join("")+"00";
 	var data = {
 		idUsuario: userID,
 		idVehiculo: $("#addTravelVehiclesSelect").val(),
@@ -728,7 +748,6 @@ function Configure(){
 	vehicleModifyValidateForm();
 	userInfoValidateForm();
 	travelAddValidateForm();
-
 
 	ConfigureTravels();
 }

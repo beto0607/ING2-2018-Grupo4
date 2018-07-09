@@ -35,31 +35,26 @@
   <span><strong>Descripción del auto:</strong> {{descripcionVehiculo}}</span>
   <br>
   <hr>
-  {{#canPostulate}}
-    {{^fechaCancelacion}}
-    <button type="button" class="btn btn-primary travelPostulateButton">Postularse</button>
-    {{/fechaCancelacion}}
-  {{/canPostulate}}
-  {{^canPostulate}}
-    {{#isPostulant}}
-    <span>Ya te postulaste en este viaje</span>
-    <br>
-    {{^postulation.desapproved}}
-    {{^postulation.canceled}}
-    {{^fechaCancelacion}}
-    <button type="button" class="btn btn-primary deleteButton travelCancelPostulationButton">Abandonar viaje</button>
-    {{/fechaCancelacion}}
-    {{/postulation.canceled}}
-    {{/postulation.desapproved}}
 
-    {{#postulation.canceled}}
-    <span>Cancelaste la postulación al viaje.</span>
-    <br>
-    {{/postulation.canceled}}
-    {{#postulation.desapproved}}
-    <span>No te aprobaron en el viaje. :'(</span>
-    <br>
-    {{/postulation.desapproved}}
+  {{#isPostulant}}
+      <span>Ya te postulaste en este viaje</span>
+      <br>
+      {{^postulation.desapproved}}
+      {{^postulation.canceled}}
+      {{^fechaCancelacion}}
+      <button type="button" class="btn btn-primary deleteButton travelCancelPostulationButton">Abandonar viaje</button>
+      {{/fechaCancelacion}}
+      {{/postulation.canceled}}
+      {{/postulation.desapproved}}
+
+      {{#postulation.canceled}}
+      <span>Cancelaste la postulación al viaje.</span>
+      <br>
+      {{/postulation.canceled}}
+      {{#postulation.desapproved}}
+      <span>No te aprobaron en el viaje. :'(</span>
+      <br>
+      {{/postulation.desapproved}}
     {{/isPostulant}}
 
     {{#isCopilot}}
@@ -79,5 +74,9 @@
       {{/fechaCancelacion}}
       {{/copilotState.calified}}
     {{/isCopilot}}
+
+  {{#canPostulate}}
+    <button type="button" class="btn btn-primary travelPostulateButton">Postularse</button>
+    <br>
   {{/canPostulate}}
 </div>

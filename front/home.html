@@ -41,6 +41,9 @@
 			<div class="px-3 py-2 container">
 				<button class="btn btn-primary" id="signoutButton"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</button>
 			</div>
+			<div class="px-3 py-2 container">
+				<button class="btn btn-primary deleteButton" id="removeUsuario"><i class="fas fa-trash-alt"></i> Eliminar usuario</button>
+			</div>
 		</div>
 	</nav>
 	<div id="changePasswordModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="userInfoModal" aria-hidden="true" data-backdrop="static">
@@ -65,7 +68,7 @@
 					</form>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary disabled" id="buttonSaveUserInfo">Guardar cambios</button>
+					<button type="button" class="btn btn-primary disabled" id="buttonSavePassword">Guardar cambios</button>
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
 				</div>
 			</div>
@@ -408,10 +411,10 @@
 									<label for="add-travel-date-end">Fecha de fin</label>
 									<input type="date" name="add-travel-date-end" class="form-control" placeholder="Fecha de fin"  />
 								</div>
-								<div class="form-group col-md-6">
+								<!--div class="form-group col-md-6">
 									<label for="add-travel-hour-end">Hora de fin</label>
 									<input type="time" name="add-travel-hour-end" class="form-control" placeholder="Hora de fin"  />
-								</div>
+								</div-->
 							</div>
 							<div class="form-row">
 								<div class="form-group col-md-12">

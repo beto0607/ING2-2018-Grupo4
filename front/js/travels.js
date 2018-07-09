@@ -100,10 +100,18 @@ function travelInfoLoaded(){
 		var c = getCopilotState();
 		travelInfo["copilotState"] = {
 			"paid": c && c.fechaPago ? c.fechaPago != null : false,
-			"calified": false//FALTA AGREGAR EL ESTADO "CALIFICASTE"
+			"canceled" : false,
+			"calified": false//FALTA AGREGAR EL ESTADO "CALIFICASTE",
+
 		};
-		travelInfo["canPostulate"] = !(travelInfo["isCopilot"] || travelInfo["isPostulant"]);
 		travelInfo["copilotState"] = travelInfo["isCopilot"] ? getCopilotState(): "<VACÍO>";
+
+		travelInfo["canPostulate"] =
+			!travelInfo["isCopilot"] &&
+			//(travelInfo["isCopilot"] && (!travelInfo["copilotState"]["canceled"])) ||
+			!travelInfo["isPostulant"] ||
+			(travelInfo["isPostulant"] && travelInfo["postulation"]["canceled"]) ;
+				//!(travelInfo["isCopilot"] || travelInfo["isPostulant"]);
 		//travelInfo["postulationState"] = travelInfo["isPostulant"] ? getPostulationState(): "<VACÍO>";
     $.get('mustacheTemplates/travelsInfoNotMine.mst', showTravelInfo);
   }
