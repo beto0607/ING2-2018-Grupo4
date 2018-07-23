@@ -223,17 +223,22 @@ function cancelPostulation(r){
 }
 //-----CANCELAR VIAJE----
 function cancelTravelClick(){
-	bConfirmCallbacks("¿Seguro que desea cancelar el viaje? Se devolverá el dinero, y serás calificado negativamente.", cancelTravel);
+	var cops = parseInt(travelInfo.copilotos);
+
+	bConfirmCallbacks(
+		"¿Seguro que desea cancelar el viaje?" + (cops == 0 ? "" : " Se devolverá el dinero, y serás calificado negativamente."), cancelTravel);
 }
 function cancelTravel(r){
 	if(!r){return;}
-	console.log(travelInfo);
+
 	$.post(URLs.travelCancel,
 		{id: travelInfo.idViaje})
 		.done(function(d,s){
 			d = parseJSON(d);
 			if(d.success == "1"){
-				bAlertCallback("Viaje eliminado. Se enviaron las notificaciones a los copilotos.", reloadPage);
+				var cops = parseInt(travelInfo.copilotos);
+
+				bAlertCallback("Viaje eliminado."+(cops == 0 ? "": " Se enviaron las notificaciones a los copilotos."), reloadPage);
 			}else{
 				bAlert(""+d.mensaje);
 			}

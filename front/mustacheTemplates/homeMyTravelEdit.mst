@@ -7,19 +7,11 @@
       </div>
     </div>
     {{/fechaCancelacion}}
-    {{#fechaCancelacion}}
-    <div class="form-row">
-      <div class="form-group col-md-6">
-        <strong style="color:red;">VIAJE ELIMINADO</strong>
-        <br>
-      </div>
-    </div>
-    {{/fechaCancelacion}}
   <div class="form-row">
     <div class="form-group col-md-6">
       <label for="edit-travel-vehicles">Vehículo</label>
       <select id="editTravelVehiclesSelect" name="edit-travel-vehicles" class="form-control">
-        <option value="-1">Seleccioné un vehículo</option>
+        <option value="-1">Seleccione un vehículo</option>
         {{#vehicles}}
           <option value="{{id}}">{{dominio}} - {{marca}} - {{modelo}}</option>
         {{/vehicles}}
@@ -27,7 +19,7 @@
     </div>
     <div class="form-group col-md-6">
       <label for="edit-travel-size">Plazas</label>
-      <input type="number" name="edit-travel-size" class="form-control" disabled="true" placeholder="Plazas" min="1" />
+      <input type="number" name="edit-travel-size" class="form-control" placeholder="Plazas" min="1" value="{{plazasViaje}}" max="{{plazasVehiculo}}"/>
     </div>
   </div>
   <div class="form-row">

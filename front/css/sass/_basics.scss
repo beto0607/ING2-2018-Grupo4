@@ -14,9 +14,12 @@ h2.navbar-center{
 }
 .footer{
 	background-color: $footerBackgroundColor;
-	height:5em;
+	height:2em;
 	color:$footerColor;
-	padding:1em ;
+	padding: 0;
+	.container{
+		padding: 0;
+	}
 }
 .headerLogo{
 	height: 4em;

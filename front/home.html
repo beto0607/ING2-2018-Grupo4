@@ -25,18 +25,28 @@
 		</a>
 
 		<h2 class="navbar-center">Un Aventón</h2>
+		<div class="navbar-right contianer">
+			<a class="btn option" id="travelsOption" data-toggle="collapse" data-target="#travelsContainer">Mis Viajes</a>
+
+			<a class="btn option" id="vehiclesOption" data-toggle="collapse" data-target="#vehiclesContainer">Mis Vehículos</a>
+		</div>
 		<a class="navbar-right far fa-user" id="profileDropdown" href="#openProfile" data-toggle="dropdown"></a>
 		<div class="dropdown-menu p-4">
+
 			<div class="px-3 py-3 container reputationContainer">
 				<span>Reputación como piloto: <strong>2.1</strong> <i class="fas fa-star"></i></span>
 				<br>
 				<span>Reputación como copiloto: <strong>2.1</strong> <i class="fas fa-star"></i></span>
 			</div>
+
+			<div class="px-3 py-2 container">
+				<a class="btn" href="#" data-toggle="modal" data-target="#reputationModal"><i class="far fa-star"></i> Mi Reputación</a>
+			</div>
 			<div class="px-3 py-2 container">
 				<a class="btn" href="#" data-toggle="modal" data-target="#userInfoModal"><i class="far fa-user"></i> Mi perfil</a>
 			</div>
 			<div class="px-3 py-2 container">
-				<a class="btn" href="#" data-toggle="modal" data-target="#changePasswordModal">Cambiar contraseña</a>
+				<a class="btn" href="#" data-toggle="modal" data-target="#changePasswordModal"><i class="fas fa-key"></i> Cambiar contraseña</a>
 			</div>
 			<div class="px-3 py-2 container">
 				<button class="btn btn-primary" id="signoutButton"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</button>
@@ -139,8 +149,9 @@
 	</div-->
 	<div class="container" id="lastTravelsContainer">
 		<div class="row">
-			<h2 class="col-md-10">Próximos viajes</h2>
-			<a class="btn btn-primary col-md-2" href="travels.html">Ver todos los viajes</a>
+			<h2 class="col-md-10">Viajes</h2>
+			<!--a class="btn btn-primary col-md-2" href="travels.html">Ver todos los viajes</a-->
+
 		</div>
 		<div class="row">
 			<ul></ul>
@@ -208,19 +219,6 @@
 					</div>
 				</div>
 			</div>
-		</div>
-	</div>
-	<div class="container" id="optionsContainer">
-		<div class="row">
-			<a class="col-md-3 mx-auto option" id="vehiclesOption" data-toggle="collapse" data-target="#vehiclesContainer">
-				Mis vehículos
-			</a>
-			<a class="col-md-3 mx-auto option" id="travelsOption" data-toggle="collapse" data-target="#travelsContainer">
-				Mis viajes
-			</a>
-			<a class="col-md-3 mx-auto option" id="reputationOption" data-toggle="collapse" data-target="#reputationContainer">
-				Mi reputación
-			</a>
 		</div>
 	</div>
 	<div class="container collapse infoContainer" id="vehiclesContainer" >
@@ -440,8 +438,7 @@
 	<div class="container sectionWhiteSpace"></div>
 	<footer class="footer fixed-bottom">
 		<div class="container">
-			<span class="text-muted">Hecho por Grupo 4 - ING 2 - 2018</span>
-			<br>
+			<span class="text-muted">Hecho por Grupo 4 - ING 2 - 2018 | </span>
 			<a href="terminos.html">Términos y condiciones de uso</a>
 		</div>
 	</footer>
@@ -453,6 +450,9 @@
 	<script type="text/javascript" src="./lib/bootbox.min.js"></script>
 	<script type="text/javascript" src="./lib/mustache.min.js"></script>
 	<script type="text/javascript" src="./js/misc.js"></script>
+	<script type="text/javascript" src="./js/vehicles.js"></script>
+	<script type="text/javascript" src="./js/homeTravels.js"></script>
+	<script type="text/javascript" src="./js/userInfo.js"></script>
 	<script type="text/javascript" src="./js/home.js"></script>
 </body>
 </html>

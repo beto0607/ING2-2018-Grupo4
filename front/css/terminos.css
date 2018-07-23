@@ -13,9 +13,12 @@ h2.navbar-center {
 
 .footer {
   background-color: #464646;
-  height: 5em;
+  height: 2em;
   color: #BBBBBB;
-  padding: 1em;
+  padding: 0;
+}
+.footer .container {
+  padding: 0;
 }
 
 .headerLogo {
