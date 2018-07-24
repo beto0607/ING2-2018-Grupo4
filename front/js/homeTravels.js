@@ -3,17 +3,8 @@ function loadLastTravels(){
 	$.post(URLs.travelsList)
 		.done(function(d,s){
 			d = parseJSON(d);
-			//console.log(d);
-			//d = orderTravels(d);
 			travels = d;
-			//addMyTravels(d);
-			var ts = [];
-			for(var i = 0; i < (d.length > 9 ? 9 : d.length);i++){
-				ts.push(d[i]);
-			}
-			d = ts;
-			addLastTravels(d);
-
+			addTravels(d);
 			$.post(URLs.travelsFor, {idUsuario: userID})
 				.done(addMyTravels)
 		})
@@ -106,7 +97,7 @@ function myTravelInfo(){
 		changeLocation("travels.html?travel="+tID);
 	}
 }
-function addLastTravels(d){
+function addTravels(d){
 	$("#lastTravelsContainer ul").empty();
 	$.get('mustacheTemplates/travelsTravel.mst', function(template) {
 		for(var i = 0; i< d.length; i++){
@@ -123,7 +114,8 @@ function addLastTravels(d){
   });
 }
 function travelListItemClick(){
-	changeLocation("./travels.html?travel="+$(this).attr("travel-id"))
+  
+	//changeLocation("./travels.html?travel="+$(this).attr("travel-id"))
 }
 function ConfigureTravels(){
 	$("#addTravelVehiclesSelect").on("change",function(){
@@ -133,7 +125,6 @@ function ConfigureTravels(){
 		}else{
 			$("#addTravelForm input[name=\"add-travel-size\"]").removeAttr("disabled");
 			var v = getVehicle(vID);
-			//console.log(v);
 			$("#addTravelForm input[name=\"add-travel-size\"]").attr("max", v.plazas);
 		}
 	});
