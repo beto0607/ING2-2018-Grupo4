@@ -35,7 +35,7 @@ class ViajeController{
         {
             $result = $this->model->Obtener($_REQUEST['id']);
             $result->mensajes = $this->model->ObtenerMensajes($_REQUEST['id']);
-            $result = ['success' => '1', 'viaje' => $result];
+            //$result = ['success' => '1', 'viaje' => $result];
         }
         catch(Exception $e)
         {
