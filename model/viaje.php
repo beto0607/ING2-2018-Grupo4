@@ -16,6 +16,7 @@ class Viaje
 	public $fechaCancelacion;
 	public $fechaCierre;
 	public $duracion;
+	public $mensajes;
 
 	public function __CONSTRUCT()
 	{
@@ -124,6 +125,32 @@ class Viaje
 
 			$stm->execute(array($id));
 			return $stm->fetch(PDO::FETCH_OBJ);
+		} catch (Exception $e)
+		{
+			die($e->getMessage());
+		}
+	}
+
+	public function ObtenerMensajes($id)
+	{
+		try
+		{
+			$stm = $this->pdo
+			            ->prepare("SELECT	m.id AS 'idMensaje', 
+			            					m.fecha AS 'fechaMensaje', 
+			            					m.mensaje, 
+			            					u.usuario, 
+			            					r.fecha AS 'fechaRespuesta', 
+			            					r.respuesta
+										FROM mensajes m
+									    INNER JOIN usuarios u
+											ON m.idUsuario = u.id
+									    LEFT JOIN respuestas r
+											ON m.id = r.idmensaje
+										WHERE	m.idViaje = ?");
+
+			$stm->execute(array($id));
+			return $stm->fetchAll(PDO::FETCH_OBJ);
 		} catch (Exception $e)
 		{
 			die($e->getMessage());
