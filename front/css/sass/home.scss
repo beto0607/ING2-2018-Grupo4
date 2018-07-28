@@ -91,7 +91,7 @@ i.fas, i.far{
 		}
 	}
 }
-#myTravelsContainer, #lastTravelsContainer{
+#lastTravelsContainer{
 	ul{
     list-style: none;
     margin: auto;
@@ -172,4 +172,26 @@ i.fas, i.far{
 			margin-right: 0.25em;
 		}
 	}
+}
+
+
+.travelInfoContainer{
+  overflow-y: scroll;
+  img{
+    height: 2em;
+    left: -.5em;
+  }
+
+  .copilotContainer, .postulationContainer{
+    margin-bottom: .5em;
+  }
+}
+#travelInfoModal{
+  .modal-dialog{
+      overflow-y: initial !important
+  }
+  .modal-body{
+      height: 75vh;
+      overflow-y: scroll;
+  }
 }

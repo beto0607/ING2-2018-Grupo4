@@ -11,7 +11,28 @@ var URLs = {
 
 	userInfo: "../index.php?c=usuario&a=Obtener&debug=1",
 	userInfoSave: "../index.php?c=usuario&a=Guardar&debug=1",
-	userDelete: "../index.php?c=usuario&a=EliminarUsuario&debug=1"
+	userDelete: "../index.php?c=usuario&a=EliminarUsuario&debug=1",
+
+	travelsList:"../index.php?c=viajes&a=Listar&debug=1",
+	travelInfo: "../index.php?c=viaje&a=Obtener&debug=1",
+
+	travelPostulate: "../index.php?c=viaje&a=PostularCopiloto&debug=1",
+	travelCancelPostulation: "../index.php?c=viaje&a=CancelarPostulacion&debug=1",
+	travelCancelReserve: "../index.php?c=viaje&a=CancelarReserva&debug=1",
+
+	travelApprove: "../index.php?c=viaje&a=AprobarPostulacion&debug=1",
+	travelDesapprove: "../index.php?c=viaje&a=DesaprobarPostulacion&debug=1",
+
+	travelCancel:  "../index.php?c=viaje&a=Cancelar&debug=1",
+
+	travelCopilots: "../index.php?c=viaje&a=ObtenerCopilotos&debug=1",
+	travelPostulations: "../index.php?c=viaje&a=ObtenerPostulaciones&debug=1",
+
+	travelSendQuestion:"../index.php?c=viaje&a=EnviarMensaje&debug=1",
+	travelSendAnswer:"../index.php?c=viaje&a=ResponderMensaje&debug=1",
+
+	travelCalificatePilot: "../index.php?c=viaje&a=CalificarPiloto&debug=1",
+	travelCalificateCopilot: "../index.php?c=viaje&a=CalificarCopiloto&debug=1",
 };
 var loadItems = {
 	"travelsFor": false,
@@ -73,6 +94,8 @@ function Configure(){
 	travelAddValidateForm();
 
 	ConfigureTravels();
+
+	ConfigureTravelsEvents();
 }
 function setInputValue(form, input, v){
 	return $(form).find("input[name=\""+input+"\"]").val(v);

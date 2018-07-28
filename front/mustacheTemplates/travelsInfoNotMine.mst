@@ -35,6 +35,21 @@
   <span><strong>Descripción del auto:</strong> {{descripcionVehiculo}}</span>
   <br>
   <hr>
+  <strong>Preguntas: </strong>
+  <label for="questionInput">Haz tu pregunta:</label>
+  <br>
+  <input class="questionInput" type="text" placeholder="Haz tu pregunta" name="questionInput">
+  <button class="questionSubmit btn bt-primary">Enviar</button>
+  <br>
+  <br>
+  <ul class="travelQuestions">
+    <li>
+      <span>Pregunta #1: ¿BlahBlah?</span>
+      <br>
+      <span>Respuesta: ¿BlahBlah?</span>
+    </li>
+  </ul>
+  <hr>
 
   {{#isPostulant}}
       <span>Ya te postulaste en este viaje</span>
@@ -61,11 +76,27 @@
       {{#copilotState.paid}}
       <span>Ya pagaste el viaje.</span>
       <br>
+        {{^copilotState.calified}}
+        <strong>Calificar</strong>
+        <label for="votePilot">Calificación:</label>
+        <br>
+        <input class="votePilot" name="votePilot" type="number" min="1" max="5" step="1" placeholder="Calificacion"/>
+        <br>
+        <label for="votePilot">Descripción:</label>
+        <br>
+        <input class="votePilotText" name="votePilotText" type="text" placeholder="Descripción" maxlength="250"/>
+        <br>
+        <button class="votePilotSubmit btn bt-primary">Calificar</button>
+        {{/copilotState.calified}}
+      {{/copilotState.paid}}
+      {{^copilotState.paid}}
+      <button class="pay">Pagar viaje</button>
       {{/copilotState.paid}}
       {{#copilotState.calified}}
       <span>Ya calificaste.</span>
       <br>
       {{/copilotState.calified}}
+
       <span>Sos copiloto del viaje</span>
       <br>
       {{^copilotState.calified}}

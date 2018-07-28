@@ -654,7 +654,7 @@ class Viaje
 				$val = $stm->fetch();
 				if ($val['Pendiente'] > 0)
 				{
-					$valido = 'Debe pagar su participación en el viaje para poder calificar al piloto.';	
+					$valido = 'Debe pagar su participación en el viaje para poder calificar al piloto.';
 				}
 			}
 
@@ -736,8 +736,8 @@ class Viaje
 			$this->pdo->prepare($sql)
 			     ->execute(
 				    array(
-				    	$idViaje,
 				    	$mensaje,
+							$idViaje,
 				    	$idUsuario
 					)
 				);
@@ -782,7 +782,7 @@ class Viaje
 	{
 		try
 		{
-			$sql = "INSERT INTO respuesta (fecha, respuesta, idMensaje)
+			$sql = "INSERT INTO respuestas (fecha, respuesta, idMensaje)
 					VALUES (NOW(), ?, ?)";
 
 			$this->pdo->prepare($sql)
@@ -835,18 +835,18 @@ class Viaje
 	{
 		try
 		{
-			$sql = "SELECT 	vi.id, 
-							ROUND(ROUND(vi.montoTotal / vi.plazas, 2) 
-							- 	CASE 
-									WHEN COUNT(cop.idUsuario) = 0 
-										THEN ROUND(vi.montoTotal / vi.plazas, 2) * (vi.porcentajeComision / 100) 
-									ELSE 0 
-								END, 2) AS 'montoPago', 
-					        CASE 
-								WHEN COUNT(cop.idUsuario) = 0 
-									THEN CONCAT(ROUND(ROUND(vi.montoTotal / vi.plazas, 2) * (vi.porcentajeComision / 100), 2), ' (', CONVERT(vi.porcentajeComision, char), ')') 
+			$sql = "SELECT 	vi.id,
+							ROUND(ROUND(vi.montoTotal / vi.plazas, 2)
+							- 	CASE
+									WHEN COUNT(cop.idUsuario) = 0
+										THEN ROUND(vi.montoTotal / vi.plazas, 2) * (vi.porcentajeComision / 100)
+									ELSE 0
+								END, 2) AS 'montoPago',
+					        CASE
+								WHEN COUNT(cop.idUsuario) = 0
+									THEN CONCAT(ROUND(ROUND(vi.montoTotal / vi.plazas, 2) * (vi.porcentajeComision / 100), 2), ' (', CONVERT(vi.porcentajeComision, char), ')')
 								ELSE ''
-							END AS 'porcentajeComision', 
+							END AS 'porcentajeComision',
 					        vi.cbu
 						FROM Viajes vi
 					    LEFT JOIN copilotos cop
@@ -861,7 +861,7 @@ class Viaje
 			$stm->execute(array($data['idViaje']));
 
 			$val = $stm->fetch();
-			
+
 			return $val;
 
 		} catch (Exception $e)

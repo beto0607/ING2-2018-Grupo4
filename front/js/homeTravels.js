@@ -109,12 +109,12 @@ function addTravels(d){
 			var rendered = Mustache.render(template, t);
 			$("#lastTravelsContainer ul").append(rendered);
 		}
-		$("li.travelListItem").on("click", travelListItemClick);
+		$("li.travelListItem").on("click", travelClick);
 		infoLoaded("travelsList");
   });
 }
 function travelListItemClick(){
-  
+
 	//changeLocation("./travels.html?travel="+$(this).attr("travel-id"))
 }
 function ConfigureTravels(){

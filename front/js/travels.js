@@ -1,32 +1,13 @@
-var URLs = {
-	travelsList:"../index.php?c=viajes&a=Listar&debug=1",
-  travelInfo: "../index.php?c=viaje&a=Obtener&debug=1",
-
-  travelPostulate: "../index.php?c=viaje&a=PostularCopiloto&debug=1",
-  travelCancelPostulation: "../index.php?c=viaje&a=CancelarPostulacion&debug=1",
-  travelCancelReserve: "../index.php?c=viaje&a=CancelarReserva&debug=1",
-
-  travelApprove: "../index.php?c=viaje&a=AprobarPostulacion&debug=1",
-  travelDesapprove: "../index.php?c=viaje&a=DesaprobarPostulacion&debug=1",
-
-  travelCancel:  "../index.php?c=viaje&a=Cancelar&debug=1",
-
-	travelCopilots: "../index.php?c=viaje&a=ObtenerCopilotos&debug=1",
-	travelPostulations: "../index.php?c=viaje&a=ObtenerPostulaciones&debug=1",
-};
-
-var loadItems = {
-	"travels": false
-};
 var travels = null;
 var travelInfo = null;
 var userID = getCookie("userID");
 var userPostulation = null;
 var travelFromGet = null;
+var copilotVote = null;
 $(document).ready(function(){
-	userID = getCookie("userID");
+	/*userID = getCookie("userID");
   if(!userID || userID == ""){goToIndex();}
-  Configure();
+  Configure();*/
 });
 function loadTravels(){
 	$.post(URLs.travelsList)
@@ -59,8 +40,9 @@ function addTravels(d){
 
   });
 }
-function travelClick(){
-	var tID = $(this).attr("travel-id");
+function travelClick(travelID){
+	console.log("ADSF");
+	var tID = $(this).attr("travel-id") ? $(this).attr("travel-id"):travelID;
 	if(travelInfo && travelInfo.idViaje == tID){
 		travelInfoLoaded();
 		return;
@@ -68,7 +50,6 @@ function travelClick(){
 	travelInfo = getTravel(tID);
 	$.post(URLs.travelCopilots, {id: tID})
 		.done(function(d){
-			console.log(d);
 			d = parseJSON(d);
 			travelInfo["copilots"] = d.success == "1" ? d.copilotos : [];
 			$.post(URLs.travelPostulations, {id: tID})
@@ -245,6 +226,7 @@ function cancelTravel(r){
 		});
 }
 function showTravelInfo(template){
+	console.log(travelInfo);
   $("#travelInfoModal .modal-body").empty();
   var rendered = Mustache.render(template, travelInfo);
   $("#travelInfoModal .modal-body").append(rendered);
@@ -258,6 +240,8 @@ function ConfigureTravelInfoEvents(){
 	$(".travelDesapproveButton").on("click", desapprovePostulationClick);
 	$(".travelApproveButton").on("click", approvePostulationClick);
 	$(".travelCancelCopilotButton").on("click", cancelCopilotClick);
+	$(".questionSubmit").on("click", sendQuestionSubmit);
+	$(".votePilotSubmit").on("click", sendCalificationSubmit);
 }
 function getTravel(id){
   for(var t = 0; t < travels.length; t++){
@@ -292,4 +276,95 @@ function infoLoaded(item){
 	if(t){
 		hideSpinner();
 	}
+}
+
+/***************Califications*********************/
+function sendCalificationPilotSubmit(){
+	var cal = $(".votePilot").val();
+	var desc = $(".votePilotText").val();
+	if(cal > 0 && cal <5 && desc.length >0){
+		bConfirmCallbacks("¿Enviar la calificación?",sendCalificationPilotConfirm);
+	}else{
+		if(desc.length <=0){
+			bAlert("Debe ingresar una descripción.");
+		}else{
+			bAlert("Debe ingresar una calificación entre 1 y 5");
+		}
+	}
+}
+function sendCalificationPilotConfirm(r){
+	if(!r){return;}
+	$.post(URLs.travelCalificatePilot,
+		{
+			idViaje: travelInfo.idViaje,
+			idUsuarioCopiloto: userID,
+			idUsuarioPiloto: travelInfo.idUsuario,
+			calificacion: $(".votePilot").val(),
+			observaciones: $(".votePilotText").val()
+		}).done(function(d){
+			console.log(d);
+			d = parseJSON(d);
+			if(d.success == "1"){
+				bAlertCallback(d.mensaje, function(){travelClick(travelInfo.idViaje)});
+			}else{
+				bAlert(""+d.mensaje);
+			}
+		}).fail(onFailPost);
+}
+function calificateCopilot(){
+	copilotVote = $(this).attr("copilotId");
+}
+function sendCalificationCopilotSubmit(){
+	var cal = $(".voteCopilot").val();
+	var desc = $(".voteCopilotText").val();
+	if(cal > 0 && cal <5 && desc.length >0){
+		bConfirmCallbacks("¿Enviar la calificación?",sendCalificationPilotConfirm);
+	}else{
+		if(desc.length <=0){
+			bAlert("Debe ingresar una descripción.");
+		}else{
+			bAlert("Debe ingresar una calificación entre 1 y 5");
+		}
+	}
+}
+function sendCalificationCopilotConfirm(r){
+	if(!r){return;}
+	$.post(URLs.travelCalificateCopilot,
+		{
+			idViaje: travelInfo.idViaje,
+			idUsuarioPiloto: userID,
+			idUsuarioCopiloto: copilotVote,
+			calificacion: $(".voteCopilot").val(),
+			observaciones: $(".voteCopilotText").val()
+		}).done(function(d){
+			console.log(d);
+			d = parseJSON(d);
+			if(d.success == "1"){
+				bAlertCallback(d.mensaje, function(){travelClick(travelInfo.idViaje)});
+			}else{
+				bAlert(""+d.mensaje);
+			}
+		}).fail(onFailPost);
+}
+/***************MESSAGES*********************/
+function sendQuestionSubmit(){
+	if($(".questionInput").val().length>0){
+		bConfirmCallbacks("¿Enviar pregunta?", sendQuestionConfirm);
+	}
+}
+function sendQuestionConfirm(r){
+	if(!r){return;}
+	$.post(URLs.travelSendQuestion, {
+		idViaje: travelInfo.idViaje,
+		mensaje: $(".questionInput").val(),
+		idUsuario: userID
+	}).done(function(d){
+		console.log(d);
+		d = parseJSON(d);
+		if(d.success == "1"){
+			bAlertCallback(d.mensaje, function(){travelClick(travelInfo.idViaje)});
+		}else{
+			bAlert(""+d.mensaje);
+		}
+	}).fail(onFailPost);
 }

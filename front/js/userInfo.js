@@ -27,7 +27,6 @@ function loadUserInfo(){
 	$.post(URLs.userInfo, {'id': userID})
 		.done(function(d,s){
 			try{
-				console.log(d);
 				d = parseJSON(d);
 				userJSON = d;
 				$("div.reputationContainer span strong")[0].innerHTML = (d.calificacionPiloto);
@@ -57,8 +56,7 @@ function userInfoInputClick(e){
 	$("#userInfoModal #buttonSaveUserInfo").on("click", userInfoSubmit);
 }
 function userInfoValidateForm(){
-	console.log("userInfoValidateForm");
-	$("#userInfoModal form").validate({
+		$("#userInfoModal form").validate({
 		onfocusout: false,
 		rules: {
 			"user-info-firstname": {
@@ -91,7 +89,6 @@ function userInfoSubmit(){
 	return false;
 }
 function userInfoSave(r){
-	console.log("userInfoSave");
 	if(!r){return;}
 	var form = $("#userInfoModal form");
 
