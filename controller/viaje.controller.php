@@ -358,14 +358,14 @@ class ViajeController{
             $mensaje = $_REQUEST['respuesta'];
 
             $valido = $this->model->ValidarRespuesta($idMensaje);
-            
+
             if ($valido != '')
             {
                 $result = ['success' => '0', 'mensaje' => $valido];
             }
             else
             {
-                $this->model->ResponderMensaje($idViaje, $mensaje, $idUsuario);
+                $this->model->ResponderMensaje($idMensaje, $mensaje);
                 $result = ['success' => '1', 'mensaje' => 'La respuesta ha sido guardada con éxito.'];
             }
         }
@@ -382,9 +382,9 @@ class ViajeController{
         {
             $valido = "";
             $data = array(
-                        'idViaje' => $_REQUEST['idViaje'], 
+                        'idViaje' => $_REQUEST['idViaje'],
                         'idUsuario' => $_REQUEST['idUsuario']
-                    ); 
+                    );
 
             $valido = $this->model->ValidarPago($data);
 
@@ -402,7 +402,7 @@ class ViajeController{
                 $importe = $valores['montoPago'];
 
                 $mensaje = array(
-                                'Se realizó el pago con éxito.', 
+                                'Se realizó el pago con éxito.',
                                 'Se depositó al piloto $ ' . number_format($importe, 2)
                             );
 
@@ -412,7 +412,7 @@ class ViajeController{
                 }
 
                 $data += ['importe' => $importe];
-            
+
                 $this->model->RealizarPago($data);
 
                 $result = ['success' => '1', 'mensaje' => $mensaje];
@@ -428,5 +428,13 @@ class ViajeController{
 
     public function Test(){
         echo json_encode(['success' => '1', 'mensaje' => 'El viaje ha sido guardado con éxito.', 'id' => '23']);
+    }
+
+    public function ObtenerCalificaciones(){
+
+      $result = $this->model->ObtenerCalificaciones($_REQUEST["idViaje"]);
+      $result = ['success' => '1', 'calificaciones' => $result];
+      echo json_encode($result);
+
     }
 }

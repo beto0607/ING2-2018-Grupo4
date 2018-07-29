@@ -7,9 +7,19 @@ function bAlertCallback(s, c){
 }
 function bConfirmCallbacks(s, c){
 	bootbox.confirm(s,function(r){
-		console.log(r);
 		c(r);
 	});
+}
+function bPromptCallback(s,c){
+	bootbox.prompt({
+	  size: "small",
+	  title: s,
+		closeButton:false,
+	  callback: function(result){
+			c(result);
+		}
+	});
+
 }
 function showSpinner(){
 	dialog = bootbox.dialog({

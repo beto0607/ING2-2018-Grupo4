@@ -1,0 +1,8 @@
+<form action="javascript:void(0);">
+<label for="vote{{to}}Number">Calificación:</label>
+<input type="number" max=5 min=1 step=1 name="vote{{to}}Number"/>
+<br>
+<label for="vote{{to}}Text">Observaciones:</label>
+<input type="text" maxlength="50" name="vote{{to}}Text"/>
+
+</form>

@@ -33,6 +33,9 @@ var URLs = {
 
 	travelCalificatePilot: "../index.php?c=viaje&a=CalificarPiloto&debug=1",
 	travelCalificateCopilot: "../index.php?c=viaje&a=CalificarCopiloto&debug=1",
+	travelCalifications: "../index.php?c=viaje&a=ObtenerCalificaciones&debug=1",
+
+	travelPay: "../index.php?c=viaje&a=Pagar&debug=1"
 };
 var loadItems = {
 	"travelsFor": false,

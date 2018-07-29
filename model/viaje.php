@@ -136,11 +136,11 @@ class Viaje
 		try
 		{
 			$stm = $this->pdo
-			            ->prepare("SELECT	m.id AS 'idMensaje', 
-			            					m.fecha AS 'fechaMensaje', 
-			            					m.mensaje, 
-			            					u.usuario, 
-			            					r.fecha AS 'fechaRespuesta', 
+			            ->prepare("SELECT	m.id AS 'idMensaje',
+			            					m.fecha AS 'fechaMensaje',
+			            					m.mensaje,
+			            					u.usuario,
+			            					r.fecha AS 'fechaRespuesta',
 			            					r.respuesta
 										FROM mensajes m
 									    INNER JOIN usuarios u
@@ -815,8 +815,8 @@ class Viaje
 			$this->pdo->prepare($sql)
 			     ->execute(
 				    array(
-				    	$idMensaje,
-				    	$respuesta
+							$respuesta,
+				    	$idMensaje
 					)
 				);
 
@@ -922,6 +922,22 @@ class Viaje
 		{
 			die($e->getMessage());
 		}
+	}
+
+	public function ObtenerCalificaciones($idViaje){
+		try {
+			$sql = "SELECT * FROM calificaciones WHERE idViaje = ?;";
+
+			$stm = $this->pdo->prepare($sql);
+			$stm->execute(array($idViaje));
+
+			$val = $stm->fetch();
+
+			return $val;
+		} catch (Exception $e){
+			die($e->getMessage());
+		}
+
 	}
 
 }

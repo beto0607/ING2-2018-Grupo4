@@ -43,11 +43,27 @@
   <br>
   <br>
   <ul class="travelQuestions">
-    <li>
-      <span>Pregunta #1: ¿BlahBlah?</span>
-      <br>
-      <span>Respuesta: ¿BlahBlah?</span>
-    </li>
+    {{^serverTravel.mensajes}}
+    <li><strong>Sin preguntas</strong></li>
+    {{/serverTravel.mensajes}}
+
+    {{#serverTravel.mensajes}}
+      <li>
+        <span>De: {{usuario}} - {{fMensajeFormatted}}</span>
+        <br>
+        <span>Pregunta: {{mensaje}}</span>
+        {{#respuesta}}
+          <br>
+          <span>Respuesta: {{respuesta}}</span>
+          <br>
+          <span>Fecha de respuesta:{{fRespuestaFormatted}} </span>
+        {{/respuesta}}
+        {{^respuesta}}
+          <br>
+          <span>Sin responder.</span>
+        {{/respuesta}}
+      </li>
+    {{/serverTravel.mensajes}}
   </ul>
   <hr>
 
@@ -90,7 +106,7 @@
         {{/copilotState.calified}}
       {{/copilotState.paid}}
       {{^copilotState.paid}}
-      <button class="pay">Pagar viaje</button>
+      <button class="payButton">Pagar viaje</button>
       {{/copilotState.paid}}
       {{#copilotState.calified}}
       <span>Ya calificaste.</span>

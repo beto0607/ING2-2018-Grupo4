@@ -4,21 +4,8 @@ var userID = getCookie("userID");
 var userPostulation = null;
 var travelFromGet = null;
 var copilotVote = null;
-$(document).ready(function(){
-	/*userID = getCookie("userID");
-  if(!userID || userID == ""){goToIndex();}
-  Configure();*/
-});
-function loadTravels(){
-	$.post(URLs.travelsList)
-		.done(function(d,s){
-			d = parseJSON(d);
-      //d = orderTravels(d);
-      console.log(d);
-			addTravels(d);
-		})
-		.fail(onFailPost)
-}
+var travelMessageID = null;
+
 function addTravels(d){
   $("#travelsContainer ul").empty();
   $.get('mustacheTemplates/travelsTravel.mst', function(template) {
@@ -47,25 +34,62 @@ function travelClick(travelID){
 		travelInfoLoaded();
 		return;
 	}
-	travelInfo = getTravel(tID);
-	$.post(URLs.travelCopilots, {id: tID})
-		.done(function(d){
-			d = parseJSON(d);
-			travelInfo["copilots"] = d.success == "1" ? d.copilotos : [];
-			$.post(URLs.travelPostulations, {id: tID})
-				.done( function(d){
-					console.log(d);
-					d = parseJSON(d);
-					travelInfo["postulations"] = d.success == "1" ? d.postulaciones : [];
-					travelInfoLoaded();
-				});
-		});
+	$.post(URLs.travelInfo, {id:tID})
+	.done(function(d){
+		d = parseJSON(d);
+		d = formatTravelInfo(d);
+		travelInfo = getTravel(tID);
+		travelInfo.serverTravel = d;
+		$.post(URLs.travelCopilots, {id: tID})
+			.done(function(d){
+				d = parseJSON(d);
+				travelInfo["copilots"] = d.success == "1" ? d.copilotos : [];
+				$.post(URLs.travelPostulations, {id: tID})
+					.done( function(d){
+						console.log(d);
+						d = parseJSON(d);
+						travelInfo["postulations"] = d.success == "1" ? d.postulaciones : [];
+						$.post(URLs.travelCalifications, {idViaje: tID}).
+						done(function(d){
+							d = parseJSON(d);
+							console.log(d);
+							travelInfo["califications"] = d.success == "1" ? d.calificaciones : [];
+							travelInfoLoaded();
+						})
+					});
+			});
+	})
+	.fail(onFailPost);
+}
+function formatTravelInfo(d){
+	for(var i in d.mensajes){
+		var fMensaje = new Date(d.mensajes[i].fechaMensaje);
+		d.mensajes[i].fMensajeFormatted = fMensaje.toLocaleString();
+		if(d.mensajes[i].respuesta){
+			var fRespuesta = new Date(d.mensajes[i].fechaRespuesta);
+			d.mensajes[i].fRespuestaFormatted = fRespuesta.toLocaleString();
+		}
+	}
+	return d;
+}
+function addCalifications(){
+	if(travelInfo["hasCopilots"]){
+		for(var i in travelInfo["califications"]){
+			for (var c in travelInfo["copilots"]) {
+				if(travelInfo["copilots"][c].id == travelInfo["califications"][i].IdUsuarioCalificado){
+					travelInfo["copilots"][c].calified = true;
+					travelInfo["copilots"][c].calification = travelInfo["califications"][i].calificacion;
+					travelInfo["copilots"][c].observations = travelInfo["califications"][i].observaciones;
+				}
+			}
+		}
+	}
 }
 function travelInfoLoaded(){
-	console.log(travelInfo);
   if(travelInfo.isMine){
 		travelInfo["hasPostulations"] = travelInfo["postulations"].length != 0;
 		travelInfo["hasCopilots"] = travelInfo["copilots"].length != 0;
+		addCalifications();
     $.get('mustacheTemplates/travelsInfoMine.mst', showTravelInfo);
   }else{
 		//El viaje no es mio
@@ -124,7 +148,7 @@ function cancelCopilot(r){
 		.done(function(d,s){
 			d = parseJSON(d);
 			if(d.success == "1"){
-				bAlertCallback("Reserva cancelada. Se envió notificación al piloto.", reloadPageTravel);
+				bAlertCallback("Reserva cancelada. Se envió notificación al piloto.", reloadPage);
 			}else{
 				bAlert(""+d.mensaje);
 			}
@@ -141,7 +165,7 @@ function postulateButton(r){
 		.done(function(d,s){
 			d = parseJSON(d);
 			if(d.success=="1"){
-				bAlertCallback("Postulación enviada. Se envió notificación al piloto.", reloadPageTravel);
+				bAlertCallback("Postulación enviada. Se envió notificación al piloto.", reloadPage);
 			}else{
 				bAlert(""+d.mensaje);
 			}
@@ -160,7 +184,7 @@ function approvePostulation(r){
 		.done(function(d,s){
 			d = parseJSON(d);
 			if(d.success == "1"){
-				bAlertCallback("Postulación aprobada. Se envió notificación al copiloto.", reloadPageTravel);
+				bAlertCallback("Postulación aprobada. Se envió notificación al copiloto.", reloadPage);
 			}else{
 				bAlert(""+d.mensaje);
 			}
@@ -179,7 +203,7 @@ function desapprovePostulation(r){
 		.done(function(d){
 			d = parseJSON(d);
 			if(d.success == "1"){
-				bAlertCallback("Postulación desaprobada. Se envió notificación al copiloto.", reloadPageTravel);
+				bAlertCallback("Postulación desaprobada. Se envió notificación al copiloto.", reloadPage);
 			}else{
 				bAlert(""+d.mensaje);
 			}
@@ -196,7 +220,7 @@ function cancelPostulation(r){
 		.done(function(d,s){
 			d = parseJSON(d);
 			if(d.success == "1"){
-				bAlertCallback("Postulación eliminada. Se envió notificación al piloto.", reloadPageTravel);
+				bAlertCallback("Postulación eliminada. Se envió notificación al piloto.", reloadPage);
 			}else{
 				bAlert(""+d.mensaje);
 			}
@@ -241,7 +265,13 @@ function ConfigureTravelInfoEvents(){
 	$(".travelApproveButton").on("click", approvePostulationClick);
 	$(".travelCancelCopilotButton").on("click", cancelCopilotClick);
 	$(".questionSubmit").on("click", sendQuestionSubmit);
-	$(".votePilotSubmit").on("click", sendCalificationSubmit);
+	$(".votePilotSubmit").on("click", sendCalificationPilotSubmit);
+	$(".voteCopilotSubmit").on("click", sendCalificationCopilotSubmit);
+	$(".sendCalification").on("click",sendCalificationCopilotPrompt);
+
+	$(".answerQuestion").on("click", answerQuestionButton);
+
+	$(".payButton").on("click", payButton);
 }
 function getTravel(id){
   for(var t = 0; t < travels.length; t++){
@@ -311,11 +341,16 @@ function sendCalificationPilotConfirm(r){
 			}
 		}).fail(onFailPost);
 }
-function calificateCopilot(){
-	copilotVote = $(this).attr("copilotId");
-}
 function sendCalificationCopilotSubmit(){
-	var cal = $(".voteCopilot").val();
+	copilotVote = $(this).attr("copilotId");
+	$.get('mustacheTemplates/vote.mst', function(template) {
+		var rendered = Mustache.render(template, {to:"Copilot"});
+		$("#voteCopilotModal .modal-body").empty().html(rendered);
+		$("#voteCopilotModal").modal("show");
+	});
+}
+function sendCalificationCopilotPrompt(){
+	var cal = $(".voteCopilotNumber").val();
 	var desc = $(".voteCopilotText").val();
 	if(cal > 0 && cal <5 && desc.length >0){
 		bConfirmCallbacks("¿Enviar la calificación?",sendCalificationPilotConfirm);
@@ -367,4 +402,117 @@ function sendQuestionConfirm(r){
 			bAlert(""+d.mensaje);
 		}
 	}).fail(onFailPost);
+}
+function answerQuestionButton(){
+	travelMessageID = $(this).attr("questionId");
+	bPromptCallback("Ingrese su respuesta.",answerQuestionSend);
+}
+function answerQuestionSend(r){
+	if(!r){return;}
+	$.post(URLs.travelSendAnswer,{
+		idMensaje: travelMessageID,
+		respuesta: r,
+		idViaje: travelInfo.idViaje
+	}).done(function(d){
+		d = parseJSON(d);
+		if(d.success == "1"){
+			bAlertCallback(d.mensaje, reloadPage);
+		}else{
+			bAlert(""+d.mensaje);
+		}
+	}).fail(onFailPost);
+}
+
+/**********PAGO*******/
+function payButton(){
+	$.get("mustacheTemplates/pay.mst", function(template){
+		try{
+			console.log(travelInfo);
+			var rendered = Mustache.render(template, {monto: travelInfo.montoCopiloto});
+			$("#payModal .modal-body").empty().html(rendered);
+			$(".confirmPay").on("click", verifyPayForm);
+
+			$("#payModal").modal("show");
+    }catch(e){
+      console.log(e);
+    }
+	});
+}
+function verifyPayForm(){
+	$.validator.addMethod("cvvPattern", function (value, element, options){
+		var rg = /^[0-9]{3,4}$/;
+    return value.match(rg);
+	},"Código inválido.");
+	$.validator.addMethod("creditNumberPattern", function (value, element, options){
+		var rg = /^[0-9]{13,16}$/;
+    return value.match(rg);
+	},"Código inválido.");
+
+	var month = parseInt($("#payModal .modal-body form select[name='month']").val());
+	var year = parseInt($("#payModal .modal-body form select[name='year']").val());
+	var date = new Date();
+
+
+	if($('#payModal form input[name="cvv"]').val() == "111"){
+		bAlert("Tarjeta inválida.");
+	}else if($('#payModal form input[name="cvv"]').val() == "222"){
+		bAlert("Tarjeta inválida.");
+	}
+	if(year == 18 && month<8){
+		bAlert("Fecha inválida.");
+		return;
+	}
+	$("#payModal .modal-body form").validate({
+		onfocusout: false,
+		rules: {
+			"creditNumber": {
+				required: true,
+				"creditNumberPattern": {data:"creditNumber"}
+			},
+			"owner": {
+				required: true
+			},
+			"cvv": {
+				required: true,
+				"cvvPattern": {data: "cvv"}
+			}
+		},
+		messages:{
+			"creditNumber": {
+				required: "Debe ingresar el número de la tarjeta."
+			},
+			"cvv": {
+				required: "Debe ingresar el código de seguridad."
+			}
+		},
+		submitHandler: sendPay
+	});
+}
+function sendPay(){
+	var data = {
+		month: parseInt($("#payModal .modal-body form select[name='month']").val()),
+		year: parseInt($("#payModal .modal-body form select[name='year']").val()),
+		creditNumber: $('#payModal form input[name="creditNumber"]').val(),
+		owner: $('#payModal form input[name="owner"]').val(),
+		cvv: $('#payModal form input[name="cvv"]').val()
+	};
+	console.log(data);
+	bConfirmCallbacks("¿Realizar pago?", function(r){
+		if(!r){return;}
+
+		$.post(URLs.travelPay, {
+			idViaje: travelInfo.idViaje,
+			idUsuario: userID
+		})
+		.done(function(d){
+			d = parseJSON(d);
+			console.log(d);
+			if(d.success == "1"){
+				bAlertCallback(d.mensaje, reloadPage);
+			}else{
+				bAlert(""+d.mensaje);
+			}
+		})
+		.fail(onFailPost);
+	});
 }

@@ -35,6 +35,29 @@
   <span><strong>Descripción del auto:</strong> {{descripcionVehiculo}}</span>
   <br>
   <hr>
+  <strong>Preguntas: </strong>
+  <br>
+  <br>
+  <ul class="travelQuestions">
+    {{#serverTravel.mensajes}}
+      <li>
+        <span>De: {{usuario}} - {{fMensajeFormatted}}</span>
+        <br>
+        <span>Pregunta: {{mensaje}}</span>
+        {{#respuesta}}
+          <br>
+          <span>Respuesta: {{respuesta}} - {{fRespuestaFormatted}} </span>
+        {{/respuesta}}
+        {{^respuesta}}
+          <br>
+          <button class="answerQuestion btn btn-primary" questionId="{{idMensaje}}">Responder</button>
+        {{/respuesta}}
+      </li>
+    {{/serverTravel.mensajes}}
+  </ul>
+  <hr>
+
+
   {{#hasPostulations}}
     <span><strong>Postulaciones:</strong></span>
     <br>
@@ -101,6 +124,12 @@
         {{#fechaPago}}
           <span>Usuario ya pago ${{montoPago}}.</span>
           <br>
+          {{#calified}}
+          <span>Usuario calificado: {{calification}} - {{obsevation}}</span>
+          {{/calified}}
+          {{^calified}}
+          <button copilotId="{{id}}" class="btn btn-primary voteCopilotSubmit">Calificar</button>
+          {{/calified}}
         {{/fechaPago}}
         {{#fechaCancelacion}}
           <span>El usuario no desea participar del viaje.</span>
