@@ -164,13 +164,16 @@ i.fas:hover, i.far:hover {
 .container {
   padding: 3em 0;
 }
+.container.navbar-right {
+  padding: 0;
+}
 .container .option {
-  padding: 1em;
+  padding: 0.5em;
   text-align: center;
   color: white !important;
-  font-size: 1.25em;
-  line-height: 1.5em;
-  font-weight: 900;
+  font-size: 1em;
+  line-height: 1em;
+  font-weight: 600;
   cursor: pointer;
   border: 2px solid transparent;
   border-radius: 10px;
@@ -199,7 +202,7 @@ i.fas:hover, i.far:hover {
   color: #f17376;
 }
 
-#myTravelsContainer ul, #lastTravelsContainer ul {
+#lastTravelsContainer ul, #myTravelsContainer ul {
   list-style: none;
   margin: auto;
   display: grid;
@@ -245,7 +248,7 @@ i.fas:hover, i.far:hover {
   		}
   	}*/
 }
-#myTravelsContainer ul li, #lastTravelsContainer ul li {
+#lastTravelsContainer ul li, #myTravelsContainer ul li {
   border-radius: 30px;
   display: inline-block;
   float: left;
@@ -254,21 +257,21 @@ i.fas:hover, i.far:hover {
   padding: 2.5em;
   cursor: pointer;
 }
-#myTravelsContainer ul li:hover, #lastTravelsContainer ul li:hover {
+#lastTravelsContainer ul li:hover, #myTravelsContainer ul li:hover {
   color: white;
   background-color: #f17376;
 }
-#myTravelsContainer ul li.pilot, #lastTravelsContainer ul li.pilot {
+#lastTravelsContainer ul li.pilot, #myTravelsContainer ul li.pilot {
   border: 2px solid green;
 }
-#myTravelsContainer ul li.pilot:hover, #lastTravelsContainer ul li.pilot:hover {
+#lastTravelsContainer ul li.pilot:hover, #myTravelsContainer ul li.pilot:hover {
   color: white;
   background-color: green;
 }
-#myTravelsContainer #travelInfoModal .modal-body .col-md-6, #lastTravelsContainer #travelInfoModal .modal-body .col-md-6 {
+#lastTravelsContainer #travelInfoModal .modal-body .col-md-6, #myTravelsContainer #travelInfoModal .modal-body .col-md-6 {
   margin: 0.25em auto;
 }
-#myTravelsContainer #travelInfoModal .modal-body .col-md-6 i, #lastTravelsContainer #travelInfoModal .modal-body .col-md-6 i {
+#lastTravelsContainer #travelInfoModal .modal-body .col-md-6 i, #myTravelsContainer #travelInfoModal .modal-body .col-md-6 i {
   width: 1em;
   height: 1em;
   display: inline-block;
@@ -293,4 +296,21 @@ i.fas:hover, i.far:hover {
 #travelInfoModal .modal-body {
   height: 75vh;
   overflow-y: scroll;
+}
+
+.goUp {
+  position: fixed;
+  right: 2em;
+  bottom: 3em;
+  z-index: 9999;
+}
+
+.searchInput {
+  height: 2em;
+  font-size: 1em;
+  padding: 0;
+  padding-left: 0.5em;
+  border-radius: 1em;
+  border-color: #f17376;
+  box-shadow: none;
 }

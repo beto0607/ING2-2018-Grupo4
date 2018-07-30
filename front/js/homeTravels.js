@@ -38,7 +38,7 @@ function addMyTravels(d){
 				myT.push(t);
 			}
 		}
-		myT = orderTravels(myT);
+		//myT = orderTravels(myT);
 		for(var i = 0; i<myT.length; i++){
 			var t = myT[i];
 			var date = new Date(t.fecha);
@@ -48,10 +48,14 @@ function addMyTravels(d){
 			$("#myTravelsContainer ul").append(rendered);
 		}
 		infoLoaded("travelsFor");
-		$("#myTravelsContainer ul li").on("click", myTravelInfo);
+
+		$(".editTravel").on("click",myTravelInfo);
+		$(".travelListItem").on("click", travelClick);
+
 	});
 }
 function myTravelInfo(){
+	$("#travelInfoModal").modal("hide");
 	var tID = $(this).attr("travel-id");
 	var travelUserID = $(this).attr("travel-userid");
 	var travel = getTravel(tID);
@@ -106,8 +110,13 @@ function addTravels(d){
 			var date = new Date(t.fecha);
 			t["dateFormatted"] = date.toLocaleString();
 			t["isMine"] = userID == t.idUsuario;
-			var rendered = Mustache.render(template, t);
-			$("#lastTravelsContainer ul").append(rendered);
+			if(date >= new Date()){
+				var rendered = Mustache.render(template, t);
+				$("#lastTravelsContainer ul").append(rendered);
+			}
+		}
+		if($("#lastTravelsContainer ul li").length == 0){
+			$("#lastTravelsContainer ul").append("<li class='emptyList'><strong>Todavía no publicaron viajes</strong></li>");
 		}
 		$("li.travelListItem").on("click", travelClick);
 		infoLoaded("travelsList");

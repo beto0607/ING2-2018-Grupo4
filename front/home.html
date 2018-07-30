@@ -25,10 +25,10 @@
 		</a>
 
 		<h2 class="navbar-center">Un Aventón</h2>
-		<div class="navbar-right contianer">
-			<a class="btn option" id="travelsOption" data-toggle="collapse" data-target="#travelsContainer">Mis Viajes</a>
+		<div class="navbar-right container col-md-3">
+			<a class="btn option" id="travelsOption" data-target="#myTravelsContainer">Mis Viajes</a>
 
-			<a class="btn option" id="vehiclesOption" data-toggle="collapse" data-target="#vehiclesContainer">Mis Vehículos</a>
+			<a class="btn option" id="vehiclesOption" data-target="#vehiclesContainer">Mis Vehículos</a>
 		</div>
 		<a class="navbar-right far fa-user" id="profileDropdown" href="#openProfile" data-toggle="dropdown"></a>
 		<div class="dropdown-menu p-4">
@@ -65,16 +65,7 @@
 				<div class="modal-body">
 					<i class="fa fa-spin fa-spinner"></i>
 					<form>
-						<!--div class="form-row">
-							<div class="form-group col-md-6">
-								<label for="user-info-email">E-Mail</label>
-								<input type="text" name="user-info-email" class="form-control" placeholder="E-Mail" disabled="true" />
-							</div>
-							<div class="form-group col-md-6">
-								<label for="user-info-username">Nombre de usuario</label>
-								<input type="text" name="user-info-username" class="form-control" placeholder="Nombre de usuario" disabled="true" />
-							</div>
-						</div-->
+
 					</form>
 				</div>
 				<div class="modal-footer">
@@ -149,8 +140,9 @@
 	</div-->
 	<div class="container" id="lastTravelsContainer">
 		<div class="row">
-			<h2 class="col-md-10">Viajes</h2>
+			<h2 class="col-md-7">Viajes</h2>
 			<!--a class="btn btn-primary col-md-2" href="travels.html">Ver todos los viajes</a-->
+			<input type="text" class="searchInput col-md-5" placeholder="Buscar viajes"/>
 
 		</div>
 		<div class="row">
@@ -172,57 +164,9 @@
 				</div>
 			</div>
 		</div>
-		<!--div id="travelInfoModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="travelInfoModal" aria-hidden="true" data-backdrop="static">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title">Datos del viaje</h5>
-					</div>
-					<div class="modal-body">
-						<i class="fa fa-spin fa-spinner"></i>
-						<div class="row">
-							<a class="col-md-6" href="https://www.google.com/maps/place/La+Plata,+Buenos+Aires/" target="_blank">
-								<i class="fas fa-map-marker"></i> Ciudad A
-							</a>
-							<a class="col-md-6" href="https://www.google.com/maps/place/La+Plata,+Buenos+Aires/" target="_blank">
-								<i class="fas fa-map-marker"></i> Ciudad B
-							</a>
-						</div>
-						<div class="row">
-							<span class="col-md-6 date">
-								<i class="fas fa-calendar-alt"></i> Fecha: 15/06/2018
-							</span>
-							<span  class="col-md-6 time">
-								<i class="far fa-clock"></i> Hora:15:30
-							</span>
-						</div>
-						<div class="row">
-							<span  class="col-md-6 time">
-								<i class="far fa-clock"></i> Duración: 01:30
-							</span>
-							<span class="col-md-6 date">
-								<i class="fas fa-dollar-sign"></i> Monto: $125
-							</span>
-						</div>
-						<div class="row">
-							<span class="col-md-6 date">
-								<i class="fas fa-user"></i> Piloto: pepe01
-							</span>
-							<span  class="col-md-6 time">
-								<i class="fas fa-star"></i> Reputación: 2.5
-							</span>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button disabled="true" type="button" class="btn btn-primary">Postularse</button>
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-					</div>
-				</div>
-			</div>
-		</div>
--->
+
 	</div>
-	<div class="container collapse infoContainer" id="vehiclesContainer" >
+	<div class="container infoContainer" id="vehiclesContainer" >
 		<div class="row">
 			<h3 class="col-md-11">Mis vehiculos</h3>
 			<a class="btn col-md-1" id="addVehicle" href="#" data-toggle="modal" data-target="#addVehicleDialog">Nuevo</a>
@@ -332,7 +276,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="container collapse infoContainer" id="travelsContainer" >
+	<div class="container infoContainer" id="travelsContainer" >
 		<div class="row">
 			<h3 class="col-md-11">Mis viajes</h3>
 			<a class="btn col-md-1" id="addTravel" href="#"data-toggle="modal" data-target="#addTravelDialog">Nuevo</a>
@@ -431,7 +375,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="container collapse infoContainer" id="reputationContainer" >
+	<div class="container infoContainer" id="reputationContainer" >
 		<div class="row">
 			<h3 class="col-md-11">Mi reputacion</h3>
 		</div>
@@ -486,6 +430,7 @@
 			</div>
 		</div>
 	</div>
+	<button class="btn btn-primary goUp">Ir arriba</button>
   <script type="text/javascript" src="./lib/jquery-3.3.1.min.js"></script>
   <script type="text/javascript" src="./lib/bootstrap.min.js"></script>
   <script type="text/javascript" src="./lib/jquery.validate.min.js"></script>

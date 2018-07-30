@@ -52,11 +52,10 @@ $(document).ready(function(){
 	if(!userID || userID == ""){goToIndex();}
 	Configure();
 	/*------------Eventos generales------------*/
-	$("#optionsContainer .option").on("click", function(e){
+	$("a.option").on("click", function(e){
 		const s = $(this).attr("data-target");
-		$("div.infoContainer").hide();
-		$(s).show();
-		//setTimeout(function(){window.scrollTo(0, $(s).position().top - 100);},500);
+		console.log(s);
+		setTimeout(function(){window.scrollTo(0, $(s).position().top - 150);},250);
 		return e;
 	});
 	$("#signoutButton").on("click", signoutClick);
@@ -67,6 +66,9 @@ $(document).ready(function(){
 	$(".travelListItem").on("click", travelListItemClick);
 
 	$("#removeUsuario").on("click", deleteUserButtonClick);
+	$("button.goUp").on("click",function(){
+		window.scrollTo(0, 0);
+	});
 });
 
 

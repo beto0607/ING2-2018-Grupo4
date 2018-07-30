@@ -15,8 +15,10 @@ function addTravels(d){
         var date = new Date(d[i].fecha);
         d[i]["dateFormatted"] = date.toLocaleString();
         d[i]["isMine"] = userID == d[i].idUsuario;
-        var rendered = Mustache.render(template, d[i]);
-        $("#travelsContainer ul").append(rendered);
+        if(date >= new Date()){
+          var rendered = Mustache.render(template, d[i]);
+          $("#travelsContainer ul").append(rendered);
+        }
       }
       travels = d;
       infoLoaded("travels");
@@ -28,7 +30,6 @@ function addTravels(d){
   });
 }
 function travelClick(travelID){
-	console.log("ADSF");
 	var tID = $(this).attr("travel-id") ? $(this).attr("travel-id"):travelID;
 	if(travelInfo && travelInfo.idViaje == tID){
 		travelInfoLoaded();
@@ -148,7 +149,7 @@ function cancelCopilot(r){
 		.done(function(d,s){
 			d = parseJSON(d);
 			if(d.success == "1"){
-				bAlertCallback("Reserva cancelada. Se envió notificación al piloto.", reloadPage);
+				bAlertCallback("Reserva cancelada. Se envió notificación al piloto.", reloadPageTravel);
 			}else{
 				bAlert(""+d.mensaje);
 			}
@@ -165,7 +166,7 @@ function postulateButton(r){
 		.done(function(d,s){
 			d = parseJSON(d);
 			if(d.success=="1"){
-				bAlertCallback("Postulación enviada. Se envió notificación al piloto.", reloadPage);
+				bAlertCallback("Postulación enviada. Se envió notificación al piloto.", reloadPageTravel);
 			}else{
 				bAlert(""+d.mensaje);
 			}
@@ -184,7 +185,7 @@ function approvePostulation(r){
 		.done(function(d,s){
 			d = parseJSON(d);
 			if(d.success == "1"){
-				bAlertCallback("Postulación aprobada. Se envió notificación al copiloto.", reloadPage);
+				bAlertCallback("Postulación aprobada. Se envió notificación al copiloto.", reloadPageTravel);
 			}else{
 				bAlert(""+d.mensaje);
 			}
@@ -203,7 +204,7 @@ function desapprovePostulation(r){
 		.done(function(d){
 			d = parseJSON(d);
 			if(d.success == "1"){
-				bAlertCallback("Postulación desaprobada. Se envió notificación al copiloto.", reloadPage);
+				bAlertCallback("Postulación desaprobada. Se envió notificación al copiloto.", reloadPageTravel);
 			}else{
 				bAlert(""+d.mensaje);
 			}
@@ -220,7 +221,7 @@ function cancelPostulation(r){
 		.done(function(d,s){
 			d = parseJSON(d);
 			if(d.success == "1"){
-				bAlertCallback("Postulación eliminada. Se envió notificación al piloto.", reloadPage);
+				bAlertCallback("Postulación eliminada. Se envió notificación al piloto.", reloadPageTravel);
 			}else{
 				bAlert(""+d.mensaje);
 			}
@@ -272,6 +273,8 @@ function ConfigureTravelInfoEvents(){
 	$(".answerQuestion").on("click", answerQuestionButton);
 
 	$(".payButton").on("click", payButton);
+
+  $(".editTravel").on("click",myTravelInfo);
 }
 function getTravel(id){
   for(var t = 0; t < travels.length; t++){
@@ -282,7 +285,7 @@ function getTravel(id){
   return null;
 }
 function Configure(){
-  travelFromGet = new URL(window.location.href).searchParams.get("travel");
+  travelFromGet = new URL(window.location.href).searchParams.get("t");
 
   showSpinner();
   loadTravels();
@@ -291,10 +294,34 @@ function Configure(){
 }
 function ConfigureTravelsEvents(){
   $(".travelListItem").on("click", travelClick);
+  travelFromGet =new URL(window.location.href).searchParams.get("t");
+  console.log(travelFromGet);
+  console.log($("li[travel-id="+travelFromGet+"]")  );
+  if(travelFromGet != null && $("li[travel-id="+travelFromGet+"]").length != 0){
+    $("li[travel-id="+travelFromGet+"]").click();
+    console.log(travelFromGet);
 
-  if(travelFromGet != null && $("#travelsContainer li[travel-id=\""+travelFromGet+"\"]").length != 0){
-    $("#travelsContainer li[travel-id=\""+travelFromGet+"\"]").click();
   }
+
+
+  $(".searchInput").on("keydown",function(e){
+    if($(this).val().length >= 3){
+      var search = $(this).val().toLowerCase();
+      $("#lastTravelsContainer li").each(function(){
+        var t = getTravel($(this).attr("travel-id"));
+        if(!t){return;}
+        var show =
+          t.origen.toLowerCase().indexOf(search) != -1 ||
+          t.destino.toLowerCase().indexOf(search) != -1 ||
+          t.descripcionViaje.toLowerCase().indexOf(search) != -1;
+        if(!show && $(this).hasClass("emptyList")){
+          $(this).hide();
+        }
+      });
+    }else{
+      $("#lastTravelsContainer li").show();
+    }
+  });
 }
 function infoLoaded(item){
 	loadItems[item] = true;
@@ -335,7 +362,7 @@ function sendCalificationPilotConfirm(r){
 			console.log(d);
 			d = parseJSON(d);
 			if(d.success == "1"){
-				bAlertCallback(d.mensaje, function(){travelClick(travelInfo.idViaje)});
+				bAlertCallback(d.mensaje, reloadPageTravel);
 			}else{
 				bAlert(""+d.mensaje);
 			}
@@ -375,7 +402,7 @@ function sendCalificationCopilotConfirm(r){
 			console.log(d);
 			d = parseJSON(d);
 			if(d.success == "1"){
-				bAlertCallback(d.mensaje, function(){travelClick(travelInfo.idViaje)});
+				bAlertCallback(d.mensaje, reloadPageTravel);
 			}else{
 				bAlert(""+d.mensaje);
 			}
@@ -397,7 +424,7 @@ function sendQuestionConfirm(r){
 		console.log(d);
 		d = parseJSON(d);
 		if(d.success == "1"){
-			bAlertCallback(d.mensaje, function(){travelClick(travelInfo.idViaje)});
+			bAlertCallback(d.mensaje, reloadPageTravel);
 		}else{
 			bAlert(""+d.mensaje);
 		}
@@ -416,7 +443,7 @@ function answerQuestionSend(r){
 	}).done(function(d){
 		d = parseJSON(d);
 		if(d.success == "1"){
-			bAlertCallback(d.mensaje, reloadPage);
+			bAlertCallback(d.mensaje, reloadPageTravel);
 		}else{
 			bAlert(""+d.mensaje);
 		}
@@ -508,7 +535,7 @@ function sendPay(){
 			d = parseJSON(d);
 			console.log(d);
 			if(d.success == "1"){
-				bAlertCallback(d.mensaje, reloadPage);
+				bAlertCallback(d.mensaje, reloadPageTravel);
 			}else{
 				bAlert(""+d.mensaje);
 			}

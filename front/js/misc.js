@@ -53,7 +53,7 @@ function getCookie(name) {
     return null;
 }
 function reloadPageTravel(){
-	changeLocation(travelInfo != null && travelInfo.idViaje ? "travels.html?travel="+travelInfo.idViaje : "travels.html");
+	changeLocation(travelInfo != null && travelInfo.idViaje ? "home.html?t="+travelInfo.idViaje : "home.html");
 }
 function reloadPage(t =500){
 	setTimeout(function(){

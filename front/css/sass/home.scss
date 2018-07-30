@@ -55,13 +55,16 @@ i.fas, i.far{
 
 .container{
 	padding: 3em 0;
+	&.navbar-right{
+		padding: 0;
+	}
 	.option{
-		padding: 1em ;
+		padding: .5em ;
 		text-align: center;
 		color: $optionTextColor !important;
-		font-size: 1.25em;
-		line-height:1.5em;
-		font-weight: 900;
+		font-size: 1em;
+		line-height: 1em;
+		font-weight: 600;
 		cursor: pointer;
 		border: 2px solid transparent;
 		border-radius:10px;
@@ -91,7 +94,7 @@ i.fas, i.far{
 		}
 	}
 }
-#lastTravelsContainer{
+#lastTravelsContainer, #myTravelsContainer{
 	ul{
     list-style: none;
     margin: auto;
@@ -194,4 +197,20 @@ i.fas, i.far{
       height: 75vh;
       overflow-y: scroll;
   }
+}
+.goUp{
+	position: fixed;
+	right: 2em;
+	bottom: 3em;
+	z-index: 9999;
+}
+.searchInput{
+	height: 2em;
+	font-size: 1em;
+	padding: 0;
+	padding-left: 0.5em;
+	border-radius: 1em;
+	border-color: $mainColor;
+	box-shadow: none;
+
 }
