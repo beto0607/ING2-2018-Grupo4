@@ -352,6 +352,23 @@ class Viaje
 			$stm = $this->pdo->prepare("UPDATE viajes SET fechaCancelacion = NOW() WHERE id = ?");
 			$stm->execute(array($id));
 
+			$stm = $this->pdo->prepare("INSERT INTO calificaciones (idviaje, idUsuarioCalifica, IdUsuarioCalificado, fechaCalificacion, calificacion, Observaciones)
+										SELECT	c.idViaje,
+												c.idUsuario,
+										        ve.IdUsuario,
+										        NOW(),
+										        -1,
+										        'Viaje cancelado por el piloto. Copiloto aprobado.'
+											FROM copilotos c
+										    INNER JOIN viajes v
+												ON	c.idViaje = v.Id
+											INNER JOIN vehiculos ve
+												ON	v.idVehiculo = ve.id
+										    WHERE 	c.idviaje = ?
+													AND c.fechaAprobacion IS NOT NULL
+										            AND c.fechaCancelacion IS NULL");
+			$stm->execute(array($id));
+
 			$stm = $this->pdo->prepare("UPDATE copilotos SET fechaCancelacion = NOW() WHERE idViaje = ?");
 			$stm->execute(array($id));
 
