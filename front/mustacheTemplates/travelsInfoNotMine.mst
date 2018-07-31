@@ -91,32 +91,33 @@
     {{#isCopilot}}
       {{#copilotState.paid}}
       <span>Ya pagaste el viaje.</span>
-      <br>
+      <hr>
         {{^copilotState.calified}}
-        <strong>Calificar</strong>
-        <label for="votePilot">Calificación:</label>
-        <br>
+        <!--label for="votePilot">Calificación:</label>
         <input class="votePilot" name="votePilot" type="number" min="1" max="5" step="1" placeholder="Calificacion"/>
         <br>
         <label for="votePilot">Descripción:</label>
         <br>
         <input class="votePilotText" name="votePilotText" type="text" placeholder="Descripción" maxlength="250"/>
         <br>
-        <button class="votePilotSubmit btn bt-primary">Calificar</button>
+        <button class="votePilotSubmit btn bt-primary">Calificar</button-->
+        <button class="btn btn-primary votePilot">Calificar piloto</button>
+        <hr>
+
         {{/copilotState.calified}}
       {{/copilotState.paid}}
       {{^copilotState.paid}}
-      <button class="payButton">Pagar viaje</button>
+      <button class="btn btn-primary payButton">Pagar viaje</button>
       {{/copilotState.paid}}
       {{#copilotState.calified}}
       <span>Ya calificaste.</span>
       <br>
       {{/copilotState.calified}}
-
       <span>Sos copiloto del viaje</span>
       <br>
       {{^copilotState.calified}}
       {{^fechaCancelacion}}
+      <br>
       <button type="button" class="btn btn-primary deleteButton travelCancelCopilotButton">Abandonar viaje</button>
       {{/fechaCancelacion}}
       {{/copilotState.calified}}

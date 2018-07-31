@@ -102,13 +102,14 @@ function travelInfoLoaded(){
 
 		travelInfo["isCopilot"] = isCopilot();
 		var c = getCopilotState();
+
+    travelInfo["copilotState"] = travelInfo["isCopilot"] ? getCopilotState(): "<VACÍO>";
 		travelInfo["copilotState"] = {
-			"paid": c && c.fechaPago ? c.fechaPago != null : false,
+			"paid": c != null && c.fechaPago != null,
 			"canceled" : false,
 			"calified": false//FALTA AGREGAR EL ESTADO "CALIFICASTE",
 
 		};
-		travelInfo["copilotState"] = travelInfo["isCopilot"] ? getCopilotState(): "<VACÍO>";
 
 		travelInfo["canPostulate"] =
 			!travelInfo["isCopilot"] &&
@@ -117,6 +118,8 @@ function travelInfoLoaded(){
 			(travelInfo["isPostulant"] && travelInfo["postulation"]["canceled"]) ;
 				//!(travelInfo["isCopilot"] || travelInfo["isPostulant"]);
 		//travelInfo["postulationState"] = travelInfo["isPostulant"] ? getPostulationState(): "<VACÍO>";
+
+    console.log(travelInfo);
     $.get('mustacheTemplates/travelsInfoNotMine.mst', showTravelInfo);
   }
 }
@@ -264,7 +267,8 @@ function ConfigureTravelInfoEvents(){
 	$(".travelApproveButton").on("click", approvePostulationClick);
 	$(".travelCancelCopilotButton").on("click", cancelCopilotClick);
 	$(".questionSubmit").on("click", sendQuestionSubmit);
-	$(".votePilotSubmit").on("click", sendCalificationPilotSubmit);
+  $(".votePilot").on("click", sendCalificationPilotSubmit);
+
 	$(".voteCopilotSubmit").on("click", sendCalificationCopilotSubmit);
 	$(".sendCalification").on("click",sendCalificationCopilotPrompt);
 
@@ -331,28 +335,39 @@ function infoLoaded(item){
 
 /***************Califications*********************/
 function sendCalificationPilotSubmit(){
-	var cal = $(".votePilot").val();
-	var desc = $(".votePilotText").val();
-	if(cal > 0 && cal <5 && desc.length >0){
+  $.get('mustacheTemplates/vote.mst', function(template) {
+    var rendered = Mustache.render(template, {to:"Pilot"});
+    $("#voteCopilotModal .modal-body").empty().html(rendered);
+    $("#voteCopilotModal").modal("show");
+    $(".sendCalification").off("click").on("click",sendCalificationPilotPrompt);
+  });
+}
+function sendCalificationPilotPrompt(){
+  var cal = $("select[name='votePilotNumber']").val();
+	var desc = $("input[name='votePilotText']").val();
+  if(cal > -2 && cal <2 && desc.length >0){
 		bConfirmCallbacks("¿Enviar la calificación?",sendCalificationPilotConfirm);
 	}else{
 		if(desc.length <=0){
 			bAlert("Debe ingresar una descripción.");
 		}else{
-			bAlert("Debe ingresar una calificación entre 1 y 5");
+			bAlert("Debe ingresar una calificación válida.");
 		}
 	}
 }
 function sendCalificationPilotConfirm(r){
 	if(!r){return;}
-	$.post(URLs.travelCalificatePilot,
-		{
-			idViaje: travelInfo.idViaje,
-			idUsuarioCopiloto: userID,
-			idUsuarioPiloto: travelInfo.idUsuario,
-  			calificacion: $(".votePilot").val(),
-			observaciones: $(".votePilotText").val()
-		}).done(function(d){
+  var data =
+  {
+    idViaje: travelInfo.idViaje,
+    idUsuarioCopiloto: userID,
+    idUsuarioPiloto: travelInfo.idUsuario,
+    calificacion: $("select[name='votePilotNumber']").val(),
+    observaciones: $("input[name='votePilotText']").val()
+  };
+  console.log(data);
+	$.post(URLs.travelCalificatePilot,data
+  ).done(function(d){
 			console.log(d);
 			d = parseJSON(d);
 			if(d.success == "1"){
@@ -368,6 +383,8 @@ function sendCalificationCopilotSubmit(){
 		var rendered = Mustache.render(template, {to:"Copilot"});
 		$("#voteCopilotModal .modal-body").empty().html(rendered);
 		$("#voteCopilotModal").modal("show");
+    $(".sendCalification").off("click").on("click",sendCalificationCopilotPrompt);
+
 	});
 }
 function sendCalificationCopilotPrompt(){

@@ -212,5 +212,25 @@ i.fas, i.far{
 	border-radius: 1em;
 	border-color: $mainColor;
 	box-shadow: none;
+}
 
+#reputationContainer{
+	display: block;
+
+	ul{
+		list-style: none;
+		display: block;
+		width: 100%;
+
+		li{
+			border: 2px $mainColor solid;
+			padding: 1em;
+			display: inline-block;
+			width: 25%;
+			border-radius: 30px;
+			&.mineCalification{
+				border-color: green;
+			}
+		}
+	}
 }

@@ -51,6 +51,7 @@ var userID = getCookie("userID");
 var username = "";
 var userJSON;
 var travels;
+var reputation;
 $(document).ready(function(){
 	userID = getCookie("userID");
 	if(!userID || userID == ""){goToIndex();}
@@ -76,6 +77,9 @@ $(document).ready(function(){
 
 
 	$('#changePasswordModal').on('shown.bs.modal', changePasswordModalShow);
+	$("#myReputation").on("click",function(){
+			window.scrollTo(0, $("#reputationContainer").position().top - 150);
+	});
 });
 
 

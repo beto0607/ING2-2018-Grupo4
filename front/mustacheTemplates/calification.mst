@@ -1,5 +1,21 @@
+{{#mineTravel}}
+<li class="calificationItem {{mine}} mineTravel">
+  <span><i class="fas fa-car"></i> Fuiste el piloto</span>
+{{/mineTravel}}
+{{^mineTravel}}
 <li class="calificationItem {{mine}}">
-  <span>Calificación: {{calification}}</span>
+  <span><i class="fas fa-car"></i> Fuiste copiloto</span>
+{{/mineTravel}}
+<br>
+<strong>#{{idViaje}}</strong>
+<br>
+{{#mineCalification}}
+<span>Calificaste al piloto con:</span>
+{{/mineCalification}}
+{{^mineCalification}}
+<span>Te calificaron como copiloto:</span>
+{{/mineCalification}}
+  <span>{{calification}}</span>
   <p>Observaciones: {{observaciones}}</p>
   <span>Fecha: {{dateFormatted}}</span>
 </li>

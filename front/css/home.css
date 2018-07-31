@@ -314,3 +314,19 @@ i.fas:hover, i.far:hover {
   border-color: #f17376;
   box-shadow: none;
 }
+
+#reputationContainer {
+  display: block;
+}
+#reputationContainer ul {
+  list-style: none;
+  display: block;
+  width: 100%;
+}
+#reputationContainer ul li {
+  border: 2px #f17376 solid;
+  padding: 1em;
+  display: inline-block;
+  width: 25%;
+  border-radius: 30px;
+}

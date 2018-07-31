@@ -3,6 +3,7 @@ function loadCalifications(){
   $.post(URLs.califications,{id:userID})
   .done(function(d){
     d = parseJSON(d);
+    reputation = d;
     $.get("mustacheTemplates/calification.mst", function(template){
       $("#reputationContainer ul").empty();
       console.log(d);
@@ -10,7 +11,10 @@ function loadCalifications(){
         if(userID != d[i].idUsuarioCalifica && userID != d[i].IdUsuarioCalificado){continue;}
         d[i].dateFormatted = new Date(d[i].fechaCalificacion).toLocaleString();
         d[i].mine = d[i].idUsuarioCalifica == userID ? "mineCalification" : "otherCalification";
-        d[i].calification = d[i].calificacion == 1 ? "+1" : d[i].calificacion == -1 ? "-1" : "0"; 
+        d[i].mineCalification = d[i].idUsuarioCalifica == userID;
+        d[i].calification = d[i].calificacion == 1 ? "+1" : d[i].calificacion == -1 ? "-1" : "0";
+        d[i].mineTravel = getTravel(d[i].idViaje).idUsuario == userID;
+
         var output = Mustache.render(template, d[i]);
 
         $("#reputationContainer ul").append(output);
