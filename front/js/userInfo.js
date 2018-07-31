@@ -9,8 +9,12 @@ function deleteUserSubmit(r){
 	if(!r){return;}
 	$.post(URLs.userDelete, {idUsuario: userID})
 		.done(function(d,s){
-			if(parseJSON(d).success="1"){
+			d = parseJSON(d);
+			console.log(d);
+			if(d.success="1"){
 				bAlertCallback("Fue un placer... :'-( ", goToIndex);
+			}else{
+				bAlert(""+d.mensaje);
 			}
 		})
 		.fail(onFailPost);

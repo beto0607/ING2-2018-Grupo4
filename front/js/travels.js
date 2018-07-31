@@ -84,6 +84,15 @@ function addCalifications(){
 		}
 	}
 }
+function travelCalifiedState(){
+  var ok = false;
+  for(var i in reputation){
+    if(reputation[i].idViaje == travelInfo.idViaje){
+      return reputation[i].mineCalification;
+    }
+  }
+  return ok;
+}
 function travelInfoLoaded(){
   if(travelInfo.isMine){
 		travelInfo["hasPostulations"] = travelInfo["postulations"].length != 0;
@@ -107,7 +116,7 @@ function travelInfoLoaded(){
 		travelInfo["copilotState"] = {
 			"paid": c != null && c.fechaPago != null,
 			"canceled" : false,
-			"calified": false//FALTA AGREGAR EL ESTADO "CALIFICASTE",
+			"calified": travelCalifiedState()//FALTA AGREGAR EL ESTADO "CALIFICASTE",
 
 		};
 
@@ -494,9 +503,9 @@ function verifyPayForm(){
 	if($('#payModal form input[name="cvv"]').val() == "111"){
 		bAlert("Tarjeta inválida.");
 	}else if($('#payModal form input[name="cvv"]').val() == "222"){
-		bAlert("Tarjeta inválida.");
+		bAlert("Tarjeta sin saldo.");
 	}
-	if(year == 18 && month<8){
+	if(year == date.getFullYear()	- 2000 && month<date.getMonth()){
 		bAlert("Fecha inválida.");
 		return;
 	}

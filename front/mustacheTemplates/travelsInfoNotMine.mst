@@ -111,7 +111,7 @@
       {{/copilotState.paid}}
       {{#copilotState.calified}}
       <span>Ya calificaste.</span>
-      <br>
+      <hr>
       {{/copilotState.calified}}
       <span>Sos copiloto del viaje</span>
       <br>
