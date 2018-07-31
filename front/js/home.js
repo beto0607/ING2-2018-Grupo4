@@ -12,6 +12,7 @@ var URLs = {
 	userInfo: "../index.php?c=usuario&a=Obtener&debug=1",
 	userInfoSave: "../index.php?c=usuario&a=Guardar&debug=1",
 	userDelete: "../index.php?c=usuario&a=EliminarUsuario&debug=1",
+	userChangePasswod:"../index.php?c=usuario&a=CambiarClave&debug=1",
 
 	travelsList:"../index.php?c=viajes&a=Listar&debug=1",
 	travelInfo: "../index.php?c=viaje&a=Obtener&debug=1",
@@ -69,6 +70,9 @@ $(document).ready(function(){
 	$("button.goUp").on("click",function(){
 		window.scrollTo(0, 0);
 	});
+
+
+	$('#changePasswordModal').on('shown.bs.modal', changePasswordModalShow);
 });
 
 

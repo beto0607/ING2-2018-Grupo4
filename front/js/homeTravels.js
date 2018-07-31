@@ -220,7 +220,7 @@ function editTravel(){
 		cbu: getInputValue(form, "edit-travel-cbu")
 	};
 	console.log(data);
-	bAlertCallback("¿Desea realizar las modificaciones?",
+	bConfirmCallbacks("¿Desea realizar las modificaciones?",
 	function(r){
 		if(!r){return;}
 		$.post(URLs.travelEdit, data)

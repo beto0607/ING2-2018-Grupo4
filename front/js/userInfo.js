@@ -120,3 +120,39 @@ function userInfoSave(r){
 		})
 		.fail(onFailPost);
 }
+
+function changePasswordModalShow(){
+	console.log("·ADFASDFASDF");
+	$("input[name='changePasswordInput'], input[name='changeRepasswordInput']").on("change", function(){
+		var p1 = $("input[name='changePasswordInput']").val(),
+		p2 = $("input[name='changeRepasswordInput']").val();
+		if(p1 == p2 && p1){
+			$("#changePasswordModal span").hide();
+			$("#buttonSavePassword").removeClass("disabled").removeAttr("disabled");
+		}else{
+			$("#changePasswordModal span").show();
+			$("#buttonSavePassword").addClass("disabled").addAttr("disabled");
+		}
+	});
+	$("#buttonSavePassword").on("click",function(){
+		var p1 = $("input[name='changePasswordInput']").val(),
+		p2 = $("input[name='changeRepasswordInput']").val();
+		if(p1 == p2 && p1){
+			$.post(URLs.userChangePasswod, {
+				id: userID,
+				clave: p1
+			})
+			.done(function(d){
+				d = parseJSON(d);
+				if(d.success == "1"){
+					bAlertCallback(d.mensaje+"", reloadPage);
+				}else{
+					bAlert(d.mensajes+"");
+				}
+			}).fail(onFailPost);
+		}else{
+			$("#changePasswordModal span").show();
+			$("#buttonSavePassword").addClass("disabled").addAttr("disabled");
+		}
+	});
+}

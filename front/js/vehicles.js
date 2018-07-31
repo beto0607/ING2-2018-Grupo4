@@ -11,7 +11,7 @@ function ConfigureVehiclesEvents(){
   $("#addVehicleDialog button.saveVehicle").on("click", vehicleAddSubmit);
 
   $("#vehiclesContainer .infoButton").on("click",vehicleInfoButtonClicked);
-  
+
 }
 /*****************INFO***********************/
 function vehicleInfoButtonClicked(){
@@ -114,7 +114,7 @@ function modifyVehicle(){
 			if(d.success == "ok" || d.success == "1"){
 				bAlertCallback("Vehículo modificado.", reloadPage);
 			}else{
-				bAlertCallback(d.mensaje, reloadPage);
+				bAlert(d.mensaje+"");
 			}
 		})
 		.fail(onFailPost);
@@ -163,12 +163,11 @@ function addVehicle(){
 	};
 	$.post(URLs.vehiclesAdd, data)
 		.done(function(d,s){
-			console.log(d);
 			d = parseJSON(d);
 			if(d.success == "1" || d.success == "ok"){
-				bAlert("Vehículo agregado.", reloadPage);
+				bAlertCallback("Vehículo agregado.", reloadPage);
 			}else{
-				bAlert(d.mensaje, reloadPage);
+				bAlert(d.mensaje);
 			}
 		})
 		.fail(onFailPost);
@@ -188,7 +187,7 @@ function deleteVehicle(r){
 			if(d.success == "1" || d.success == "ok"){
 				bAlertCallback("Vehículo eliminado correctamente.", reloadPage);
 			}else{
-				bAlertCallback(""+d.mensaje, reloadPage);
+				bAlert(""+d.mensaje);
 			}
 		})
 		.fail(onFailPost);

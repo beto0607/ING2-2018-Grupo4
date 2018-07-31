@@ -1,6 +1,7 @@
 var URLs = {
 	login:"../index.php?c=auth&a=Autenticar&debug=1",
-	signup:"../index.php?c=usuario&a=Guardar&debug=1"
+	signup:"../index.php?c=usuario&a=Guardar&debug=1",
+	recoverAccount: "../index.php?c=usuario&a=RecuperarCuenta&debug=1"
 };
 function registerLinkTap(){
 	window.scroll(0, $("#registerSection").position().top - 100);
@@ -187,7 +188,45 @@ $('#signTabs a[href="#signin"]').tab('show');
 		$("#signinForm input[required]");
 		$("#signinForm").submit();
 	});
+
+	$("#buttonRecoverAccount").on("click",function(){
+		$("#recoveryAccount form").submit();
+	});
+	$("input[name='emailRecovery']").on("change", function(){
+
+		$("#recoveryAccount form").validate({
+			rules: {
+				"emailRecovery": {
+					required: true
+				}
+			},
+			submitHandler: function(){
+				bConfirmCallbacks("¿Desea recuperar la cuenta? Le sera enviado un mail con su nueva contraseña.", recoveryAccountConfirm);
+			}
+		});
+		if($(this).val()){
+			$("#buttonRecoverAccount").removeAttr("disabled").removeClass("disabled");
+		}else{
+			$("#buttonRecoverAccount").addAttr("disabled").addClass("disabled");
+		}
+	});
 });
+function recoveryAccountConfirm(r){
+	if(!r){return;}
+	$.post(URLs.recoverAccount, {mail: $("input[name='emailRecovery']").val()})
+	.done(function(d){
+		d = parseJSON(d);
+		if(d.success == "1"){
+			$("body").append("<input type='hidden' id='hiddenInput' value='"+d.password+"'>");
+			document.getElementById("hiddenInput").select();
+  		document.execCommand("copy");
+			bAlert(d.mensaje, reloadPage);
+		}else{
+			bAlert(""+d.mensaje);
+		}
+	})
+	.fail(onFailPost);
+}
 function setDialogText(s){
 	dialog.find('.bootbox-body').html(s);
 }

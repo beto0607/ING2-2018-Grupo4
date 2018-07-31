@@ -193,7 +193,7 @@ class Usuario
 						nombre          	= ?,
 						apellido        	= ?,
 						fechaNacimiento 	= ?,
-						telefono			= ?, 
+						telefono			= ?,
 						cbu 				= ?,
 						foto 				= CASE WHEN ? = 'NULO' THEN foto ELSE ? END
 				    WHERE id = ?";
@@ -307,5 +307,21 @@ class Usuario
 		{
 			die($e->getMessage());
 		}
+	}
+	function generateRandomString($length = 6) {
+		$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$charactersLength = strlen($characters);
+		$randomString = '';
+		for ($i = 0; $i < $length; $i++) {
+			$randomString .= $characters[rand(0, $charactersLength - 1)];
+		}
+		return $randomString;
+	}
+	public function RecuperarCuenta($mail){
+		$clave = $this->generateRandomString();
+		$sql = "UPDATE usuarios SET clave = ? WHERE email = ?";
+		$stm = $this->pdo->prepare($sql);
+		$stm->execute(array(sha1($clave), $mail));
+		return  ($stm->rowCount() != 0) ? $clave : False;
 	}
 }

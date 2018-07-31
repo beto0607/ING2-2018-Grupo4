@@ -63,7 +63,7 @@
                 </div>
               </div>
               <button type="submit" class="btn" id="loginSubmit">Iniciar sesión</button>
-              <a href="#forgot" class="btn">Recuperar cuenta</a>
+              <a  data-toggle="modal" class="btn btn-secondary" data-target="#recoveryAccount" data-role="modal">Recuperar cuenta</button>
             </form>
           </div>
           <div id="signup" class="tab-pane fade" role="tabpanel" aria-labelledby="signup-tab">
@@ -123,7 +123,27 @@
         </div>
     </div>
     <div class="container sectionWhiteSpace"></div>
-
+    <div id="recoveryAccount" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="recoveryAccount" aria-hidden="true" data-backdrop="static">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Recuperar cuenta</h5>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <label for="emailRecovery">Email:</label>
+                <input name="emailRecovery" type="email" placeholder="Email" required="true"/>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary disabled" id="buttonRecoverAccount">Guardar cambios</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <footer class="footer fixed-bottom">
       <div class="container">
         <span class="text-muted">Hecho por Grupo 4 - ING 2 - 2018 | </span>
