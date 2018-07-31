@@ -680,7 +680,7 @@ class Viaje
 					    LEFT JOIN calificaciones cal
 							ON	cop.idViaje = cal.idViaje
 								AND cop.idUsuario = cal.idUsuarioCalifica
-						WHERE cop.idViaje = ? AND cop.idUsuario = ? AND cal.IdUsuarioCalificado ? AND cop.fechaPago IS NOT NULL";
+						WHERE cop.idViaje = ? AND cop.idUsuario = ? AND cal.IdUsuarioCalificado = ? AND cop.fechaPago IS NOT NULL";
 			$stm = $this->pdo->prepare($sql);
 			$stm->execute(array($idViaje, $idUsuarioCalifica, $idUsuarioPiloto));
 			$val = $stm->fetch();
