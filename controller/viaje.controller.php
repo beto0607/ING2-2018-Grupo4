@@ -117,12 +117,16 @@ class ViajeController{
             {
                 if ($flagEditar)
                 {
+                  echo "flagEditar";
+
                     $id = $_REQUEST['id'];
                     $this->model->Actualizar($viaje);
                     $result = ['success' => '1', 'mensaje' => 'El viaje ha sido modificado con éxito.', 'id' => $id];
                 }
                 else
                 {
+                  echo "!flagEditar";
+
                    $id = $this->model->Crear($viaje, $tipoAlta, $fechaHasta);
                    $result = ['success' => '1', 'mensaje' => 'El viaje ha sido guardado con éxito.', 'id' => $id];
                 }

@@ -69,7 +69,6 @@ function myTravelInfo(){
 			travel["dateStart"] = date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
 			travel["hourStart"] = date.toLocaleTimeString();
 
-			console.log(travel);
 			$("#myTravelEditModal .modal-body").empty();
 			var output = Mustache.render(t, travel);
 			$("#myTravelEditModal .modal-body").append(output);
@@ -205,9 +204,10 @@ function editTravel(){
 		bAlert("Debe seleccionar un vehículo o agregar uno desde \"Mis vehículos\".");
 		return;
 	}
+	console.log(t);
 
 	var data = {
-		idViaje: $(form).attr("travel-id"),
+		id: $(form).attr("travel-id"),
 		idUsuario: userID,
 		idVehiculo: $("#editTravelVehiclesSelect").val(),
 		plazas: getInputValue(form, "edit-travel-size"),

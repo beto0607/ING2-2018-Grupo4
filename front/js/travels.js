@@ -47,13 +47,11 @@ function travelClick(travelID){
 				travelInfo["copilots"] = d.success == "1" ? d.copilotos : [];
 				$.post(URLs.travelPostulations, {id: tID})
 					.done( function(d){
-						console.log(d);
 						d = parseJSON(d);
 						travelInfo["postulations"] = d.success == "1" ? d.postulaciones : [];
 						$.post(URLs.travelCalifications, {idViaje: tID}).
 						done(function(d){
 							d = parseJSON(d);
-							console.log(d);
 							travelInfo["califications"] = d.success == "1" ? d.calificaciones : [];
 							travelInfoLoaded();
 						})
@@ -251,7 +249,7 @@ function cancelTravel(r){
 		});
 }
 function showTravelInfo(template){
-	console.log(travelInfo);
+//	console.log(travelInfo);
   $("#travelInfoModal .modal-body").empty();
   var rendered = Mustache.render(template, travelInfo);
   $("#travelInfoModal .modal-body").append(rendered);
@@ -295,12 +293,8 @@ function Configure(){
 function ConfigureTravelsEvents(){
   $(".travelListItem").on("click", travelClick);
   travelFromGet =new URL(window.location.href).searchParams.get("t");
-  console.log(travelFromGet);
-  console.log($("li[travel-id="+travelFromGet+"]")  );
   if(travelFromGet != null && $("li[travel-id="+travelFromGet+"]").length != 0){
     $("li[travel-id="+travelFromGet+"]").click();
-    console.log(travelFromGet);
-
   }
 
 
@@ -377,8 +371,8 @@ function sendCalificationCopilotSubmit(){
 	});
 }
 function sendCalificationCopilotPrompt(){
-	var cal = $(".voteCopilotNumber").val();
-	var desc = $(".voteCopilotText").val();
+	var cal = $("input[name='voteCopilotNumber']").val();
+	var desc = $("input[name='voteCopilotText']").val();
 	if(cal > 0 && cal <5 && desc.length >0){
 		bConfirmCallbacks("¿Enviar la calificación?",sendCalificationPilotConfirm);
 	}else{
