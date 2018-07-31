@@ -679,12 +679,13 @@ class Viaje
 						FROM copilotos cop
 					    LEFT JOIN calificaciones cal
 							ON	cop.idViaje = cal.idViaje
+								AND cal.IdUsuarioCalificado = ?
 								AND cop.idUsuario = cal.idUsuarioCalifica
-						WHERE cop.idViaje = ? AND cop.idUsuario = ? AND cal.IdUsuarioCalificado = ? AND cop.fechaPago IS NOT NULL;";
+						WHERE cop.idViaje = ? AND cop.idUsuario = ?  AND cop.fechaPago IS NOT NULL;";
 			$stm = $this->pdo->prepare($sql);
-			$stm->execute(array($idViaje, $idUsuarioCalifica, $idUsuarioPiloto));
+			$stm->execute(array($idViaje,$idUsuarioPiloto, $idUsuarioCalifica));
 			$val = $stm->fetch();
-			if ($val['Pendiente'] != 0)
+			if ($val['Pendiente'] == 0)
 			{
 				$valido = 'No hay calificación pendiente para realizar para este piloto.';
 			}
@@ -725,11 +726,11 @@ class Viaje
 							ON v.idVehiculo = ve.id
 					    INNER JOIN copilotos cop
 							ON v.id = cop.idViaje
-						INNER JOIN calificaciones cal
+						LEFT JOIN calificaciones cal
 							ON 	v.id = cal.idViaje
 								AND cop.idUsuario = cal.idUsuarioCalificado
 								AND cal.idUsuarioCalifica = ve.idUsuario
-					    WHERE v.id = ? AND cop.fechaPago IS NOT NULL AND cop.idUsuario = ? AND ve.idUsuario = ?";
+					    WHERE v.id = ? AND cop.fechaPago IS NOT NULL AND cop.idUsuario = ? AND ve.idUsuario = ? AND cal.idViaje IS NULL";
 			$stm = $this->pdo->prepare($sql);
 			$stm->execute(array($idViaje, $idUsuarioCopiloto, $idUsuarioCalifica));
 			$val = $stm->fetch();

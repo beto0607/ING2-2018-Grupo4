@@ -279,6 +279,7 @@ function ConfigureTravelInfoEvents(){
   $(".votePilot").on("click", sendCalificationPilotSubmit);
 
 	$(".voteCopilotSubmit").on("click", sendCalificationCopilotSubmit);
+
 	$(".sendCalification").on("click",sendCalificationCopilotPrompt);
 
 	$(".answerQuestion").on("click", answerQuestionButton);
@@ -374,7 +375,6 @@ function sendCalificationPilotConfirm(r){
     calificacion: $("select[name='votePilotNumber']").val(),
     observaciones: $("input[name='votePilotText']").val()
   };
-  console.log(data);
 	$.post(URLs.travelCalificatePilot,data
   ).done(function(d){
 			console.log(d);
@@ -393,14 +393,14 @@ function sendCalificationCopilotSubmit(){
 		$("#voteCopilotModal .modal-body").empty().html(rendered);
 		$("#voteCopilotModal").modal("show");
     $(".sendCalification").off("click").on("click",sendCalificationCopilotPrompt);
-
 	});
 }
 function sendCalificationCopilotPrompt(){
 	var cal = $("select[name='voteCopilotNumber']").val();
 	var desc = $("input[name='voteCopilotText']").val();
+
 	if(cal > -2 && cal <2 && desc.length >0){
-		bConfirmCallbacks("¿Enviar la calificación?",sendCalificationPilotConfirm);
+		bConfirmCallbacks("¿Enviar la calificación?",sendCalificationCopilotConfirm);
 	}else{
 		if(desc.length <=0){
 			bAlert("Debe ingresar una descripción.");
