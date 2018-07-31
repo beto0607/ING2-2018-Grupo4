@@ -1,0 +1,5 @@
+<li class="calificationItem {{mine}}">
+  <span>Calificación: {{calification}}</span>
+  <p>Observaciones: {{observaciones}}</p>
+  <span>Fecha: {{dateFormatted}}</span>
+</li>

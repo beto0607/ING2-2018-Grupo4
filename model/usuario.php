@@ -324,4 +324,18 @@ class Usuario
 		$stm->execute(array(sha1($clave), $mail));
 		return  ($stm->rowCount() != 0) ? $clave : False;
 	}
+
+	public function Calificaciones($id){
+		try
+		{
+			$sql = "SELECT * FROM calificaciones WHERE idUsuarioCalifica = ? OR idUsuarioCalificado = ?";
+
+			$stm = $this->pdo->prepare($sql);
+			$stm->execute(array($id,$id));
+			return $stm->fetchAll();
+		} catch (Exception $e)
+		{
+			die($e->getMessage());
+		}
+	}
 }

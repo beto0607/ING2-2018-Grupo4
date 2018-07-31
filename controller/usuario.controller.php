@@ -186,4 +186,8 @@ class UsuarioController{
         echo json_encode(['success' => '0', 'mensaje' => 'Email inválido.']);
       }
     }
+    public function Calificaciones(){
+      $r = $this->model->Calificaciones($_REQUEST["id"]);
+      echo json_encode($r);
+    }
 }

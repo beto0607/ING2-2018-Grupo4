@@ -390,7 +390,7 @@ function sendCalificationCopilotConfirm(r){
 			idViaje: travelInfo.idViaje,
 			idUsuarioPiloto: userID,
 			idUsuarioCopiloto: copilotVote,
-			calificacion: $("select[name='voteCopilotNumber']").val();,
+			calificacion: $("select[name='voteCopilotNumber']").val(),
 			observaciones: $("input[name='voteCopilotText']").val()
 		}).done(function(d){
 			console.log(d);
