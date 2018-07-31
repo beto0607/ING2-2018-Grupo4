@@ -213,7 +213,7 @@ function editTravel(){
 		plazas: getInputValue(form, "edit-travel-size"),
 		origen: t.origen,
 		destino: t.destino,
-		fecha: t.fecha,
+		fecha: t.fecha.split("-").join("").split(":").join(""),
 		descripcion: $("textarea[name=\"edit-travel-desc\"]").val(),
 		montoTotal: getInputValue(form, "edit-travel-monto"),
 		duracion: duration,
