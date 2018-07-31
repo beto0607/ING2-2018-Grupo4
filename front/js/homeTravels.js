@@ -204,8 +204,6 @@ function editTravel(){
 		bAlert("Debe seleccionar un vehículo o agregar uno desde \"Mis vehículos\".");
 		return;
 	}
-	console.log(t);
-
 	var data = {
 		id: $(form).attr("travel-id"),
 		idUsuario: userID,
@@ -219,7 +217,6 @@ function editTravel(){
 		duracion: duration,
 		cbu: getInputValue(form, "edit-travel-cbu")
 	};
-	console.log(data);
 	bConfirmCallbacks("¿Desea realizar las modificaciones?",
 	function(r){
 		if(!r){return;}

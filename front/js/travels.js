@@ -371,15 +371,15 @@ function sendCalificationCopilotSubmit(){
 	});
 }
 function sendCalificationCopilotPrompt(){
-	var cal = $("input[name='voteCopilotNumber']").val();
+	var cal = $("select[name='voteCopilotNumber']").val();
 	var desc = $("input[name='voteCopilotText']").val();
-	if(cal > 0 && cal <5 && desc.length >0){
+	if(cal > -2 && cal <2 && desc.length >0){
 		bConfirmCallbacks("¿Enviar la calificación?",sendCalificationPilotConfirm);
 	}else{
 		if(desc.length <=0){
 			bAlert("Debe ingresar una descripción.");
 		}else{
-			bAlert("Debe ingresar una calificación entre 1 y 5");
+			bAlert("Debe seleccionar una calificacion.");
 		}
 	}
 }
@@ -390,13 +390,13 @@ function sendCalificationCopilotConfirm(r){
 			idViaje: travelInfo.idViaje,
 			idUsuarioPiloto: userID,
 			idUsuarioCopiloto: copilotVote,
-			calificacion: $(".voteCopilot").val(),
-			observaciones: $(".voteCopilotText").val()
+			calificacion: $("select[name='voteCopilotNumber']").val();,
+			observaciones: $("input[name='voteCopilotText']").val()
 		}).done(function(d){
 			console.log(d);
 			d = parseJSON(d);
 			if(d.success == "1"){
-				bAlertCallback(d.mensaje, reloadPageTravel);
+				bAlertCallback(""+d.mensaje, reloadPageTravel);
 			}else{
 				bAlert(""+d.mensaje);
 			}
