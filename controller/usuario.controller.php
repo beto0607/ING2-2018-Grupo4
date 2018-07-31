@@ -118,10 +118,10 @@ class UsuarioController{
         echo json_encode($result);
     }
 
-    public function Eliminar(){
+    public function EliminarUsuario(){
         try
         {
-            $idUsuario = $_REQUEST['id'];
+            $idUsuario = $_REQUEST['idUsuario'];
             $valido = '';
             $valido = $this->model->ValidarEliminar($idUsuario);
 
@@ -131,7 +131,7 @@ class UsuarioController{
             }
             else
             {
-                $this->model->Eliminar($_REQUEST['id']);
+                $this->model->Eliminar($idUsuario);
 
                 $result = ['success' => '1', 'mensaje' => 'El usuario ha sido eliminado con éxito.'];
             }
