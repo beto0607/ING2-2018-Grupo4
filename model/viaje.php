@@ -681,7 +681,9 @@ class Viaje
 							ON	cop.idViaje = cal.idViaje
 								AND cal.IdUsuarioCalificado = ?
 								AND cop.idUsuario = cal.idUsuarioCalifica
-						WHERE cop.idViaje = ? AND cop.idUsuario = ?  AND cop.fechaPago IS NOT NULL;";
+						WHERE 	cop.idViaje = ? AND cop.idUsuario = ?  
+								AND cop.fechaPago IS NOT NULL
+								AND cal.idviaje IS NULL;";
 			$stm = $this->pdo->prepare($sql);
 			$stm->execute(array($idViaje,$idUsuarioPiloto, $idUsuarioCalifica));
 			$val = $stm->fetch();
