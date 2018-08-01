@@ -115,7 +115,7 @@ class Viajes
 	}
 	public function ViajesUsuario($id){
 		try{
-			$stm = $this->pdo->prepare("SELECT idViaje FROM copilotos WHERE idUsuario = ? ;");
+			$stm = $this->pdo->prepare("SELECT idViaje FROM copilotos WHERE idUsuario = ? GROUP BY idViaje;");
 			$stm->execute(array($id));
 			return $stm->fetchAll(PDO::FETCH_OBJ);
 		} catch (Exception $e)

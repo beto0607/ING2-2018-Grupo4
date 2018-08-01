@@ -7,6 +7,7 @@ function loadLastTravels(){
 			addTravels(d);
 			$.post(URLs.travelsFor, {idUsuario: userID})
 				.done(addMyTravels)
+				.fail(onFailPost);
 		})
 		.fail(onFailPost)
 }

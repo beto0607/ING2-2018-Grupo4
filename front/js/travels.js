@@ -131,8 +131,6 @@ function travelInfoLoaded(){
 			(travelInfo["isPostulant"] && travelInfo["postulation"]["canceled"]) ;
 				//!(travelInfo["isCopilot"] || travelInfo["isPostulant"]);
 		//travelInfo["postulationState"] = travelInfo["isPostulant"] ? getPostulationState(): "<VACÍO>";
-
-    console.log(travelInfo);
     $.get('mustacheTemplates/travelsInfoNotMine.mst', showTravelInfo);
   }
 }
