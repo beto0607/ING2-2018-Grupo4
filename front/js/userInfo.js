@@ -33,8 +33,12 @@ function loadUserInfo(){
 			try{
 				d = parseJSON(d);
 				userJSON = d;
+				userJSON.calificacionPiloto = clamp0(userJSON.calificacionPiloto);
+				userJSON.calificacionCopiloto = clamp0(userJSON.calificacionCopiloto);
 				$("div.reputationContainer span strong")[0].innerHTML = (d.calificacionPiloto);
 				$("div.reputationContainer span strong")[1].innerHTML = (d.calificacionCopiloto);
+				$(".reputationPiloto").text(userJSON.calificacionPiloto);
+				$(".reputationCopiloto").text(userJSON.calificacionCopiloto);
 				$("#userInfoModal input[name=\"user-info-firstname\"]").val(d.nombre);
 				$("#userInfoModal input[name=\"user-info-lastname\"]").val(d.apellido);
 				$("#userInfoModal input[name=\"user-info-date\"]").val(d.fechaNacimiento);

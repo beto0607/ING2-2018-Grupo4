@@ -15,6 +15,7 @@ function addTravels(d){
         var date = new Date(d[i].fecha);
         d[i]["dateFormatted"] = date.toLocaleString();
         d[i]["isMine"] = userID == d[i].idUsuario;
+        console.log(d[i]);
         if(date >= new Date()){
           var rendered = Mustache.render(template, d[i]);
           $("#travelsContainer ul").append(rendered);
@@ -69,6 +70,9 @@ function formatTravelInfo(d){
 			d.mensajes[i].fRespuestaFormatted = fRespuesta.toLocaleString();
 		}
 	}
+  d.calificacionCopiloto = clamp0(d.calificacionCopiloto);
+  d.calificacionPiloto = clamp0(d.calificacionPiloto);
+
 	return d;
 }
 function addCalifications(){
@@ -325,6 +329,8 @@ function ConfigureTravelsEvents(){
           t.descripcionViaje.toLowerCase().indexOf(search) != -1;
         if(!show){
           $(this).hide();
+        }else{
+          $(this).show();
         }
       });
       $("input.maxMonto, input.minMonto, #lastTravelsContainer label").show();
@@ -344,12 +350,12 @@ function ConfigureTravelsEvents(){
       $("#lastTravelsContainer li.travelListItem").each(function(){
         var t = getTravel($(this).attr("travel-id"));
         if(!t || !$(this).is(":visible")){return;}
-        if(new Date(t.fecha) < new Date($("input.maxFecha").val())){
+        if(new Date(t.fecha) < new Date($("input.minFecha").val())){
           $(this).hide();
         }
       });
     }else{
-      $("#lastTravelsContainer li").show();
+      $(".searchInput").trigger("keydown");
     }
   });
   $("input.maxFecha").on("change",function(){
@@ -362,7 +368,7 @@ function ConfigureTravelsEvents(){
         }
       });
     }else{
-      $("#lastTravelsContainer li").show();
+      $(".searchInput").trigger("keydown");
     }
   });
   $("input.maxMonto").on("change",function(){
@@ -375,7 +381,7 @@ function ConfigureTravelsEvents(){
         }
       });
     }else{
-      $("#lastTravelsContainer li").show();
+      $(".searchInput").trigger("keydown");
     }
   });
   $("input.minMonto").on("change",function(){
@@ -383,13 +389,12 @@ function ConfigureTravelsEvents(){
       $("#lastTravelsContainer li.travelListItem").each(function(){
         var t = getTravel($(this).attr("travel-id"));
         if(!t || !$(this).is(":visible")){return;}
-        if(parseFloat(t.montoCopiloto) < parseFloat($("input.maxMonto").val())){
+        if(parseFloat(t.montoCopiloto) < parseFloat($("input.minMonto").val())){
           $(this).hide();
         }
       });
     }else{
-      $("#lastTravelsContainer li").show();
-
+      $(".searchInput").trigger("keydown");
     }
   });
 
@@ -449,8 +454,11 @@ function sendCalificationPilotConfirm(r){
 			}
 		}).fail(onFailPost);
 }
+/***************CalificationsCOPILOT*********************/
+
 function sendCalificationCopilotSubmit(){
 	copilotVote = $(this).attr("copilotId");
+  console.log(copilotVote);
 	$.get('mustacheTemplates/vote.mst', function(template) {
 		var rendered = Mustache.render(template, {to:"Copilot"});
 		$("#voteCopilotModal .modal-body").empty().html(rendered);
@@ -474,14 +482,15 @@ function sendCalificationCopilotPrompt(){
 }
 function sendCalificationCopilotConfirm(r){
 	if(!r){return;}
-	$.post(URLs.travelCalificateCopilot,
-		{
-			idViaje: travelInfo.idViaje,
-			idUsuarioPiloto: userID,
-			idUsuarioCopiloto: copilotVote,
-			calificacion: $("select[name='voteCopilotNumber']").val(),
-			observaciones: $("input[name='voteCopilotText']").val()
-		}).done(function(d){
+  var data = {
+    idViaje: travelInfo.idViaje,
+    idUsuarioPiloto: userID,
+    idUsuarioCopiloto: copilotVote,
+    calificacion: $("select[name='voteCopilotNumber']").val(),
+    observaciones: $("input[name='voteCopilotText']").val()
+  };
+	$.post(URLs.travelCalificateCopilot, data
+		).done(function(d){
 			console.log(d);
 			d = parseJSON(d);
 			if(d.success == "1"){
@@ -564,9 +573,11 @@ function verifyPayForm(){
 
 
 	if($('#payModal form input[name="cvv"]').val() == "111"){
-		bAlert("Tarjeta inválida.");
+    bAlert("Tarjeta inválida.");
+    return;
 	}else if($('#payModal form input[name="cvv"]').val() == "222"){
 		bAlert("Tarjeta sin saldo.");
+    return;
 	}
 	if(year == date.getFullYear()	- 2000 && month<date.getMonth()){
 		bAlert("Fecha inválida.");

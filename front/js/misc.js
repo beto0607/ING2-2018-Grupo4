@@ -120,3 +120,7 @@ function isCopilot(){
 	}
 	return false;
 }
+
+function clamp0(a){
+	return parseFloat(a) < 0 ? 0 : a;
+}
