@@ -42,6 +42,8 @@ function travelClick(travelID){
 		d = formatTravelInfo(d);
 		travelInfo = getTravel(tID);
 		travelInfo.serverTravel = d;
+    travelInfo.calificacionPiloto = clamp0(travelInfo.calificacionPiloto);
+    travelInfo.calificacionCopiloto = clamp0(travelInfo.calificacionCopiloto);
 		$.post(URLs.travelCopilots, {id: tID})
 			.done(function(d){
 				d = parseJSON(d);
@@ -49,11 +51,19 @@ function travelClick(travelID){
 				$.post(URLs.travelPostulations, {id: tID})
 					.done( function(d){
 						d = parseJSON(d);
-						travelInfo["postulations"] = d.success == "1" ? d.postulaciones : [];
+            d = d.success == "1" ? d.postulaciones : [];
+            d = clamp0Array(d, "calificacionPiloto");
+            d = clamp0Array(d, "calificacionCopiloto");
+						travelInfo["postulations"] = d;
 						$.post(URLs.travelCalifications, {idViaje: tID}).
 						done(function(d){
 							d = parseJSON(d);
-							travelInfo["califications"] = d.success == "1" ? d.calificaciones : [];
+              d = d.success == "1" ? d.calificaciones : [];
+              d = clamp0Array(d, "calificacionPiloto");
+              d = clamp0Array(d, "calificacionCopiloto");
+							travelInfo["califications"] = d;
+
+              travelInfo["happened"] = new Date()>new Date(travelInfo["fecha"]);
 							travelInfoLoaded();
 						})
 					});
@@ -99,6 +109,7 @@ function travelCalifiedState(){
 }
 function travelInfoLoaded(){
   if(travelInfo.isMine){
+
 		travelInfo["hasPostulations"] = travelInfo["postulations"].length != 0;
 		travelInfo["hasCopilots"] = travelInfo["copilots"].length != 0;
 		addCalifications();
@@ -118,7 +129,7 @@ function travelInfoLoaded(){
 
     travelInfo["copilotState"] = travelInfo["isCopilot"] ? getCopilotState(): "<VACÍO>";
 		travelInfo["copilotState"] = {
-			"paid": c != null && c.fechaPago != null,
+			"paid": c != null && c.fechaPago != null && new Date()<new Date(travelInfo.fecha),
 			"canceled" : false,
 			"calified": travelCalifiedState()//FALTA AGREGAR EL ESTADO "CALIFICASTE",
 
@@ -131,6 +142,7 @@ function travelInfoLoaded(){
 			(travelInfo["isPostulant"] && travelInfo["postulation"]["canceled"]) ;
 				//!(travelInfo["isCopilot"] || travelInfo["isPostulant"]);
 		//travelInfo["postulationState"] = travelInfo["isPostulant"] ? getPostulationState(): "<VACÍO>";
+    travelInfo["canCalify"] = false;
     $.get('mustacheTemplates/travelsInfoNotMine.mst', showTravelInfo);
   }
 }
@@ -263,7 +275,6 @@ function cancelTravel(r){
 		});
 }
 function showTravelInfo(template){
-//	console.log(travelInfo);
   $("#travelInfoModal .modal-body").empty();
   var rendered = Mustache.render(template, travelInfo);
   $("#travelInfoModal .modal-body").append(rendered);

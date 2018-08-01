@@ -12,7 +12,7 @@ function loadCalifications(){
         d[i].dateFormatted = new Date(d[i].fechaCalificacion).toLocaleString();
         d[i].mine = d[i].idUsuarioCalifica == userID ? "mineCalification" : "otherCalification";
         d[i].mineCalification = d[i].idUsuarioCalifica == userID;
-        d[i].calification = d[i].calificacion == 1 ? "+1" : d[i].calificacion == -1 ? "-1" : "0";
+        d[i].calification = d[i].calificacion == 1 ? "Positivo" : d[i].calificacion == -1 ? "Negativo" : "Neutral";
         d[i].mineTravel = getTravel(d[i].idViaje).idUsuario == userID;
 
         var output = Mustache.render(template, d[i]);

@@ -93,15 +93,12 @@
       <span>Ya pagaste el viaje.</span>
       <hr>
         {{^copilotState.calified}}
-        <!--label for="votePilot">Calificación:</label>
-        <input class="votePilot" name="votePilot" type="number" min="1" max="5" step="1" placeholder="Calificacion"/>
-        <br>
-        <label for="votePilot">Descripción:</label>
-        <br>
-        <input class="votePilotText" name="votePilotText" type="text" placeholder="Descripción" maxlength="250"/>
-        <br>
-        <button class="votePilotSubmit btn bt-primary">Calificar</button-->
+        {{#happened}}
         <button class="btn btn-primary votePilot">Calificar piloto</button>
+        {{/happened}}
+        {{^happened}}
+        <button class="btn btn-primary votePilot disabled" disabled="true">Calificar piloto</button>
+        {{/happened}}
         <hr>
 
         {{/copilotState.calified}}

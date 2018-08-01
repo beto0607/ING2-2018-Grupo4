@@ -10,9 +10,8 @@ function deleteUserSubmit(r){
 	$.post(URLs.userDelete, {idUsuario: userID})
 		.done(function(d,s){
 			d = parseJSON(d);
-			console.log(d);
-			if(d.success="1"){
-				bAlertCallback("Fue un placer... :'-( ", goToIndex);
+			if(d.success=="1"){
+				bAlertCallback("Usuario borrado.", goToIndex);
 			}else{
 				bAlert(""+d.mensaje);
 			}
@@ -23,7 +22,7 @@ function signoutClick(e){
 	setCookie("userID", "", 1);
 	$.post(URLs.signout)
 		.done(function(){
-			bAlertCallback("Cerraste sesión", goToIndex);
+			bAlertCallback("Cerraste sesión.", goToIndex);
 		})
 		.fail(onFailPost);
 }
@@ -37,8 +36,8 @@ function loadUserInfo(){
 				userJSON.calificacionCopiloto = clamp0(userJSON.calificacionCopiloto);
 				$("div.reputationContainer span strong")[0].innerHTML = (d.calificacionPiloto);
 				$("div.reputationContainer span strong")[1].innerHTML = (d.calificacionCopiloto);
-				$(".reputationPiloto").text(userJSON.calificacionPiloto);
-				$(".reputationCopiloto").text(userJSON.calificacionCopiloto);
+				$(".reputationPiloto").text("como piloto: "+userJSON.calificacionPiloto);
+				$(".reputationCopiloto").text("como copiloto: "+userJSON.calificacionCopiloto);
 				$("#userInfoModal input[name=\"user-info-firstname\"]").val(d.nombre);
 				$("#userInfoModal input[name=\"user-info-lastname\"]").val(d.apellido);
 				$("#userInfoModal input[name=\"user-info-date\"]").val(d.fechaNacimiento);

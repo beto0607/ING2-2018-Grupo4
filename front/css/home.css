@@ -327,6 +327,7 @@ i.fas:hover, i.far:hover {
   border: 2px #f17376 solid;
   padding: 1em;
   display: inline-block;
-  width: 25%;
+  width: 30%;
+  margin: 1em auto;
   border-radius: 30px;
 }

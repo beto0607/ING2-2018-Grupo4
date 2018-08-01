@@ -128,7 +128,12 @@
           <span>Usuario calificado: {{calification}} - {{obsevation}}</span>
           {{/calified}}
           {{^calified}}
-          <button copilotId="{{id}}" class="btn btn-primary voteCopilotSubmit">Calificar</button>
+          {{#happened}}
+          <button copilotId="{{id}}" class="btn btn-primary voteCopilotSubmit">Calificar copiloto</button>
+          {{/happened}}
+          {{^happened}}
+          <button copilotId="{{id}}" class="btn btn-primary voteCopilotSubmit disabled" disabled="true">Calificar copiloto</button>
+          {{/happened}}
           {{/calified}}
         {{/fechaPago}}
         {{#fechaCancelacion}}

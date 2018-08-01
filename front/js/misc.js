@@ -124,3 +124,9 @@ function isCopilot(){
 function clamp0(a){
 	return parseFloat(a) < 0 ? 0 : a;
 }
+function clamp0Array(arr, field){
+	for(var i in arr){
+		arr[i][field] = clamp0(arr[i][field]);
+	}
+	return arr;
+}
