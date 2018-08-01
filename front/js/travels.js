@@ -47,7 +47,10 @@ function travelClick(travelID){
 		$.post(URLs.travelCopilots, {id: tID})
 			.done(function(d){
 				d = parseJSON(d);
-				travelInfo["copilots"] = d.success == "1" ? d.copilotos : [];
+        d = d.success == "1" ? d.copilotos : [];
+        d = clamp0Array(d, "calificacionPiloto");
+        d = clamp0Array(d, "calificacionCopiloto");
+				travelInfo["copilots"] = d;
 				$.post(URLs.travelPostulations, {id: tID})
 					.done( function(d){
 						d = parseJSON(d);
@@ -99,13 +102,12 @@ function addCalifications(){
 	}
 }
 function travelCalifiedState(){
-  var ok = false;
   for(var i in reputation){
     if(reputation[i].idViaje == travelInfo.idViaje){
-      return reputation[i].mineCalification;
+      return reputation[i].idUsuarioCalifica == userID;
     }
   }
-  return ok;
+  return false;
 }
 function travelInfoLoaded(){
   if(travelInfo.isMine){
@@ -129,9 +131,9 @@ function travelInfoLoaded(){
 
     travelInfo["copilotState"] = travelInfo["isCopilot"] ? getCopilotState(): "<VACÍO>";
 		travelInfo["copilotState"] = {
-			"paid": c != null && c.fechaPago != null && new Date()<new Date(travelInfo.fecha),
+			"paid": c != null && c.fechaPago != null ,//&& new Date()<new Date(travelInfo.fecha)
 			"canceled" : false,
-			"calified": travelCalifiedState()//FALTA AGREGAR EL ESTADO "CALIFICASTE",
+			"calified": !travelCalifiedState() && c.fechaPago != null
 
 		};
 
@@ -143,6 +145,7 @@ function travelInfoLoaded(){
 				//!(travelInfo["isCopilot"] || travelInfo["isPostulant"]);
 		//travelInfo["postulationState"] = travelInfo["isPostulant"] ? getPostulationState(): "<VACÍO>";
     travelInfo["canCalify"] = false;
+    console.log(travelInfo);
     $.get('mustacheTemplates/travelsInfoNotMine.mst', showTravelInfo);
   }
 }
