@@ -284,7 +284,7 @@ class ViajeController{
             $calificacion = $_REQUEST['calificacion'];
             $observaciones = $_REQUEST['observaciones'];
             $this->model->CalificarUsuario($idViaje, $idUsuarioCalifica, $idUsuarioPiloto, $calificacion, $observaciones);
-            $result = ['success' => '0', 'mensaje' => 'Piloto calificado.'];
+            $result = ['success' => '1', 'mensaje' => 'Piloto calificado.'];
 
             /*
             $valido = $this->model->ValidarCalificarPiloto($idViaje, $idUsuarioCalifica, $idUsuarioPiloto);
@@ -316,7 +316,7 @@ class ViajeController{
             $calificacion = $_REQUEST['calificacion'];
             $observaciones = $_REQUEST['observaciones'];
             $this->model->CalificarUsuario($idViaje, $idUsuarioCalifica, $idUsuarioCopiloto, $calificacion, $observaciones);
-            $result = ['success' => '0', 'mensaje' => 'Copiloto calificado.'];
+            $result = ['success' => '1', 'mensaje' => 'Copiloto calificado.'];
             /*
             $valido = $this->model->ValidarCalificarCopiloto($idViaje, $idUsuarioCalifica, $idUsuarioCopiloto);
             if ($valido != '')

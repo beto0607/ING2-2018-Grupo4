@@ -92,23 +92,27 @@
       {{#copilotState.paid}}
       <span>Ya pagaste el viaje.</span>
       <hr>
-        {{^copilotState.calified}}
-        {{#happened}}
-        <button class="btn btn-primary votePilot">Calificar piloto</button>
-        {{/happened}}
-        {{^happened}}
-        <button class="btn btn-primary votePilot disabled" disabled="true">Calificar piloto</button>
-        {{/happened}}
-        <hr>
-
-        {{/copilotState.calified}}
       {{/copilotState.paid}}
       {{^copilotState.paid}}
       <button class="btn btn-primary payButton">Pagar viaje</button>
-      {{/copilotState.paid}}
-      {{#copilotState.calified}}
-      <span>Ya calificaste.</span>
       <hr>
+      {{/copilotState.paid}}
+
+      {{^copilotState.calified}}
+      {{#copilotState.canCalify}}
+      <button class="btn btn-primary votePilot">Calificar piloto</button>
+      {{/copilotState.canCalify}}
+      {{^copilotState.canCalify}}
+      <button class="btn btn-primary votePilot disabled" disabled="true">Calificar piloto</button>
+      {{/copilotState.canCalify}}
+      <hr>
+      {{/copilotState.calified}}
+
+      {{#copilotState.calified}}
+      {{#happened}}
+      <span>Calificaste: {{copilotState.calification.calification}}</span>
+      <hr>
+      {{/happened}}
       {{/copilotState.calified}}
       <span>Sos copiloto del viaje</span>
       <br>

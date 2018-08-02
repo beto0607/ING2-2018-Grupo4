@@ -63,6 +63,7 @@
     <br>
     <br>
     {{#postulations}}
+
       <div class="container postulationContainer" user-id="{{id}}" user-name="{{usuario}}">
         <span><strong>Usuario: </strong> {{usuario}}</span>
         {{#foto}}
@@ -122,7 +123,7 @@
         <span>Usuario ya aprobado.</span>
         <br>
         {{#fechaPago}}
-          <span>Usuario ya pago ${{montoPago}}.</span>
+          <span>Usuario ya pago el viaje.</span>
           <br>
           {{#calified}}
           <span>Usuario calificado: {{calification}} - {{obsevation}}</span>

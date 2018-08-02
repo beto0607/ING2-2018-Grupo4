@@ -90,21 +90,31 @@ function formatTravelInfo(d){
 }
 function addCalifications(){
 	if(travelInfo["hasCopilots"]){
-		for(var i in travelInfo["califications"]){
-			for (var c in travelInfo["copilots"]) {
-				if(travelInfo["copilots"][c].id == travelInfo["califications"][i].IdUsuarioCalificado){
-					travelInfo["copilots"][c].calified = true;
-					travelInfo["copilots"][c].calification = travelInfo["califications"][i].calificacion;
-					travelInfo["copilots"][c].observations = travelInfo["califications"][i].observaciones;
-				}
-			}
+		for(var i in reputation){
+      if(reputation[i].idViaje == travelInfo.idViaje){  
+  			for (var c in travelInfo["copilots"]) {
+  				if(travelInfo["copilots"][c].id == travelInfo["califications"][i].IdUsuarioCalificado){
+  					travelInfo["copilots"][c].calified = true;
+  					travelInfo["copilots"][c].calification = travelInfo["califications"][i].calificacion;
+  					travelInfo["copilots"][c].observations = travelInfo["califications"][i].observaciones;
+  				}
+  			}
+      }
 		}
 	}
 }
+function travelCalifiedInfo(){
+  for(var i in reputation){
+    if(reputation[i].idViaje == travelInfo.idViaje && reputation[i].idUsuarioCalifica == userID){
+      return reputation[i];
+    }
+  }
+  return null;
+}
 function travelCalifiedState(){
   for(var i in reputation){
-    if(reputation[i].idViaje == travelInfo.idViaje){
-      return reputation[i].idUsuarioCalifica == userID;
+    if(reputation[i].idViaje == travelInfo.idViaje && reputation[i].idUsuarioCalifica == userID){
+      return true;
     }
   }
   return false;
@@ -115,6 +125,7 @@ function travelInfoLoaded(){
 		travelInfo["hasPostulations"] = travelInfo["postulations"].length != 0;
 		travelInfo["hasCopilots"] = travelInfo["copilots"].length != 0;
 		addCalifications();
+    console.log(travelInfo);
     $.get('mustacheTemplates/travelsInfoMine.mst', showTravelInfo);
   }else{
 		//El viaje no es mio
@@ -133,8 +144,9 @@ function travelInfoLoaded(){
 		travelInfo["copilotState"] = {
 			"paid": c != null && c.fechaPago != null ,//&& new Date()<new Date(travelInfo.fecha)
 			"canceled" : false,
-			"calified": !travelCalifiedState() && c.fechaPago != null
-
+			"calified": travelCalifiedState(),
+      "calification": travelCalifiedInfo(),
+      "canCalify": travelInfo["happened"] && c != null && c.fechaPago != null
 		};
 
 		travelInfo["canPostulate"] =
