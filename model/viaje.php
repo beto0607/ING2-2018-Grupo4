@@ -883,24 +883,19 @@ class Viaje
 		try
 		{
 			$sql = "SELECT 	vi.id,
-							ROUND(ROUND(vi.montoTotal / vi.plazas, 2)
-							- 	CASE
-									WHEN COUNT(cop.idUsuario) = 0
-										THEN ROUND(vi.montoTotal / vi.plazas, 2) * (vi.porcentajeComision / 100)
-									ELSE 0
-								END, 2) AS 'montoPago',
-					        CASE
+							ROUND(vi.montoTotal / vi.plazas, 2) AS 'montoPago',
+							CASE
 								WHEN COUNT(cop.idUsuario) = 0
-									THEN CONCAT(ROUND(ROUND(vi.montoTotal / vi.plazas, 2) * (vi.porcentajeComision / 100), 2), ' (', CONVERT(vi.porcentajeComision, char), ')')
+									THEN CONCAT(ROUND(vi.montoTotal * (vi.porcentajeComision / 100), 2), ' (', CONVERT(vi.porcentajeComision, char), ')')
 								ELSE ''
 							END AS 'porcentajeComision',
-					        vi.cbu
+							vi.cbu
 						FROM Viajes vi
-					    LEFT JOIN copilotos cop
+						LEFT JOIN copilotos cop
 							ON	vi.id = cop.idViaje
 								AND cop.fechaAprobacion IS NOT NULL
-					            AND cop.fechaCancelacion IS NULL
-					            AND cop.fechaPago IS NOT NULL
+								AND cop.fechaCancelacion IS NULL
+								AND cop.fechaPago IS NOT NULL
 						WHERE vi.id = ?
 					    GROUP BY vi.id, vi.cbu ";
 

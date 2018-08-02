@@ -3,7 +3,9 @@ class Viajes
 {
 	private $pdo;
 
-	private $sql = "SELECT 	v.id AS idViaje, v.fecha, v.origen, v.destino, v.plazas AS plazasViaje, v.descripcion AS descripcionViaje, ROUND(v.montoTotal + (v.montoTotal * (v.PorcentajeComision/100)), 2) as montoTotal, ROUND((v.montoTotal + (v.montoTotal * (v.PorcentajeComision/100))) / 4, 2) as montoCopiloto,
+	private $sql = "SELECT 	v.id AS idViaje, v.fecha, v.origen, v.destino, v.plazas AS plazasViaje, v.descripcion AS descripcionViaje, 
+	ROUND(v.montoTotal, 2) AS montoTotal, 
+	ROUND(v.montoTotal / v.plazas, 2) AS montoCopiloto,
 	v.fechaCreacion, v.fechaCancelacion, v.fechaCierre, v.idVehiculo, ve.dominio, ve.descripcion AS descripcionVehiculo, ve.modelo AS modeloVehiculo,
 	ve.marca AS marcaVehiculo, ve.plazas AS plazasVehiculo, ve.idUsuario AS idUsuario, u.usuario, u.nombre, u.apellido, u.fechaNacimiento,
 	u.telefono, u.email, u.calificacionPiloto, u.calificacionCopiloto, v.duracion, v.plazas - COUNT(cop.idUsuario) AS 'plazasDisponibles', v.cbu, u.foto, COUNT(cop.idUsuario) AS 'copilotos'

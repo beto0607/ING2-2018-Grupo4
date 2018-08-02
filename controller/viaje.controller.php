@@ -410,8 +410,8 @@ class ViajeController{
                 $importe = $valores['montoPago'];
 
                 $mensaje = array(
-                                'Se realizó el pago con éxito.',
-                                'Se depositó al piloto $ ' . number_format($importe, 2)
+                                'Se realizó el pago con éxito.'/*,
+                                'Se depositó al piloto $ ' . number_format($importe, 2)*/
                             );
 
                 if ($valores['porcentajeComision'] != "")
