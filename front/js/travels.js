@@ -61,7 +61,8 @@ function travelClick(travelID){
 						$.post(URLs.travelCalifications, {idViaje: tID}).
 						done(function(d){
 							d = parseJSON(d);
-              d = d.success == "1" ? d.calificaciones : [];
+              console.log(d);
+              d = d.success == "1" ? (d.calificaciones ? d.calificaciones : []) : [];
               d = clamp0Array(d, "calificacionPiloto");
               d = clamp0Array(d, "calificacionCopiloto");
 							travelInfo["califications"] = d;
@@ -88,19 +89,42 @@ function formatTravelInfo(d){
 
 	return d;
 }
+function userCalified(user){
+  for(var i in reputation){
+    if(reputation[i].idViaje == travelInfo.idViaje){
+      if(reputation[i].IdUsuarioCalificado == user){return true;}
+    }
+  }
+  return false;
+}
+function userCalifiedCalification(user){
+  for(var i in reputation){
+    if(reputation[i].idViaje == travelInfo.idViaje){
+      if(reputation[i].IdUsuarioCalificado == user){
+        return reputation[i].calification;
+      }
+    }
+  }
+  return "---";
+}
+function userCalifiedObservations(user){
+  for(var i in reputation){
+    if(reputation[i].idViaje == travelInfo.idViaje){
+      if(reputation[i].IdUsuarioCalificado == user){
+        return reputation[i].observaciones;
+      }
+    }
+  }
+  return "---";
+}
 function addCalifications(){
 	if(travelInfo["hasCopilots"]){
-		for(var i in reputation){
-      if(reputation[i].idViaje == travelInfo.idViaje){
-  			for (var c in travelInfo["copilots"]) {
-  				if(travelInfo["copilots"][c].id == travelInfo["califications"][i].IdUsuarioCalificado){
-  					travelInfo["copilots"][c].calified = true;
-  					travelInfo["copilots"][c].calification = travelInfo["califications"][i].calificacion;
-  					travelInfo["copilots"][c].observations = travelInfo["califications"][i].observaciones;
-  				}
-  			}
-      }
-		}
+    for (var c in travelInfo["copilots"]) {
+      travelInfo["copilots"][c]["calified"] = userCalified(travelInfo["copilots"][c].id);
+      travelInfo["copilots"][c]["observations"] = userCalifiedObservations(travelInfo["copilots"][c].id);
+      travelInfo["copilots"][c]["calification"] = userCalifiedCalification(travelInfo["copilots"][c].id);
+
+    }
 	}
 }
 function travelCalifiedInfo(){
@@ -143,7 +167,7 @@ function travelInfoLoaded(){
   }else{
 
 		travelInfo["isPostulant"] = isPostulant();
-    travelInfo["plazasDisponibles"] = 0;
+
     travelInfo["canPostulate"] =
         canPostulate() &&
         parseInt(travelInfo["plazasDisponibles"]) > 0 &&

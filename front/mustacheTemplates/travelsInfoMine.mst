@@ -130,7 +130,7 @@
           <span>Usuario ya pago el viaje.</span>
           <br>
           {{#calified}}
-          <span>Usuario calificado: {{calification}} - {{obsevation}}</span>
+          <span>Usuario calificado: {{calification}}</span>
           {{/calified}}
           {{^calified}}
           {{#happened}}
