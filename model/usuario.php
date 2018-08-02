@@ -176,7 +176,16 @@ class Usuario
 		try
 		{
 			$stm = $this->pdo
-			            ->prepare("UPDATE usuarios SET fechaBaja = NOW() WHERE id = ?");
+			            ->prepare("UPDATE usuarios
+			            			SET fechaBaja = NOW(),
+			            				usuario = '<anónimo>', 
+										clave = '<anónimo>', 
+								        nombre = '<anónimo>', 
+								        apellido = '<anónimo>', 
+								        email = '<anónimo>', 
+								        telefono = '<anónimo>', 
+								        cbu = '<anónimo>' 
+			            			WHERE id = ?");
 
 			$stm->execute(array($id));
 		} catch (Exception $e)
