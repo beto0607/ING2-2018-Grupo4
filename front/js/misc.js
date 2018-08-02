@@ -107,8 +107,12 @@ function orderTravels(d){
 function isPostulant(){
 	if(travelInfo.postulations == false){return false;}
 	for(var cop in travelInfo.postulations){
-		cop =travelInfo.postulations[cop];
-		if(cop.id == userID){return true;}
+		cop = travelInfo.postulations[cop];
+		if(cop.id == userID){
+			if(cop.fechaCancelacion == null){
+				return true;
+			}
+		}
 	}
 	return false;
 }

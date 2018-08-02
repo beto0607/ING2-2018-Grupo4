@@ -91,7 +91,7 @@ function formatTravelInfo(d){
 function addCalifications(){
 	if(travelInfo["hasCopilots"]){
 		for(var i in reputation){
-      if(reputation[i].idViaje == travelInfo.idViaje){  
+      if(reputation[i].idViaje == travelInfo.idViaje){
   			for (var c in travelInfo["copilots"]) {
   				if(travelInfo["copilots"][c].id == travelInfo["califications"][i].IdUsuarioCalificado){
   					travelInfo["copilots"][c].calified = true;
@@ -119,6 +119,19 @@ function travelCalifiedState(){
   }
   return false;
 }
+function hasCanceledPostulation(isPostulant){
+  var c = false;
+  if(isPostulant){
+    for(var p in travelInfo.postulations){
+  		p = travelInfo.postulations[p];
+  		if(p.id == userID){
+  			c = c || (p.fechaCancelacion != null);
+  		}
+  	}
+
+  }
+  return c;
+}
 function travelInfoLoaded(){
   if(travelInfo.isMine){
 
@@ -133,7 +146,7 @@ function travelInfoLoaded(){
 		var p = getPostulation();
 		travelInfo["postulation"] = {
 			"approved": p && p.fechaAprobacion ? p.fechaAprobacion != null : false,
-			"canceled": p && p.fechaCancelacion ? p.fechaCancelacion != null :false,
+			"canceled": hasCanceledPostulation(travelInfo["isPostulant"]),
 			"desapproved":  p && p.fechaRechazo ? p.fechaRechazo != null :false
 		};
 
@@ -149,25 +162,48 @@ function travelInfoLoaded(){
       "canCalify": travelInfo["happened"] && c != null && c.fechaPago != null
 		};
 
-		travelInfo["canPostulate"] =
-			!travelInfo["isCopilot"] &&
-			//(travelInfo["isCopilot"] && (!travelInfo["copilotState"]["canceled"])) ||
-			!travelInfo["isPostulant"] ||
-			(travelInfo["isPostulant"] && travelInfo["postulation"]["canceled"]) ;
-				//!(travelInfo["isCopilot"] || travelInfo["isPostulant"]);
-		//travelInfo["postulationState"] = travelInfo["isPostulant"] ? getPostulationState(): "<VACÍO>";
+		travelInfo["canPostulate"] = canPostulate() && !travelInfo["isCopilot"];
+    travelInfo["canAbandone"] = canPostulate() && !travelInfo["isCopilot"];
+
     travelInfo["canCalify"] = false;
     console.log(travelInfo);
+    travelInfo["minePostulations"] = getMinePostulations();
     $.get('mustacheTemplates/travelsInfoNotMine.mst', showTravelInfo);
   }
 }
+function getMinePostulations(){
+  var ret = [];
+  for(var p in travelInfo.postulations){
+    console.log();
+    if(travelInfo.postulations[p].id == userID){
+      ret.push(travelInfo.postulations[p]);
+    }
+  }
+  return ret;
+}
+function canPostulate(){
+  var canceled = false;
+  for(var c in travelInfo.postulations){
+    c =travelInfo.postulations[c];
+    if(c.id == userID){
+      if(c.fechaCancelacion == null && c.fechaRechazo == null){
+        return false;
+      }
+    }
+  }
+  return true;
+}
 function getPostulation(){
+  var ret = null
 	for(var c in travelInfo.postulations){
 		c =travelInfo.postulations[c];
 		if(c.id == userID){
-			return c;
+      if(ret == null || new Date(ret.fechaPostulacion) < new Date(c.fechaPostulacion)){
+        ret = c;
+      }
 		}
 	}
+  return ret;
 }
 function getCopilotState(){
 	for(var c in travelInfo.copilots){

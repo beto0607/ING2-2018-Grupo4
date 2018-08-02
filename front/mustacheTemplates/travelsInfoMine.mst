@@ -148,9 +148,12 @@
 
   <hr>
   {{^fechaCancelacion}}
+  {{^happened}}
     <button type="button" class="btn btn-primary deleteButton travelCancelButton">Cancelar viaje</button>
+  {{/happened}}
   {{/fechaCancelacion}}
   <hr>
+  {{^happened}}
   <button class="btn btn-primary editTravel" travel-id="{{idViaje}}">Modificar viaje</button>
-
+  {{/happened}}
 </div>

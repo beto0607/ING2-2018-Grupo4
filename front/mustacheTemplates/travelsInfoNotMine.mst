@@ -66,27 +66,31 @@
     {{/serverTravel.mensajes}}
   </ul>
   <hr>
+  {{^isCopilot}}
 
-  {{#isPostulant}}
-      <span>Ya te postulaste en este viaje</span>
+    {{#minePostulations}}
+      <span>Te postulaste al viaje el {{fechaPostulacion}}.</span>
       <br>
-      {{^postulation.desapproved}}
-      {{^postulation.canceled}}
-      {{^fechaCancelacion}}
-      <button type="button" class="btn btn-primary deleteButton travelCancelPostulationButton">Abandonar viaje</button>
+      {{#fechaAprobacion}}
+      <span>Te aprobaron el {{fechaAprobacion}}.</span>
+      <br>
+      {{/fechaAprobacion}}
+      {{#fechaCancelacion}}
+      <span>Cancelaste la postulación al viaje el {{fechaCancelacion}}.</span>
+      <br>
       {{/fechaCancelacion}}
-      {{/postulation.canceled}}
-      {{/postulation.desapproved}}
+      {{#fechaRechazo}}
+      <span>Te rechazaron el {{fechaRechazo}}.</span>
+      <br>
+      {{/fechaRechazo}}
+      <br>
 
-      {{#postulation.canceled}}
-      <span>Cancelaste la postulación al viaje.</span>
-      <br>
-      {{/postulation.canceled}}
-      {{#postulation.desapproved}}
-      <span>No te aprobaron en el viaje. :'(</span>
-      <br>
-      {{/postulation.desapproved}}
-    {{/isPostulant}}
+    {{/minePostulations}}
+
+    {{^canPostulate}}
+    <button type="button" class="btn btn-primary deleteButton travelCancelPostulationButton">Abandonar viaje</button>
+    {{/canPostulate}}
+  {{/isCopilot}}
 
     {{#isCopilot}}
       {{#copilotState.paid}}
