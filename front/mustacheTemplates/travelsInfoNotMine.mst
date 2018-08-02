@@ -36,10 +36,12 @@
   <br>
   <hr>
   <strong>Preguntas: </strong>
+  {{^happened}}
   <label for="questionInput">Haz tu pregunta:</label>
   <br>
   <input class="questionInput" type="text" placeholder="Haz tu pregunta" name="questionInput">
   <button class="questionSubmit btn bt-primary">Enviar</button>
+  {{/happened}}
   <br>
   <br>
   <ul class="travelQuestions">
@@ -88,7 +90,9 @@
     {{/minePostulations}}
 
     {{^canPostulate}}
+    {{^happened}}
     <button type="button" class="btn btn-primary deleteButton travelCancelPostulationButton">Abandonar viaje</button>
+    {{/happened}}
     {{/canPostulate}}
   {{/isCopilot}}
 
@@ -129,7 +133,9 @@
     {{/isCopilot}}
 
   {{#canPostulate}}
+  {{^happened}}
     <button type="button" class="btn btn-primary travelPostulateButton">Postularse</button>
     <br>
+  {{/happened}}
   {{/canPostulate}}
 </div>

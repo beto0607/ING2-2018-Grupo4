@@ -50,7 +50,9 @@
         {{/respuesta}}
         {{^respuesta}}
           <br>
+          {{^happened}}
           <button class="answerQuestion btn btn-primary" questionId="{{idMensaje}}">Responder</button>
+          {{/happened}}
         {{/respuesta}}
       </li>
     {{/serverTravel.mensajes}}
@@ -79,8 +81,10 @@
         {{^fechaCancelacion}}
         {{^fechaRechazo}}
         {{^fechaCancelacion}}
+        {{^happened}}
           <button class="btn btn-primary travelApproveButton">Aprobar postulación</button>
           <button class="btn btn-primary travelDesapproveButton">Desaprobar postulación</button>
+        {{/happened}}
         {{/fechaCancelacion}}
         {{/fechaRechazo}}
         {{/fechaCancelacion}}
