@@ -358,8 +358,6 @@ function Configure(){
 
   showSpinner();
   loadTravels();
-
-
 }
 function ConfigureTravelsEvents(){
   $(".travelListItem").on("click", travelClick);
@@ -372,20 +370,6 @@ function ConfigureTravelsEvents(){
   $(".searchInput").on("keydown",function(e){
     if($(this).val().length >= 3){
       var search = $(this).val().toLowerCase();
-      /*console.log(search);
-      $("#lastTravelsContainer li.travelListItem").each(function(){
-        var t = getTravel($(this).attr("travel-id"));
-        if(!t){return;}
-        var show =
-          t.origen.toLowerCase().indexOf(search) != -1 ||
-          t.destino.toLowerCase().indexOf(search) != -1 ||
-          t.descripcionViaje.toLowerCase().indexOf(search) != -1;
-        if(!show){
-          $(this).hide();
-        }else{
-          $(this).show();
-        }
-      });*/
       $("input.maxMonto, input.minMonto, #lastTravelsContainer label").show();
       $("input.maxFecha, input.minFecha, #lastTravelsContainer label").show();
       reloadSearch();
