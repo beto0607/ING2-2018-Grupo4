@@ -90,9 +90,11 @@
     {{/minePostulations}}
 
     {{^canPostulate}}
+    {{#isPostulant}}
     {{^happened}}
     <button type="button" class="btn btn-primary deleteButton travelCancelPostulationButton">Abandonar viaje</button>
     {{/happened}}
+    {{/isPostulant}}
     {{/canPostulate}}
   {{/isCopilot}}
 

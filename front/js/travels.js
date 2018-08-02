@@ -143,7 +143,11 @@ function travelInfoLoaded(){
   }else{
 
 		travelInfo["isPostulant"] = isPostulant();
-    travelInfo["canPostulate"] = canPostulate() && !travelInfo["isCopilot"];
+    travelInfo["plazasDisponibles"] = 0;
+    travelInfo["canPostulate"] =
+        canPostulate() &&
+        parseInt(travelInfo["plazasDisponibles"]) > 0 &&
+        !travelInfo["isCopilot"];
     travelInfo["minePostulations"] = getMinePostulations();
 
 		travelInfo["isCopilot"] = isCopilot();
