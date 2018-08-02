@@ -224,7 +224,9 @@ class ViajeController{
             $valido = "";
             $idViaje = $_REQUEST['idViaje'];
             $idUsuario = $_REQUEST['idUsuario'];
-            $valido = $this->model->ValidarCancelacionPostulacion($idViaje, $idUsuario);
+            $this->model->CancelarPostulacion($idViaje, $idUsuario);
+            $result = ['success' => '1', 'mensaje' => 'La postulación ha sido cancelada con éxito.'];
+            /*$valido = $this->model->ValidarCancelacionPostulacion($idViaje, $idUsuario, $fechaPostulacion);
             if ($valido != '')
             {
                 $result = ['success' => '0', 'mensaje' => $valido];
@@ -233,7 +235,7 @@ class ViajeController{
             {
                 $this->model->CancelarPostulacion($idViaje, $idUsuario);
                 $result = ['success' => '1', 'mensaje' => 'La postulación ha sido cancelada con éxito.'];
-            }
+            }*/
         }
         catch(Exception $e)
         {
