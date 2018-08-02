@@ -331,3 +331,14 @@ i.fas:hover, i.far:hover {
   margin: 1em auto;
   border-radius: 30px;
 }
+#reputationContainer ul li.mineTravel {
+  border-color: green;
+}
+
+span.userName {
+  font-size: 1.6em;
+  margin: auto;
+  display: inline-block;
+  color: #f17376;
+  text-align: center;
+}

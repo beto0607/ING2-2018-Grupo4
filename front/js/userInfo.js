@@ -46,6 +46,7 @@ function loadUserInfo(){
 				$("#userInfoModal input[name=\"user-info-username\"]").val(d.usuario);
 				$("#userInfoModal input[name=\"user-info-cbu\"]").val(d.cbu);
 				username = d.usuario;
+				$("span.userName").text("@"+ username);
 				$("#addTravelCBU").val(d.cbu);
 				infoLoaded("userInfo");
 			}catch(e){

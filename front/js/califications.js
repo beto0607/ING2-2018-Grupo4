@@ -13,8 +13,9 @@ function loadCalifications(){
         d[i].mine = d[i].idUsuarioCalifica == userID ? "mineCalification" : "otherCalification";
         d[i].mineCalification = d[i].idUsuarioCalifica == userID;
         d[i].calification = d[i].calificacion == 1 ? "Positivo" : d[i].calificacion == -1 ? "Negativo" : "Neutral";
+        console.log( getTravel(d[i].idViaje));
         d[i].mineTravel = getTravel(d[i].idViaje).idUsuario == userID;
-
+        console.log(d[i].mineTravel);
         var output = Mustache.render(template, d[i]);
 
         $("#reputationContainer ul").append(output);

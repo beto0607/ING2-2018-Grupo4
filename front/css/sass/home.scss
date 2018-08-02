@@ -57,6 +57,8 @@ i.fas, i.far{
 	padding: 3em 0;
 	&.navbar-right{
 		padding: 0;
+
+
 	}
 	.option{
 		padding: .5em ;
@@ -229,6 +231,19 @@ i.fas, i.far{
 			width: 30%;
 			margin: 1em auto;
 			border-radius: 30px;
+			&.mineTravel{
+				border-color: green;
+			}
 		}
 	}
+}
+
+
+span.userName{
+	font-size: 1.6em;
+	margin: auto;
+	display: inline-block;
+	color:  $mainColor;
+	text-align: center;
+
 }

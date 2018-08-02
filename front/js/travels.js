@@ -145,7 +145,7 @@ function travelInfoLoaded(){
 		travelInfo["isPostulant"] = isPostulant();
     travelInfo["canPostulate"] = canPostulate() && !travelInfo["isCopilot"];
     travelInfo["minePostulations"] = getMinePostulations();
-    
+
 		travelInfo["isCopilot"] = isCopilot();
 		var c = getCopilotState();
 
@@ -372,7 +372,7 @@ function ConfigureTravelsEvents(){
   $(".searchInput").on("keydown",function(e){
     if($(this).val().length >= 3){
       var search = $(this).val().toLowerCase();
-      console.log(search);
+      /*console.log(search);
       $("#lastTravelsContainer li.travelListItem").each(function(){
         var t = getTravel($(this).attr("travel-id"));
         if(!t){return;}
@@ -385,9 +385,10 @@ function ConfigureTravelsEvents(){
         }else{
           $(this).show();
         }
-      });
+      });*/
       $("input.maxMonto, input.minMonto, #lastTravelsContainer label").show();
       $("input.maxFecha, input.minFecha, #lastTravelsContainer label").show();
+      reloadSearch();
 
     }else{
       $("#lastTravelsContainer li").show();
@@ -396,61 +397,43 @@ function ConfigureTravelsEvents(){
 
     }
   });
-  $("input.maxMonto, input.minMonto, #lastTravelsContainer label").hide();
-  $("input.maxFecha, input.minFecha, #lastTravelsContainer label").hide();
-  $("input.minFecha").on("change",function(){
-    if($(this).val()){
-      $("#lastTravelsContainer li.travelListItem").each(function(){
-        var t = getTravel($(this).attr("travel-id"));
-        if(!t || !$(this).is(":visible")){return;}
-        if(new Date(t.fecha) < new Date($("input.minFecha").val())){
-          $(this).hide();
-        }
-      });
-    }else{
-      $(".searchInput").trigger("keydown");
-    }
-  });
-  $("input.maxFecha").on("change",function(){
-    if($(this).val()){
-      $("#lastTravelsContainer li.travelListItem").each(function(){
-        var t = getTravel($(this).attr("travel-id"));
-        if(!t || !$(this).is(":visible")){return;}
-        if(new Date(t.fecha) > new Date($("input.maxFecha").val())){
-          $(this).hide();
-        }
-      });
-    }else{
-      $(".searchInput").trigger("keydown");
-    }
-  });
-  $("input.maxMonto").on("change",function(){
-    if($(this).val()){
-      $("#lastTravelsContainer li.travelListItem").each(function(){
-        var t = getTravel($(this).attr("travel-id"));
-        if(!t || !$(this).is(":visible")){return;}
-        if(parseFloat(t.montoCopiloto) > parseFloat($("input.maxMonto").val())){
-          $(this).hide();
-        }
-      });
-    }else{
-      $(".searchInput").trigger("keydown");
-    }
-  });
-  $("input.minMonto").on("change",function(){
-    if($(this).val()){
-      $("#lastTravelsContainer li.travelListItem").each(function(){
-        var t = getTravel($(this).attr("travel-id"));
-        if(!t || !$(this).is(":visible")){return;}
-        if(parseFloat(t.montoCopiloto) < parseFloat($("input.minMonto").val())){
-          $(this).hide();
-        }
-      });
-    }else{
-      $(".searchInput").trigger("keydown");
-    }
-  });
+  $("input.maxMonto, input.minMonto, input.maxFecha, input.minFecha, #lastTravelsContainer label").hide();
+  $("input.minFecha, input.maxFecha, input.maxMonto, input.minMonto").on("change",reloadSearch);
+}
+function reloadSearch(){
+  var
+  search = $(".searchInput").val() ? $(".searchInput").val().toLowerCase() : null;
+  $("#lastTravelsContainer li.travelListItem").each(function(){
+    if(search != null && search.length >= 3){
+      var t = getTravel($(this).attr("travel-id"));
+      var
+      minMonto = parseFloat($("input.minMonto").val() ? $("input.minMonto").val() : t.montoCopiloto),
+      maxMonto = parseFloat($("input.maxMonto").val() ? $("input.maxMonto").val() : t.montoCopiloto),
+      minFecha = new Date($("input.minFecha").val() ? $("input.minFecha").val() : t.fecha),
+      maxFecha = new Date($("input.maxFecha").val() ? $("input.maxFecha").val() : t.fecha);
 
+      if(satisfySearch(t,search)){
+        var montoCopiloto = parseFloat(t.montoCopiloto);
+        var fecha = new Date(t.fecha);
+
+        if(minMonto <= montoCopiloto && maxMonto >= montoCopiloto && minFecha <= fecha && maxFecha >= fecha){
+          $(this).show();
+        }else{
+          $(this).hide();
+        }
+      }else{
+        $(this).hide();
+      }
+    }else{
+      $(this).show();
+    }
+  });
+}
+function satisfySearch(t,s){
+  var search = s ? s :$(".searchInput").val().toLowerCase();
+  return t.origen.toLowerCase().indexOf(search) != -1 ||
+  t.destino.toLowerCase().indexOf(search) != -1 ||
+  t.descripcionViaje.toLowerCase().indexOf(search) != -1;
 }
 function infoLoaded(item){
 	loadItems[item] = true;
