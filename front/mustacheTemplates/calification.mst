@@ -10,7 +10,7 @@
 <strong>#{{idViaje}}</strong>
 <br>
 {{#mineCalification}}
-<span>Calificaste al piloto:</span>
+<span>Calificaste:</span>
 {{/mineCalification}}
 {{^mineCalification}}
 <span>Te calificaron:</span>
