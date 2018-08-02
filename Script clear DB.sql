@@ -44,7 +44,7 @@ INSERT INTO `viajes` (`id`, `idVehiculo`, `fecha`, `origen`, `destino`, `plazas`
 (10, 10, '2018-05-05 00:00:00', 'La Plata', 'Chascomus', 3, 'Salgo a la mañana temprano y para el mediodía calculo que llegamos. Vamos por la ruta 2', '1800.00', '10.00', NULL, NULL, '02:00:00', '2018-06-25 21:08:34', '1111'),
 (11, 11, '2018-05-15 00:00:00', 'La Plata', 'Buenos Aires', 3, 'Voy todos los días, es para probar el sistema', '800.00', '10.00', NULL, NULL, '02:00:00', '2018-06-25 21:08:34', '1111'),
 (12, 11, '2018-05-06 00:00:00', 'La Plata', 'Magdalena', 3, 'Vamos tranqui tomando mate. Cuando llegamos asadito y vemos.', '500.00', '10.00', NULL, NULL, '02:00:00', '2018-06-25 21:08:34', '1111'),
-(13, 16, '2018-07-19 16:00:00', 'La Plata', 'Las Flores', 3, 'A 200!!', '400.00', '5.00', NULL, NULL, '00:00:00', '2018-07-12 00:28:22', '1234123451234512345155'),
+(13, 16, '2018-08-19 16:00:00', 'La Plata', 'Las Flores', 3, 'A 200!!', '400.00', '5.00', NULL, NULL, '00:00:00', '2018-07-12 00:28:22', '1234123451234512345155'),
 (14, 16, '2018-07-16 18:00:00', 'La Plata', 'Ensenada', 3, 'Todos los dias hasta alla', '100.00', '5.00', NULL, NULL, '01:00:00', '2018-07-12 00:29:50', '1234123451234512345155'),
 (15, 16, '2018-07-17 18:00:00', 'La Plata', 'Ensenada', 3, 'Todos los dias hasta alla', '100.00', '5.00', NULL, NULL, '01:00:00', '2018-07-12 00:29:50', '1234123451234512345155'),
 (16, 16, '2018-07-18 18:00:00', 'La Plata', 'Ensenada', 3, 'Todos los dias hasta alla', '100.00', '5.00', '2018-07-12 00:44:45', NULL, '01:00:00', '2018-07-12 00:29:50', '1234123451234512345155'),
@@ -63,7 +63,8 @@ INSERT INTO `viajes` (`id`, `idVehiculo`, `fecha`, `origen`, `destino`, `plazas`
 (29, 20, '2018-08-21 15:30:00', 'Cordoba', 'Salta', 3, 'Paro a cada rato', '850.00', '5.00', NULL, NULL, '09:00:00', '2018-07-19 19:41:21', '46574567456745674567');
 
 INSERT INTO `copilotos` (`idViaje`, `idUsuario`, `fechaPostulacion`, `fechaAprobacion`, `fechaPago`, `montoPago`, `fechaCancelacion`, `fechaRechazo`) VALUES
-(13, 14, '2018-07-12 00:36:54', NULL, NULL, NULL, '2018-07-12 00:38:57', NULL),
+(12, 14, '2018-05-07 00:36:54', '2018-05-08 00:36:54', '2018-05-07 00:36:54', 166.67, NULL, NULL),
+(13, 14, '2018-08-02 00:36:54', NULL, NULL, NULL, '2018-07-12 00:38:57', NULL),
 (16, 14, '2018-07-12 00:37:31', '2018-07-12 00:44:07', NULL, NULL, '2018-07-12 00:44:45', NULL),
 (17, 14, '2018-07-12 00:38:25', NULL, NULL, NULL, NULL, '2018-07-12 00:43:30'),
 (24, 15, '2018-07-24 18:02:09', '2018-07-24 18:20:17', NULL, NULL, NULL, NULL),

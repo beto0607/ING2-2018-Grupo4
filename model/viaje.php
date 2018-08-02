@@ -79,9 +79,11 @@ class Viaje
 								ON	v.id = cal.idViaje
 									AND cop.idUsuario = cal.IdUsuarioCalificado
 							WHERE	cop.idUsuario = ?
-									AND v.fechaCierre IS NOT NULL
+									AND v.fechaCancelacion IS NULL
+									AND cop.fechaAprobacion IS NOT NULL
+					                AND cop.fechaCancelacion IS NULL
 									AND DATEDIFF(NOW(), v.fecha) > 30
-						            AND cal.id IS NULL
+									AND cal.id IS NULL
 						) AS tmp";
 			$stm = $this->pdo->prepare($sql);
 			$stm->execute(array($idUsuario, $idUsuario));
@@ -497,7 +499,7 @@ class Viaje
 		}
 		else
 		{
-			$valido = $this->UsuarioEnViaje($idViaje, $idUsuario);
+			//$valido = $this->UsuarioEnViaje($idViaje, $idUsuario);
 		}
 
 		//falta validar que el usuario ya no se encuentre postulado
