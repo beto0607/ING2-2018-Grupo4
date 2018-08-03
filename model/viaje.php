@@ -531,11 +531,17 @@ class Viaje
 	{
 		try
 		{
-			$sql = "UPDATE copilotos SET fechaAprobacion = NOW() WHERE idViaje = ? AND idUsuario = ?;";
+			$sql = "UPDATE copilotos SET fechaAprobacion = NOW() WHERE idViaje = ? AND idUsuario = ? AND fechaPostulacion IN (SELECT fechaPostulacion
+										FROM (SELECT MAX(fechaPostulacion) AS fechaPostulacion 
+												FROM copilotos 
+												WHERE idViaje = ? AND idUsuario = ?) AS tmp
+										);";
 
 			$this->pdo->prepare($sql)
 			     ->execute(
 				    array(
+				    	$idViaje,
+				    	$idUsuarioCopiloto,
 				    	$idViaje,
 				    	$idUsuarioCopiloto
 					)
@@ -551,11 +557,17 @@ class Viaje
 	{
 		try
 		{
-			$sql = "UPDATE copilotos SET fechaRechazo = NOW() WHERE idViaje = ? AND idUsuario = ?;";
+			$sql = "UPDATE copilotos SET fechaRechazo = NOW() WHERE idViaje = ? AND idUsuario = ? AND fechaPostulacion IN (SELECT fechaPostulacion
+										FROM (SELECT MAX(fechaPostulacion) AS fechaPostulacion 
+												FROM copilotos 
+												WHERE idViaje = ? AND idUsuario = ?) AS tmp
+									);";
 
 			$this->pdo->prepare($sql)
 			     ->execute(
 				    array(
+				    	$idViaje,
+				    	$idUsuarioCopiloto,
 				    	$idViaje,
 				    	$idUsuarioCopiloto
 					)
@@ -594,11 +606,17 @@ class Viaje
 	{
 		try
 		{
-			$sql = "UPDATE copilotos SET fechaCancelacion = NOW() WHERE idViaje = ? AND idUsuario = ?;";
+			$sql = "UPDATE copilotos SET fechaCancelacion = NOW() WHERE idViaje = ? AND idUsuario = ? AND fechaPostulacion IN (SELECT fechaPostulacion
+											FROM (SELECT MAX(fechaPostulacion) AS fechaPostulacion 
+													FROM copilotos 
+													WHERE idViaje = ? AND idUsuario = ?) AS tmp
+										);";
 
 			$this->pdo->prepare($sql)
 			     ->execute(
 				    array(
+				    	$idViaje,
+				    	$idUsuarioCopiloto,
 				    	$idViaje,
 				    	$idUsuarioCopiloto
 					)

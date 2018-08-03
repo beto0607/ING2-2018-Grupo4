@@ -11,7 +11,7 @@ ALTER TABLE usuarios AUTO_INCREMENT = 1;
 
 INSERT INTO `usuarios` (`id`, `usuario`, `clave`, `nombre`, `apellido`, `fechaNacimiento`, `telefono`, `email`, `calificacionPiloto`, `calificacionCopiloto`, `fechaBaja`, `cbu`, `foto`) VALUES
 (1, 'admin', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'Don', 'Administrador', '1981-04-01', '544545', 'don.admin@gmail.com', 0, 0, NULL, '', NULL),
-(2, 'user2', '1234', 'User', 'Dos', '1997-05-01', '22244655841', 'j@h.com', 2, 2, NULL, '', NULL),
+(2, 'user2', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'User', 'Dos', '1997-05-01', '22244655841', 'j@h.com', 2, 2, NULL, '', NULL),
 (10, 'pepe2000', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'José', 'Gomez', '2000-01-01', '221 4802825', 'pepe2000@hotmail.com', 0, 0, NULL, '', NULL),
 (11, 'jorgito', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'Jorge', 'Perez', '1978-05-09', '221 4721416', 'jorgito_de_la_gente@uol-sinectis.com', 0, 0, NULL, '', NULL),
 (12, 'claudita02', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'Claudia', 'Mendez', '1990-08-24', '221 4528896', 'claudia02@aol.com', 0, 0, NULL, '', NULL),
