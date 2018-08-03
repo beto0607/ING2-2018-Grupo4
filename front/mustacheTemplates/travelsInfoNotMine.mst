@@ -128,8 +128,10 @@
       <br>
       {{^copilotState.calified}}
       {{^fechaCancelacion}}
+      {{^happened}}
       <br>
       <button type="button" class="btn btn-primary deleteButton travelCancelCopilotButton">Abandonar viaje</button>
+      {{/happened}}
       {{/fechaCancelacion}}
       {{/copilotState.calified}}
     {{/isCopilot}}
