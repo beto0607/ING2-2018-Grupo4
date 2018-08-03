@@ -50,6 +50,7 @@ function travelClick(travelID){
         d = d.success == "1" ? d.copilotos : [];
         d = clamp0Array(d, "calificacionPiloto");
         d = clamp0Array(d, "calificacionCopiloto");
+        console.log(d);
 				travelInfo["copilots"] = d;
 				$.post(URLs.travelPostulations, {id: tID})
 					.done( function(d){

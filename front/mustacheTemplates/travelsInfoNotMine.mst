@@ -19,6 +19,10 @@
   <span><strong>Lugares disponibles:</strong> {{plazasDisponibles}} de {{plazasViaje}}</span>
   <hr>
   <strong>Información del piloto</strong>
+  {{#isCopilot}}
+  <br>
+  <span><strong>Email: </strong><a href="mailto:{{email}}">{{email}}</a></span>
+  {{/isCopilot}}
   <br>
   <span><strong>Piloto:</strong> {{usuario}}</span>
   {{#foto}}
