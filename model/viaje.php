@@ -77,7 +77,7 @@ class Viaje
 								ON	cop.idViaje = v.id
 							LEFT JOIN calificaciones cal
 								ON	v.id = cal.idViaje
-									AND cop.idUsuario = cal.IdUsuarioCalificado
+									AND cop.idUsuario = cal.IdUsuarioCalifica
 							WHERE	cop.idUsuario = ?
 									AND v.fechaCancelacion IS NULL
 									AND cop.fechaAprobacion IS NOT NULL
@@ -90,7 +90,7 @@ class Viaje
 			$val = $stm->fetch();
 			if ($val['Pendientes'] > 0)
 			{
-				$valido = 'Debe realizar las calificaciones con más de 30 días de pendientes antes de cargar un nuevo viaje.';
+				$valido = 'Debe realizar las calificaciones con más de 30 días de pendientes antes de postularse en un nuevo viaje.';
 			}
 
 			return $valido;
@@ -531,11 +531,17 @@ class Viaje
 	{
 		try
 		{
-			$sql = "UPDATE copilotos SET fechaAprobacion = NOW() WHERE idViaje = ? AND idUsuario = ?;";
+			$sql = "UPDATE copilotos SET fechaAprobacion = NOW() WHERE idViaje = ? AND idUsuario = ? AND fechaPostulacion IN (SELECT fechaPostulacion
+										FROM (SELECT MAX(fechaPostulacion) AS fechaPostulacion 
+												FROM copilotos 
+												WHERE idViaje = ? AND idUsuario = ?) AS tmp
+										);";
 
 			$this->pdo->prepare($sql)
 			     ->execute(
 				    array(
+				    	$idViaje,
+				    	$idUsuarioCopiloto,
 				    	$idViaje,
 				    	$idUsuarioCopiloto
 					)
@@ -551,11 +557,17 @@ class Viaje
 	{
 		try
 		{
-			$sql = "UPDATE copilotos SET fechaRechazo = NOW() WHERE idViaje = ? AND idUsuario = ?;";
+			$sql = "UPDATE copilotos SET fechaRechazo = NOW() WHERE idViaje = ? AND idUsuario = ? AND fechaPostulacion IN (SELECT fechaPostulacion
+										FROM (SELECT MAX(fechaPostulacion) AS fechaPostulacion 
+												FROM copilotos 
+												WHERE idViaje = ? AND idUsuario = ?) AS tmp
+									);";
 
 			$this->pdo->prepare($sql)
 			     ->execute(
 				    array(
+				    	$idViaje,
+				    	$idUsuarioCopiloto,
 				    	$idViaje,
 				    	$idUsuarioCopiloto
 					)
@@ -594,11 +606,17 @@ class Viaje
 	{
 		try
 		{
-			$sql = "UPDATE copilotos SET fechaCancelacion = NOW() WHERE idViaje = ? AND idUsuario = ?;";
+			$sql = "UPDATE copilotos SET fechaCancelacion = NOW() WHERE idViaje = ? AND idUsuario = ? AND fechaPostulacion IN (SELECT fechaPostulacion
+											FROM (SELECT MAX(fechaPostulacion) AS fechaPostulacion 
+													FROM copilotos 
+													WHERE idViaje = ? AND idUsuario = ?) AS tmp
+										);";
 
 			$this->pdo->prepare($sql)
 			     ->execute(
 				    array(
+				    	$idViaje,
+				    	$idUsuarioCopiloto,
 				    	$idViaje,
 				    	$idUsuarioCopiloto
 					)
